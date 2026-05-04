@@ -1,0 +1,514 @@
+GEOGRAPHY
+STUDENT TEXTBOOK
+GRADE 12 
+FEDERAL DEMOCRATIC REPUBLIC OF ETHIOPIA
+MINISTRY OF EDUCATION
+HAWASSA UNIVERSITY
+Writers 
+Content Editor 
+Language Editor
+Curriculum Editor
+Illustrator
+Designer
+Evaluators:
+Teferi Makonnen (PhD)
+Abebe Yibeltie (MA)
+Hussien Seid (MA)
+Tamiru Abate (MA) & Asfaw Mohamed(PhD)
+Professor Aklilu Dalelo 
+Fekede Menuta (PhD)
+Abera Husen (PhD)
+Mesfin Anteneh (PhD) 
+Andargachew Abeje (MSc)
+First Published 2023 by the Federal Democratic Republic of Ethiopia, Ministry of Education, 
+under the General Education Quality Improvement Program for Equity (GEQIP-E) supported 
+by the World Bank, UK’s Department for International Development/DFID-now merged with 
+the Foreign, Common wealth and Development Office/FCDO, Finland Ministry for Foreign 
+Affairs, the Royal Norwegian Embassy, United Nations Children’s Fund/UNICEF), the Global 
+Partnership for Education (GPE), and Danish Ministry of Foreign Affairs, through a Multi Donor 
+Trust Fund.
+© 2023 by the Federal Democratic Republic of Ethiopia, Ministry of Education. All rights
+reserved. The moral rights of the author have been asserted. No part of this textbook repro-
+duced, copied in a retrieval system or transmitted in any form or by any means including elec-
+tronic, mechanical, magnetic, photocopying, recording or otherwise, without the prior written
+permission of the Ministry of Education or licensing in accordance with the Federal Democratic
+Republic of Ethiopia as expressed in the Federal Negarit Gazeta, Proclamation No. 410/2004 
+Copyright and Neighboring Rights Protection.
+The Ministry of Education wishes to thank the many individuals, groups and other bodies
+involved – directly or indirectly – in publishing this Textbook. Special thanks are due to Ha-
+wassa University for their huge contribution in the development of this textbook in collabora-
+tion with Addis Ababa University, Bahir Dar University and Jimma University.
+Copyrighted materials used by permission of their owners. If you are the owner of copyrighted
+material not cited or improperly cited, please contact the Ministry of Education, Head Office,
+Arat Kilo, (P.O.Box 1367), Addis Ababa Ethiopia.
+Printed by:
+GRAVITY GROUP IND LLC
+13th Industrial Area, Sharjah, UNITED ARAB EMIRATES
+Under Ministry of Education Contract no. MOE/GEQIP-E/LICB/G-01/23
+ISBN:978-99990-0-051-2
+MAJOR GEOLOGICAL PROCESSES ASSOCIATED WITH PLATE TECTONICS.........................1          
+1.1. Continental Drift Theory .............................................................................................................................................................2                                                                                    
+1.2. Plate Tectonics Theory.....................................................................................................................................................................5
+1.3. Plate Movements and Plate Boundaries...........................................................................................................................8
+1.4. Major Geological Processes....................................................................................................................................................11
+Unit Summary .............................................................................................................................................................................................32
+Review Questions......................................................................................................................................................................................33
+UNIT ONE
+MAJOR GEOLOGICAL PROCESSES
+ ASSOCIATED WITH PLATE TECTONICS
+CLIMATE CHANGE 
+UNIT TWO
+CLIMATE CHANGE ........................................................................................................................................................................................34
+2.1. Basic Concepts of Climate Change..................................................................................................................................35
+2.2. Trends in Global Climate Change .................................................................................................................................38
+2.3. Natural and Human Induced Climate Change.....................................................................................................39
+2.4. Consequences of Climate Change...................................................................................................................................46
+2.5. Adaptation and Mitigation Strategies to Climate Change..........................................................................50
+2.6. International conventions and agreements on climate..................................................................................53
+2.7. Pillars of Climate Resilient Green Economy of Ethiopia................................................................................57
+Unit Summary .............................................................................................................................................................................................60
+Review Exercise........................................................................................................................................................................................... 61
+MAJOR GEOLOGICAL PROCESSES
+MAJOR GEOLOGICAL PROCESSES
+Review Questions......................................................................................................................................................................................33
+TABLE OF CONTENTS 
+I
+ISSUES IN SUSTAINABLE DEVELOPMENT I: 
+MANAGEMENT OF CONFLICT OVER RESOURCES...........................................................................62
+3.1. The Concept of Sustainable Development................................................................................................................63
+3.2. Resource Use Policies and Related Conflicts..........................................................................................................69
+3.3. Governance of Natural Resources....................................................................................................................................81
+3.4. Indigenous Conflict Resolution Practices...................................................................................................................84
+Unit Summary................................................................................................................................................................................................89
+Review Questions.......................................................................................................................................................................................91
+MANAGEMENT OF CONFLICT 
+OVER RESOURCES
+UNIT THREE
+ISSUES IN SUSTAINABLE DEVELOPMENT II: 
+POPULATION POLICIES, PROGRAMS AND THE ENVIRONMENT......................................92
+4.1. Theories on Population Growth and Development...........................................................................................92
+4.2. Population Policies.....................................................................................................................................................................100
+4.3. Measures Taken to Curb Growth of Population................................................................................................102
+4.4. Relationship Between Population & Socio-economic Develoment.................................................107
+4.5. Relationship Between Population and Environmental Health.................................................................115
+Unit Summary ...........................................................................................................................................................................................121
+Review Questions .................................................................................................................................................................................122
+POPULATION POLICIES
+PROGRAMS AND THE ENVIRONMENT
+UNIT FOUR
+POPULATION POLICIES
+POPULATION POLICIES
+II
+ISSUES IN SUSTAINABLE DEVELOPMENT III 
+CHALLENGES OF ECONOMIC DEVELOPMENT...................................................................................123
+5.1. Multiple Faces of Poverty and Implication to Development...................................................................124 
+5.2. The Advantages and Disadvantage of Globalization....................................................................................129
+5.3. The Growing Imbalance between Regions and Countries.......................................................................134
+5.4. Corruption.........................................................................................................................................................................................138
+5.5. Global Health Crises................................................................................................................................................................145
+Unit Summary ..........................................................................................................................................................................................150
+Review Questions ..................................................................................................................................................................................151
+CHALLENGES OF ECONOMIC 
+DEVELOPMENT
+UNIT FIVE
+ISSUES IN SUSTAINABLE DEVELOPMENT IV:  
+SOLUTIONS TO ENVIRONMENTAL AND SUSTAINABILITY PROBLEMS................152
+6.1. Environmental Problems.........................................................................................................................................................153
+6.2. Sustainability Challenge.........................................................................................................................................................163
+6.3. Environmental Education......................................................................................................................................................170
+6.4. Environmental Movements..................................................................................................................................................174
+6.5. Environmentally Friendly Indigenous Practices...................................................................................................178
+Unit Summary ..........................................................................................................................................................................................183
+Review Questions...................................................................................................................................................................................184
+SOLUTIONS TO ENVIRONMENTAL 
+AND SUSTAINABILITY PROBLEMS
+UNIT SIX
+CHALLENGES OF ECONOMIC 
+CHALLENGES OF ECONOMIC 
+SOLUTIONS TO ENVIRONMENTAL 
+SOLUTIONS TO ENVIRONMENTAL 
+III
+CONTEMPORARY GLOBAL GEOGRAPHIC ISSUES AND PUBLIC CONCERNS............................186
+7.1. Climate Change..............................................................................................................................................................................187
+7.2. Desertification..................................................................................................................................................................................19
+7.3. Drought.................................................................................................................................................................................................
+7.4. Famine................................................................................................................................................................................................... 20
+Unit Summary ...........................................................................................................................................................................................2
+Review Questions....................................................................................................................................................................................21
+CONTEMPORARY GLOBAL GEOGRAPHIC ISSUES 
+AND PUBLIC CONCERNS
+UNIT SEVEN
+GEOGRAPHICAL ENQUIRY AND MAP MAKING ............................................................................216
+8.1. Fundamentals of Research in Geography.................................................................................................................217
+8.2. GIS Data and Map Making Using GIS.....................................................................................................................231
+Unit Summary............................................................................................................................................................................................246
+Review Questions ................................................................................................................................................................................247
+GEOGRAPHICAL ENQUIRY 
+AND MAP MAKING
+UNIT EIGHT
+UNIT SEVEN
+IV
+13
+9
+200
+0
+4
+.
+GENERAL INTRODUCTION
+Geographers across the world are united by the similar questions they ask and the com-
+mon set of basic concepts they employ to consider their answers. Of either a physical or 
+cultural phenomenon, geographers enquire: What is it? Where is it? How did it come to 
+be what and where it is? Where is it in relation to other physical or cultural realities that 
+affect it or affected by it? How is it part of a functioning whole? How does its location 
+affect people’s lives and the content of the area in which it is found? These questions form 
+the core of the enquiry skills which are, in turn, believed to be the main contribution of 
+Geography to the development of core skills in 21st century.
+In the textbook the contents and description are organized and developed based on 
+fundamental and unifying themes in Geography. These mainly focus on physical aspects, 
+human-environment interaction, contemporary Geographical issues, Geographic enquiry 
+and map making.  These promote arguments and use of evidence in day-to-day lives in the 
+process of developing knowledge, skill, values and attitudes. Besides, variety of strategies 
+are addressed to create a range of learning opportunities in the topics suited to the need 
+of all learners by following a thematic approach of the study in Geography. 
+The physical environmental aspects focused on geological processes associated with plate 
+tectonics and resulted land features as well as concept and related basic issues of climate 
+change. The human-environment interaction addresses the issues of sustainable devel-
+opment in relation to natural resource use and management as well as population and 
+socio-economic development. In connection with this, challenges related to economic 
+development and solutions to environmental and sustainability problems are treated in 
+the textbook. Besides, the climate change, desertification, drought and famine topics are 
+addressed as the contemporary Geographical issues. Finally, fundamental of research in 
+Geography as an enquiry and GIS data and map making using GIS are addressed in the 
+textbook.   
+V
+Major geological processes associated with plate tectonics
+1
+UNIT ONE
+MAIN CONTENTS 
+1.1. Continental drift theory
+1.2. Plate tectonics theory
+1.3. Plate movements and plate boundaries
+1.4. Major geological processes
+Unit Summary
+Unit Review Questions
+Introduction
+Our planet earth is a home for all living things in general and human beings in particular. It is 
+in a constant motion caused by internal and external forces. Humanity has been ceaselessly 
+affected by these powerful forces of nature such as earthquake, volcanism, tsunamis, fires, 
+and fault ruptures. The location of these forces is frequently associated with plate boundaries 
+where plates diverge, converge and transverse. 
+
+explain the theory of continental drift and controversies surrounding it.
+
+describe the movement of the lithospheric plates over geological time.
+
+explain the main types of plate boundary and how they interact at 
+triple junctions.
+
+describe the driving and retarding forces that influence plate motion at 
+different plate boundaries.
+
+explain how plate movements relate to plate boundaries.
+
+explain the major geological processes in the formation of continents.
+
+explain the effects of on the major geological processes on human 
+lives.
+Learning Outcomes:
+At the end of this unit, you will be able to:
+MAJOR GEOLOGICAL PROCESSES
+ASSOCIATED WITH PLATE TECTONICS
+UNIT 
+ONE
+UNIT 
+ONE
+UNIT ONE
+2
+Knowledge of the earth’s movement and the forces that work behind is, therefore, highly 
+desirable so as to predict the ground motion and the forces like earthquake and volcanism. 
+Such a knowledge would enable humanity to minimize the damage from moderate forces, and 
+to avoid total collapse during the occurrence of these forces. 
+We hope that you remember from the previous grades lessons about the geological history of 
+Ethiopia and the formation of the earth’s continents. This is a continuation of these lessons on 
+related matters. This unit particularly deals with the theories of continental drift, plate tectonic, 
+geological processes and the landforms caused by these processes.  
+KEY TERMS: Continental Drift, Pangaea, Laurasia, Gondwanaland
+The Continental drift theory presupposes that the earth’s continents have moved over 
+geologic time relative to each other; thus, appearing to have “drifted” across the ocean bed. 
+The continental drift theory suggests that the present continents were formed from a single 
+continent called PANGAEA. During the Carboniferous period, some 350 million years ago, 
+Pangaea was located around the South Pole. 
+In the Triassic period of Mesozoic era, Pangaea started to break into several parts. The 
+northern part of Pangaea is known as LAURASIA. The southern part of Pangaea is known 
+as GONDWANALAND. Both continents are further subdivided into the present continents. 
+Through the process of drifting, the continents reached their present location. This process of 
+continental drift as a whole took place over  millions of years.
+1.
+Do you remember how the continents were 
+formed? 
+2.
+What forces are responsible for their forma-
+tion?
+1.1 THE CONTINENTAL DRIFT THEORY
+At the end of this section, you will be able to:
+Þ
+identify the continents that constituted Laurasia and Gondwanaland;
+Þ
+explain the geological evidences that support continental drift theory;
+Þ
+explain why Alfred Wegener continental drift theory was not easily accepted; and
+Þ
+describe how continental drift theory and plate tectonics are related.
+Brainstorming Activity 1.1
+Major geological processes associated with plate tectonics
+3
+Geological Evidences Favoring Continental Drift Theory
+What evidences are there in support of continental drift theory?
+The concept was proposed by a German meteorologist Alfred Wegener in 1912. One of 
+the basic concepts that helped Wegener’s continental drift theory the idea of a large united 
+landmass consisting of most of the Earth’s continental regions. In his theory, Wegener introduced 
+the supercontinent of Pangaea to explain the ancient climate similarities, fossil evidence and 
+similarity of rock structures between Africa and South America, as well as the outlines of the 
+continents, especially the continental shelves, which seem to fit together (Figure 1.2). Thus, 
+Wegener used the following geological evidence, among others, to support his theory:
+1. Coastline Similarity: The coastlines of Africa and South America have remarkable similarity 
+in opposite side of the Atlantic Ocean. These coastlines fit together like pieces of a jigsaw 
+puzzle.
+Figure1.1: Continental Drift 
+UNIT 
+ONE
+UNIT 
+ONE
+UNIT ONE
+4
+Figure 1.2: Fitting of Africa and South America together
+2. Rock type and structural similarities:  When we fit the continents of Africa and South 
+America “back together again”, we find that: 
+¿
+Similar rock types extend from one continent to the other
+¿
+The rocks are also the same age. 
+¿
+Moreover, several mountain belts also extend from one continent to the next.
+3. Fossil Evidence: cases of several fossil organisms had been found on either side of the 
+Atlantic Ocean, implying that the continents were once joined together. Fossils of Mesosau-
+rus are found on both sides of the Atlantic in South America and Africa (green shaded areas 
+Figure 1.3). Mesosaurus was a small reptile that lived about 250 million years ago. 
+Figure  1.3: Distribution of Mesosousarus
+Major geological processes associated with plate tectonics
+5
+4. Paleoclimatic Evidence: similarity of climatic data reconstructed from rock structure are 
+similar in the present continents. 
+Why was Wegener ’s continental drift theory not easily accepted? Do you know any other 
+research findings that could be easily accepted by the scientific community?
+Wegener’s theory of continental drift was rejected by scientific community of the time. The 
+main reasons for this rejection were:
+1.
+Wegener was not a geologist by profession, which of course was most welcome 
+by his opponents. 
+2.
+Most influential geoscientists at that time were based in the Northern Hemi-
+sphere, whereas most of the conclusive data came from the Southern Hemisphere. 
+3.
+Wegener thought that Pangaea did not break up until Cenozoic era, and scientists 
+found it hard to believe that so much continental drift could have occurred in so 
+short a time. 
+4.
+The greatest problem remained the lack of direct evidence for the movements of 
+continents and the needed explanation for the mechanism.
+Regardless of the controversies mentioned above, perhaps Wegener’s most important legacy 
+is to have introduced the idea of lateral mobility of continents, that is, offering a paradigm 
+change from fixism to mobilism to the scientific community and the public. Hence, the theory 
+ignited a new way of viewing the Earth that led some scientists to start searching for an expla-
+nation of how continents could move.
+1.2 PLATE TECTONICS THEORY
+At the end of this section, you will be able to:
+Þ
+explain what plate tectonic theory states;
+Þ
+identify the major tectonic plates and their boundaries;
+Þ
+draw a diagram to demonstrate the movement of  plates;.
+Þ
+identify the major continental and oceanic plates; and  
+Þ
+explain how geological processes and plate boundaries affect human lives. 
+KEY TERMS: Plate tectonics, Plate boundary, Asthenosphere, Lithosphere
+1.
+What are the factors that contributed to the struc-
+tural formation of the earth? 
+2.
+What are the main oceanic and continental plates?
+Brainstorming Activity 1.2
+Reflective Activity 1.1
+1.
+Explain the main evidences that support the 
+continental drift theory.
+UNIT 
+ONE
+UNIT 
+ONE
+UNIT ONE
+6
+Since Alfred Wegener’s continental drift theory, geologists have developed a better picture 
+of the Earth. According to plate tectonic theory, the layer, called the asthenosphere, allows 
+the uppermost mantle and crust, together called the lithosphere to slide across the top of it. 
+Earth’s lithosphere is broken into about a dozen large pieces (plus some smaller ones), called 
+plates (Figure 1.4).These plates move slowly at a rate of a few centimeters per year and change 
+size. Plates may be entirely made up of continental rocks, both continental and oceanic rocks, 
+or entirely of oceanic rocks. 
+Plate tectonics is a theory developed in the late 1960s to explain how the outer layers of the 
+earth move and deform. The theory has caused a revolution in the way we think about the 
+earth. Since the development of the plate tectonics theory, geologists have had to re-examine 
+almost every aspect of Geology. The theory states that the earth’s lithosphere is divided into 
+plates that move around on the top of the asthenosphere. Continental crust is embodied 
+within the lithospheric plate. The plates move in different directions, and meet each other at 
+plate boundaries. Plate tectonics has been proven to be so useful that it can predict geologic 
+events and explain almost all aspects of what we see on the earth.
+Figure 1.4: Lithosphere and Asthenosphere
+Figure 1.4: Lithosphere and Asthenosphere
+Do you think the edge of African plate corresponds to the boundary of the continent?
+The edges of these plates do not necessarily correspond to the boundaries of continents or 
+oceans. For example, the North American Plate includes the western half of the North Atlantic 
+Ocean’s seafloor. (Figure 1.5) 
+Major geological processes associated with plate tectonics
+7
+ The plate tectonics theory is based on a broad synthesis of geologic and geophysical data. It 
+is now universally accepted, and its adoption represents a true scientific revolution. 
+Plate tectonic process influences the composition of the atmosphere and oceans. It serves as a 
+prime cause of long term climate change, and makes a significant contribution to the chemical 
+and physical environment in which life evolves.
+Today, science has shown that the surface of the Earth is in a constant state of change. We are 
+able to observe and measure mountains rising and eroding, oceans expanding and shrinking, 
+volcanoes erupting and earthquakes striking. Thus, this theory serves as the foundation upon 
+which we understand the geologic processes that shape the Earth.
+Figure 1.5: The Tectonic plates and their boundaries
+The plate tectonics theory provides a framework for understanding many of Earth’s features, 
+such as mountains, earthquakes, and volcanoes, as well as the distribution of fossils and the 
+ages of rocks.
+Reflective Activity 1.2
+Reflective Activity 1.3
+Reflective Activity 1.3
+     
+1.
+Discuss the main idea of plate tectonic 
+theory. 
+  
+UNIT 
+ONE
+UNIT 
+ONE
+UNIT ONE
+8
+The way the plates interact at their margins depends on whether the crust forming the top of 
+the plate (at the point of contact) is oceanic or continental. Continental crust, made largely of 
+granite, is less dense than oceanic crust made largely of basalt.
+ As the plates move, they may:
+        1. Converge, or come together; forming convergent (Destructive) boundary;
+        2. Diverge, or spread apart; forming divergent (Constructive) boundary or 
+        3. Slide past each other along fractures called transform (Conservative) boundary.
+Convergent plate boundaries
+These are boundaries where two plates move toward each other. At such boundaries, the 
+denser plate will be forced under, or subducted beneath, the less dense one. The subducted 
+crust is eventually destroyed. This happens when oceanic crust meets continental crust and 
+when oceanic crust meets another oceanic crust. For example, the eastward-moving NazcaPlate, 
+under the southeastern Pacific Ocean, is being subducted under the westward moving South 
+American Plate. The denser oceanic crust is pushed down into the mantle, causing it to melt 
+and produce magma (molten rock). The magma and gases rise to the surface, and are vented 
+through the western crust of South America, forming the volcanoes of the Andes Mountains.
+1.3. PLATE MOVEMENTS AND PLATE BOUNDARIES
+KEY TERMS: Convergent, Transform, Divergent, Conservative, Constructive
+1.
+Which of the tectonic plates do you think are 
+oceanic?
+2.
+List down all the plates and group them as either 
+continental or oceanic?
+Figure1.6: Convergence of plate boundary 
+Brainstorming Activity 1.3
+Major geological processes associated with plate tectonics
+9
+ If two oceanic plates converge, subduction of one under the other may produce an arc of 
+volcanic islands. The Mariana Islands of the western Pacific Ocean were formed this way.
+Two blocks of continental crust may converge as well. The resulting pressure can deform the 
+crust. If one block is denser, that block may slide under the other, mainly lifting the other 
+plate rather than sinking too much itself. A good example of this is the convergence of the 
+northward moving Indo-Australian Plate with the Eurasian Plate. Thus, as India met Asia, the 
+collision produced the highest mountain range on Earth: the Himalayas.
+Divergent plate boundary
+This occurs where plates move away from each other at oceanic ridges, such as in the middle 
+of the Atlantic Ocean. There, rising magma from underlying asthenosphere intrude and erupt 
+beneath and at oceanic ridge to create a new seafloor. This pushes the plates on either side 
+away from each other in opposite directions. 
+Undersea volcanoes and crust expanded by heating have produced a long undersea ridge, 
+but with a rift in the middle where the plates are separating. This process is known as seafloor 
+spreading. Shallow earthquakes are common at oceanic ridges. 
+Divergence can also happen on continents, producing fractures called rift valleys. A modern 
+example is the East African Rift Valley. Over millions of years, the continental crust may sepa-
+rate completely, with the area between flooding with water to become a new ocean.
+Transform Fault boundaries
+In some places, plates slide past each other laterally along fractures in the crust. These places 
+are called transform faults. The plates stick and then occasionally slip, producing earthquakes.
+Figure1.7: Diverging Plates
+UNIT 
+ONE
+UNIT 
+ONE
+UNIT ONE
+10
+Most transform faults are found on the seafloor along the undersea mountain chains called 
+oceanic ridges, but the faults also occur on continents, such as the San Andreas Fault in 
+California.(Figure1.8). As plates move past each other along transform faults, crust is neither 
+destroyed nor created.
+Figure  1.8: Transform Fault 
+Plate tectonics is driven by the internal energy of the Earth. Although there is some debate 
+among geoscientists as to the exact mechanism, most agree that motion of the plates is 
+ultimately driven by convection currents in the mantle.
+Recall that convection is a means of heat transfer wherein the heat moves with the material. 
+It occurs when conduction is inefficient at transporting heat, particularly if the material has a 
+low thermal conductivity, like rocks.
+Recall also that the Earth's asthenosphere is ductile, and therefore is likely to flow more readily 
+(it will bend or deform if you apply enough force to it) than the overlying lithosphere.
+Figure 1.9: Convection currents in the Asthenosphere
+Figure 1.9: Convection currents in the Asthenosphere
+Major geological processes associated with plate tectonics
+11
+Thus, if the asthenosphere moves by convection with the rising currents  carrying heat towards 
+the surface at the oceanic ridges, and descending currents sinking at subduction zones after 
+losing heat to the surface, the brittle plates riding on top of the convection cell will be forced 
+to move over the surface, being in a sense, dragged along by the moving asthenosphere.
+Reflective Activity 1.3
+Reflective Activity 1.3
+Reflective Activity 1.3
+Reflective Activity 1.3
+     
+1.
+Discuss the three types of plate boundar-
+ies.  
+  
+At the end of this section, you will be able to:
+
+distinguish  between endogenic and exogenic forces of the earth; 
+
+explain  processes like folding and faulting and their effect on the earth surface;
+
+draw a map to locate the major young fold mountains of the world;
+
+draw a diagram to show the formation of horst mountains and rift valleys;
+
+describe and locate a ring of fire and the countries found around this zone; and
+
+examine the way in which the various internal and external forces affect the 
+present land surface.
+1.4. MAJOR GEOLOGICAL PROCESSES
+KEY TERMS: Folding, Faulting, Anticline, Syncline, Vents, Fissures, Craters, Tsunamis
+1.
+How would you define a geological process? 
+2.
+What is the difference between endogenic and exogenic 
+forces? 
+3.
+Give some examples of endogenic and exogenic forces. 
+4.
+What is the difference between folding and faulting?
+Brainstorming Activity 1.4

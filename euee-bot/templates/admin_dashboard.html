@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abebe EUEE — Command Center</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #0a0a0f;
+        --surface: #13131a;
+        --surface2: #1a1a24;
+        --border: #ffffff0d;
+        --border2: #ffffff1a;
+        --text: #f0f0f5;
+        --text2: #8888a0;
+        --text3: #55556a;
+        --accent: #6c5ce7;
+        --accent2: #a29bfe;
+        --accent-glow: #6c5ce740;
+        --green: #00b894;
+        --green-bg: #00b89415;
+        --red: #ff6b6b;
+        --red-bg: #ff6b6b15;
+        --yellow: #ffd93d;
+        --yellow-bg: #ffd93d15;
+        --blue: #74b9ff;
+        --blue-bg: #74b9ff15;
+        --pro: #00b894;
+        --max: #a29bfe;
+        --radius: 14px;
+        --radius-sm: 8px;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ─── Animated BG ─── */
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.03;
+        background-image:
+          linear-gradient(var(--accent) 1px, transparent 1px),
+          linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      .bg-glow {
+        position: fixed;
+        top: -200px;
+        right: -200px;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--accent-glow),
+          transparent 70%
+        );
+        z-index: 0;
+        animation: pulse 8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 0.6;
+        }
+      }
+
+      /* ─── Navbar ─── */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 32px;
+        background: rgba(10, 10, 15, 0.8);
+        backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--border);
+      }
+      .navbar .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .navbar .logo-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .navbar h1 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .navbar h1 span {
+        color: var(--accent2);
+        font-weight: 400;
+        margin-left: 6px;
+        font-size: 0.85rem;
+      }
+      .nav-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        color: var(--green);
+      }
+      .nav-status .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: blink 2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .nav-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .nav-btn {
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        color: var(--text2);
+        padding: 8px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: 0.2s;
+        font-family: inherit;
+      }
+      .nav-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      /* ─── Layout ─── */
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 24px 80px;
+      }
+
+      /* ─── Stat Cards ─── */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+      .stat:hover {
+        border-color: var(--border2);
+        transform: translateY(-2px);
+      }
+      .stat .label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text2);
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .stat .value {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+      .stat .sub {
+        font-size: 0.75rem;
+        color: var(--text3);
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .stat .sub.up {
+        color: var(--green);
+      }
+      .stat .sub.down {
+        color: var(--red);
+      }
+      .stat .icon {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .stat .icon.users {
+        background: var(--blue-bg);
+        color: var(--blue);
+      }
+      .stat .icon.money {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .stat .icon.pending {
+        background: var(--yellow-bg);
+        color: var(--yellow);
+      }
+      .stat .icon.convert {
+        background: linear-gradient(135deg, var(--accent-glow), #a29bfe20);
+        color: var(--accent2);
+      }
+
+      /* ─── Section titles ─── */
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .section-title h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .section-title .badge {
+        background: var(--red);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 999px;
+        animation: pulse-badge 2s infinite;
+      }
+      @keyframes pulse-badge {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      /* ─── Tables ─── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+      .card-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-header h2 {
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        padding: 10px 22px;
+        text-align: left;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text3);
+        font-weight: 600;
+        border-bottom: 1px solid var(--border);
+      }
+      td {
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.85rem;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: var(--surface2);
+      }
+      .tier-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .tier-free {
+        background: #ffffff08;
+        color: var(--text3);
+      }
+      .tier-pro {
+        background: var(--green-bg);
+        color: var(--pro);
+      }
+      .tier-max {
+        background: linear-gradient(135deg, #6c5ce715, #a29bfe15);
+        color: var(--max);
+      }
+      .user-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .user-cell .name {
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+      .user-cell .id {
+        font-size: 0.72rem;
+        color: var(--text3);
+        font-family: "SF Mono", monospace;
+      }
+      .empty-row {
+        text-align: center;
+        color: var(--text3);
+        padding: 40px 0 !important;
+        font-size: 0.85rem;
+      }
+
+      /* ─── Suggestions ─── */
+      .suggestion-item {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        transition: 0.2s;
+      }
+      .suggestion-item:last-child {
+        border-bottom: none;
+      }
+      .suggestion-item:hover {
+        background: var(--surface2);
+      }
+      .suggestion-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.75rem;
+      }
+      .suggestion-user {
+        font-weight: 700;
+        color: var(--blue);
+      }
+      .suggestion-date {
+        color: var(--text3);
+      }
+      .suggestion-text {
+        font-size: 0.88rem;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+
+      /* ─── Buttons ─── */
+      .btn {
+        border: none;
+        padding: 7px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        font-family: inherit;
+      }
+      .btn-approve {
+        background: var(--green);
+        color: #fff;
+      }
+      .btn-approve:hover {
+        filter: brightness(1.2);
+      }
+      .btn-reject {
+        background: var(--red-bg);
+        color: var(--red);
+        border: 1px solid #ff6b6b30;
+      }
+      .btn-reject:hover {
+        background: var(--red);
+        color: #fff;
+      }
+
+      /* ─── Earnings Bar ─── */
+      .earnings-bar {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        margin-bottom: 24px;
+      }
+      .earnings-bar .title {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text2);
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .earnings-track {
+        height: 8px;
+        background: var(--surface2);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 8px;
+      }
+      .earnings-fill {
+        height: 100%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+        transition: width 1s ease;
+        width: 0%;
+      }
+      .earnings-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.72rem;
+        color: var(--text3);
+      }
+
+      /* ─── Responsive ─── */
+      @media (max-width: 900px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .navbar {
+          padding: 12px 16px;
+        }
+        .container {
+          padding: 16px 12px 60px;
+        }
+        .nav-actions {
+          display: none;
+        }
+      }
+      /* ─── Toast ─── */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        color: var(--text);
+        padding: 14px 22px;
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        z-index: 200;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: 0.3s;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .toast.success {
+        border-color: var(--green);
+      }
+      .toast.error {
+        border-color: var(--red);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-icon">📚</div>
+        <h1>Abebe Bot<span>Command Center</span></h1>
+      </div>
+      <div class="nav-status">
+        <div class="dot"></div>
+        Bot Online
+      </div>
+      <div class="nav-actions">
+        <button class="nav-btn" onclick="loadDashboard()">↻ Refresh</button>
+        <button
+          class="nav-btn"
+          onclick="logout()"
+          style="background: var(--red-bg); color: var(--red)"
+        >
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="icon users">👥</div>
+          <div class="label">Total Students</div>
+          <div class="value" id="s-total">—</div>
+          <div class="sub up" id="s-total-sub">Loading...</div>
+        </div>
+        <div class="stat">
+          <div class="icon money">💰</div>
+          <div class="label">Monthly Revenue</div>
+          <div class="value" id="s-revenue">—</div>
+          <div class="sub" id="s-revenue-sub">Pro + Max earnings</div>
+        </div>
+        <div class="stat">
+          <div class="icon pending">⏳</div>
+          <div class="label">Pending Upgrades</div>
+          <div class="value" id="s-pending">—</div>
+          <div class="sub" id="s-pending-sub">Awaiting review</div>
+        </div>
+        <div class="stat">
+          <div class="icon convert">📈</div>
+          <div class="label">Conversion Rate</div>
+          <div class="value" id="s-convert">—</div>
+          <div class="sub" id="s-convert-sub">Free → Paid</div>
+        </div>
+      </div>
+
+      <!-- Earnings Bar -->
+      <div class="earnings-bar">
+        <div class="title">Revenue Progress — Monthly Goal: 10,000 ETB</div>
+        <div class="earnings-track">
+          <div class="earnings-fill" id="earnings-fill"></div>
+        </div>
+        <div class="earnings-labels">
+          <span id="earn-current">0 ETB</span><span>10,000 ETB</span>
+        </div>
+      </div>
+
+      <!-- Tier Breakdown -->
+      <div
+        class="stats"
+        style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px"
+      >
+        <div class="stat">
+          <div class="label">Free Tier</div>
+          <div class="value" id="s-free" style="color: var(--text3)">—</div>
+        </div>
+        <div class="stat" style="border-color: var(--green) 20">
+          <div class="label" style="color: var(--pro)">Pro — 100 ETB/mo</div>
+          <div class="value" id="s-pro" style="color: var(--pro)">—</div>
+        </div>
+        <div class="stat" style="border-color: var(--max) 20">
+          <div class="label" style="color: var(--max)">Max — 200 ETB/mo</div>
+          <div class="value" id="s-max" style="color: var(--max)">—</div>
+        </div>
+      </div>
+
+      <!-- Pending Upgrades Table -->
+      <div class="card" id="pending-card">
+        <div class="card-header">
+          <h2>🔔 Pending Upgrade Requests</h2>
+          <span class="badge" id="pending-badge" style="display: none">0</span>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <button class="nav-btn" onclick="handleAutoApprove()">
+              Auto-Approve Matching
+            </button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>TX ID</th>
+              <th>Plan</th>
+              <th>Submitted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="pending-tbody">
+            <tr>
+              <td class="empty-row" colspan="5">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Notes Card -->
+      <div class="card">
+        <div class="card-header"><h2>📝 Generated Study Notes</h2></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>PDF</th>
+              <th>Markdown</th>
+              <th>Flashcards</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="notes-tbody">
+            <tr>
+              <td class="empty-row" colspan="5">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Suggestions Card -->
+      <div class="card">
+        <div class="card-header"><h2>💡 Student Suggestions</h2></div>
+        <div id="suggestions-list">
+          <div class="empty-row">No suggestions yet</div>
+        </div>
+      </div>
+
+      <!-- All Users Table -->
+      <div class="card">
+        <div class="card-header"><h2>👥 All Students</h2></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Telegram ID</th>
+              <th>Plan</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr>
+              <td class="empty-row" colspan="4">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const TOKEN_PARAM = new URLSearchParams(location.search).get("token");
+      if (TOKEN_PARAM) {
+        sessionStorage.setItem("abebe_admin_token", TOKEN_PARAM);
+        history.replaceState({}, "", location.pathname);
+      }
+
+      let ADMIN_TOKEN = sessionStorage.getItem("abebe_admin_token");
+      const API = "/api/admin";
+
+      function showToast(msg, type = "success") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "toast show " + type;
+        setTimeout(() => (t.className = "toast"), 3000);
+      }
+
+      async function secureFetch(url, options = {}) {
+        if (!ADMIN_TOKEN) {
+          throw new Error("Admin token required. Open /admin?token=YOUR_TOKEN first.");
+        }
+
+        options.headers = {
+          ...options.headers,
+          Authorization: `Bearer ${ADMIN_TOKEN}`,
+        };
+
+        try {
+          const res = await fetch(url, options);
+          if (res.status === 401 || res.status === 403) {
+            sessionStorage.removeItem("abebe_admin_token");
+            ADMIN_TOKEN = null;
+            showToast("Session expired or invalid token", "error");
+            setTimeout(() => location.reload(), 1000);
+            throw new Error("Unauthorized");
+          }
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Server Error (${res.status}): ${text}`);
+          }
+          return res;
+        } catch (err) {
+          console.error("Fetch error:", err);
+          showToast(err.message || "Network error", "error");
+          throw err;
+        }
+      }
+
+      async function loadDashboard() {
+        try {
+          const res = await secureFetch(API + "/overview");
+          const data = await res.json();
+
+          // 1. Update Stats
+          const s = data.stats;
+          document.getElementById("s-total").textContent = s.total_users;
+          const paid = s.pro_users + s.max_users;
+          document.getElementById("s-total-sub").textContent =
+            `${s.free_users} free · ${paid} paid`;
+
+          const rev = s.earnings_etb || 0;
+          document.getElementById("s-revenue").textContent =
+            rev.toLocaleString() + " ETB";
+          document.getElementById("s-revenue-sub").textContent =
+            `${s.pro_users} Pro · ${s.max_users} Max`;
+
+          document.getElementById("s-pending").textContent = s.pending_payments;
+          document.getElementById("s-free").textContent = s.free_users;
+          document.getElementById("s-pro").textContent = s.pro_users;
+          document.getElementById("s-max").textContent = s.max_users;
+
+          const rate =
+            s.total_users > 0 ? Math.round((paid / s.total_users) * 100) : 0;
+          document.getElementById("s-convert").textContent = rate + "%";
+
+          const pct = Math.min(100, Math.round((rev / 10000) * 100));
+          document.getElementById("earnings-fill").style.width = pct + "%";
+          document.getElementById("earn-current").textContent =
+            rev.toLocaleString() + " ETB";
+
+          // 2. Update Users Table
+          const users = data.users;
+          const utb = document.getElementById("users-tbody");
+          utb.innerHTML =
+            users.length === 0
+              ? `<tr><td class="empty-row" colspan="4">No students yet</td></tr>`
+              : users
+                  .map((u) => {
+                    const tc =
+                      u.tier === "max"
+                        ? "tier-max"
+                        : u.tier === "pro"
+                          ? "tier-pro"
+                          : "tier-free";
+                    const d = u.joined
+                      ? new Date(u.joined).toLocaleDateString()
+                      : "—";
+                    return `<tr>
+                <td><div class="user-cell"><span class="name">${esc(u.name)}</span></div></td>
+                <td><span class="id" style="font-family:monospace;color:var(--text3)">${u.telegram_id}</span></td>
+                <td><span class="tier-badge ${tc}">${u.tier}</span></td>
+                <td style="color:var(--text2)">${d}</td>
+              </tr>`;
+                  })
+                  .join("");
+
+          // 3. Update Pending Payments
+          const pending = data.payments;
+          const ptb = document.getElementById("pending-tbody");
+          const badge = document.getElementById("pending-badge");
+          if (pending.length > 0) {
+            badge.textContent = pending.length;
+            badge.style.display = "inline-block";
+          } else {
+            badge.style.display = "none";
+          }
+
+          ptb.innerHTML =
+            pending.length === 0
+              ? `<tr><td class="empty-row" colspan="5">No pending upgrades</td></tr>`
+              : pending
+                  .map((p) => {
+                    const dt = new Date(p.submitted_at).toLocaleString();
+                    return `<tr>
+              <td><div class="user-cell"><span class="name">${esc(p.username)}</span><span class="id">${p.telegram_id}</span></div></td>
+              <td><span style="font-family:monospace;font-size:.75rem">${p.transaction_id}</span></td>
+              <td><span class="tier-badge tier-${p.plan_requested.split("_")[0]}">${p.plan_requested}</span></td>
+              <td style="color:var(--text3);font-size:.78rem">${dt}</td>
+              <td>
+                <button class="btn btn-approve" onclick='handlePay(${JSON.stringify(p.transaction_id)},"approve")'>✓ Approve</button>
+                <button class="btn btn-reject" onclick='handlePay(${JSON.stringify(p.transaction_id)},"reject")' style="margin-left:6px">✕ Reject</button>
+              </td></tr>`;
+                  })
+                  .join("");
+
+          // 4. Update Suggestions
+          const suggestions = data.suggestions;
+          const slist = document.getElementById("suggestions-list");
+          slist.innerHTML =
+            suggestions.length === 0
+              ? `<div class="empty-row">No suggestions yet</div>`
+              : suggestions
+                  .map(
+                    (s) => `
+            <div class="suggestion-item">
+              <div class="suggestion-header">
+                <span class="suggestion-user">${esc(s.username)}</span>
+                <span class="suggestion-date">${new Date(s.submitted_at).toLocaleString()}</span>
+              </div>
+              <div class="suggestion-text">${esc(s.suggestion)}</div>
+            </div>
+          `,
+                  )
+                  .join("");
+
+          // 5. Load Generated Notes info
+          try {
+            loadNotes();
+          } catch (e) {
+            console.warn("Notes load failed", e);
+          }
+        } catch (e) {
+          console.error(e);
+          if (e.message.includes("429")) {
+            showToast("Too many attempts. Please wait an hour.", "error");
+          } else {
+            showToast("Failed to load dashboard", "error");
+          }
+        }
+      }
+
+      async function handlePay(txId, action) {
+        if (!confirm(`${action.toUpperCase()} this upgrade?`)) return;
+        try {
+          const res = await secureFetch(`${API}/payments/${txId}/${action}`, {
+            method: "POST",
+          });
+          if (res.ok) {
+            showToast(`Upgrade ${action}ed successfully`);
+            loadDashboard();
+          } else {
+            showToast("Failed to process action", "error");
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      async function handleAutoApprove() {
+        if (!confirm("Auto-approve believable payments now?")) return;
+        try {
+          const res = await secureFetch(`${API}/payments/auto_approve`, {
+            method: "POST",
+          });
+          const data = await res.json();
+          showToast(
+            `Approved: ${data.approved.length} — Skipped: ${data.skipped.length}`,
+          );
+          loadDashboard();
+        } catch (e) {
+          console.error(e);
+          showToast("Auto-approve failed", "error");
+        }
+      }
+
+      function logout() {
+        sessionStorage.removeItem("abebe_admin_token");
+        localStorage.removeItem("abebe_admin_token");
+        ADMIN_TOKEN = null;
+        location.reload();
+      }
+
+      function esc(s) {
+        if (!s) return "";
+        return s
+          .toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      async function loadNotes() {
+        try {
+          const res = await secureFetch(API + "/notes");
+          const list = await res.json();
+          const ntb = document.getElementById("notes-tbody");
+          ntb.innerHTML =
+            list.length === 0
+              ? `<tr><td class="empty-row" colspan="5">No generated notes found</td></tr>`
+              : list
+                  .map((n) => {
+                    return `<tr>
+                <td><strong>${esc(n.subject)}</strong></td>
+                <td>${n.has_pdf ? "Yes" : "—"}</td>
+                <td>${n.has_md ? "Yes" : "—"}</td>
+                <td>${n.has_flashcards ? "Yes" : "—"}</td>
+                <td><button class="btn btn-approve" onclick='handleNoteAction(${JSON.stringify(n.subject)},"regenerate")'>Regenerate</button></td>
+              </tr>`;
+                  })
+                  .join("");
+        } catch (e) {
+          console.error("Failed to load notes", e);
+          const ntb = document.getElementById("notes-tbody");
+          ntb.innerHTML = `<tr><td class="empty-row" colspan="5">Failed to load notes</td></tr>`;
+        }
+      }
+
+      async function handleNoteAction(subject, action) {
+        if (!confirm(`${action.toUpperCase()} notes for ${subject}?`)) return;
+        try {
+          const res = await secureFetch(
+            `${API}/notes/${encodeURIComponent(subject)}/${action}`,
+            { method: "POST" },
+          );
+          if (res.ok) {
+            showToast(`${subject} ${action}ed`);
+            loadNotes();
+          } else {
+            showToast("Failed to process action", "error");
+          }
+        } catch (e) {
+          console.error(e);
+          showToast("Failed to process action", "error");
+        }
+      }
+
+      loadDashboard();
+      setInterval(loadDashboard, 60000); // Auto-refresh every minute
+    </script>
+  </body>
+</html>

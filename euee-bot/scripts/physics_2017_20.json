@@ -1,0 +1,242 @@
+[
+  {
+    "question": "A force that is exerted on a simple machine in order to produce input work is called",
+    "options": {
+      "A": "friction",
+      "B": "load",
+      "C": "effort",
+      "D": "normal"
+    },
+    "answer": "C",
+    "explanation": "Effort is a force exerted on a machine to produce output result.",
+    "topic": "Simple Machines"
+  },
+  {
+    "question": "Which one of the following statements is correct about transverse and longitudinal waves?",
+    "options": {
+      "A": "The directions of wave motion and vibration of the particles are parallel for transverse waves and perpendicular for longitudinal waves.",
+      "B": "Waves on a string are longitudinal whereas sound waves are transverse.",
+      "C": "The directions of wave motion and vibration of particles are parallel for longitudinal waves but perpendicular for transverse waves.",
+      "D": "A longitudinal wave comprises a series of crests and troughs, whereas a transverse wave comprises a series of compressions and rarefactions."
+    },
+    "answer": "C",
+    "explanation": "The Directions Of Wave Motion And Vibration Of Particles Are Parallel For Longitudinal Waves But Perpendicular For Transverse Waves.",
+    "topic": "Waves"
+  },
+  {
+    "question": "An object that is partially or fully submerged in a fluid experiences an upward force from the fluid. The apparent weight of the object is the weight of the",
+    "options": {
+      "A": "fluid it displaces.",
+      "B": "object in air minus the buoyant force.",
+      "C": "object in air.",
+      "D": "fluid it displaces minus the buoyant force."
+    },
+    "answer": "B",
+    "explanation": "Object In Air Minus The Buoyant Force.",
+    "topic": "Fluids"
+  },
+  {
+    "question": "A wheel and axle of radii 40 cm and 8 cm, respectively, is used to lift a bucket of 6 kg of water from a well by applying an effort of 20 N on the wheel. The percentage efficiency of this simple machine is",
+    "options": {
+      "A": "60%",
+      "B": "66.7%",
+      "C": "75%",
+      "D": "80%"
+    },
+    "answer": "A",
+    "explanation": "Efficiency = (MA / VR) * 100%. MA = Load/Effort = (6 * 10) / 20 = 3. VR = R/r = 40/8 = 5. Efficiency = (3/5) * 100% = 60%.",
+    "topic": "Simple Machines"
+  },
+  {
+    "question": "Block A of mass m1 = 8.0 kg travelling initially at u1 = 6 m/s in the positive x-direction collides with block B of mass m2 = 12 kg moving in the same direction at u2 = 3 m/s. If the velocity of block A, immediately after the collision, is v1 = 4 m/s to the positive x-axis, what is the velocity of block B, immediately after the collision?",
+    "options": {
+      "A": "4.33 m/s to the negative x-axis",
+      "B": "3.71 m/s to the negative x-axis",
+      "C": "3.71 m/s to the positive x-axis",
+      "D": "4.33 m/s to the positive x-axis"
+    },
+    "answer": "D",
+    "explanation": "4.33 m/s to the positive x-axis",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "The magnetic field created by a long straight current-carrying wire",
+    "options": {
+      "A": "is directed in the same direction as the current.",
+      "B": "forms a circular pattern around the wire.",
+      "C": "is directly proportional to the distance from the wire.",
+      "D": "is inversely proportional to the current in the wire."
+    },
+    "answer": "B",
+    "explanation": "Forms A Circular Pattern Around The Wire.",
+    "topic": "Electromagnetism"
+  },
+  {
+    "question": "What will happen to a pure semiconductor when it is doped by a group III element?",
+    "options": {
+      "A": "It becomes P-type semiconductor.",
+      "B": "It gets extra free electrons.",
+      "C": "It becomes intrinsic semiconductor.",
+      "D": "It becomes N-type semiconductor."
+    },
+    "answer": "A",
+    "explanation": "It becomes P-type semiconductor.",
+    "topic": "Electronics"
+  },
+  {
+    "question": "We usually use plastic materials to cover metallic wires that carry electricity to protect living things from danger. Which of the following statements correctly describes the nature of the plastic to use for this purpose?",
+    "options": {
+      "A": "Since every electron in plastic is slightly bound to the parent atom, it becomes a poor conductor.",
+      "B": "Since every electron in plastic is tightly bound to the parent atom, it becomes a poor conductor.",
+      "C": "It has free electrons that move easily.",
+      "D": "It has no free electrons and it directs electrons."
+    },
+    "answer": "B",
+    "explanation": "Since every electron in plastic is tightly bound to the parent atom, it becomes a poor conductor.",
+    "topic": "Electricity"
+  },
+  {
+    "question": "Which one of the following statements is correct about the current-voltage (I-V) characteristics of a typical semiconductor diode?",
+    "options": {
+      "A": "The region of the I-V curve that rises very rapidly after the voltage exceeds the cut-in voltage is the forward bias region.",
+      "B": "The region of the I-V curve that increases very rapidly after the bias voltage exceeds the breakdown voltage is in the forward bias region.",
+      "C": "Minority carriers are responsible for the large current in the forward bias region.",
+      "D": "Majority carriers are responsible for the small current in the reverse bias region."
+    },
+    "answer": "A",
+    "explanation": "The region of the I-V curve that rises very rapidly after the voltage exceeds the cut-in voltage is the forward bias region.",
+    "topic": "Electronics"
+  },
+  {
+    "question": "Consider a circuit containing a diode and load resistor (RL) connected to an AC voltage source. If initially, polarity of 'a' is positive while 'b' is negative...",
+    "options": {
+      "A": "During the first half-cycle, the diode is forward biased and voltage is developed across the load resistor.",
+      "B": "During the second half-cycle, the diode is forward biased.",
+      "C": "During the first half-cycle, the diode is reverse biased.",
+      "D": "During the second half-cycle, the diode is reverse biased and voltage is developed across the load resistor."
+    },
+    "answer": "A",
+    "explanation": "During the first half-cycle, the diode is forward biased and voltage is developed across the load resistor.",
+    "topic": "Electronics"
+  },
+  {
+    "question": "A force is used to push a box of mass, m along the slope of an inclined plane with constant velocity. If the coefficient of friction between the box and the inclined plane be μ, the actual mechanical advantage (AMA) of the inclined plane is",
+    "options": {
+      "A": "sinθ - μcosθ",
+      "B": "sinθ + μcosθ",
+      "C": "cosθ + μsinθ",
+      "D": "1 / (sinθ + μcosθ)"
+    },
+    "answer": "B",
+    "explanation": "The AMA of an inclined plane is sinθ + μcosθ.",
+    "topic": "Simple Machines"
+  },
+  {
+    "question": "A circular coil is located in a uniform magnetic field of magnitude 0.50 T directed perpendicular to the plane of the coil. If the area of the coil changes at a uniform rate, in such a way that it increases by 4.0 × 10⁻³ m² in 2 s, what is the magnitude of the induced electromotive force (emf) in the coil?",
+    "options": {
+      "A": "8.0 × 10⁻³ V",
+      "B": "2.0 × 10⁻³ V",
+      "C": "1.0 × 10⁻³ V",
+      "D": "4.0 × 10⁻³ V"
+    },
+    "answer": "C",
+    "explanation": "Correct Answer is (C) 1.0 × 10⁻³ V. Calculated as emf = B * (dA/dt).",
+    "topic": "Electromagnetism"
+  },
+  {
+    "question": "Vector quantities are represented by",
+    "options": {
+      "A": "direction only.",
+      "B": "magnitude and direction.",
+      "C": "dimensionless values.",
+      "D": "magnitude only."
+    },
+    "answer": "B",
+    "explanation": "Correct Answer is (B) Magnitude And Direction.",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "According to Newton's first law, an object that is in motion continues its state of motion with",
+    "options": {
+      "A": "constant velocity if the resultant force exerted on it is not zero.",
+      "B": "a decreasing speed if the resultant force exerted on it is zero.",
+      "C": "constant velocity if the resultant force exerted on it is zero.",
+      "D": "increasing speed if the resultant force exerted on it is not zero."
+    },
+    "answer": "C",
+    "explanation": "Correct Answer is (C) Constant Velocity If The Resultant Force Exerted On It Is Zero.",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "Which of the following correctly describes the difference between distance and displacement?",
+    "options": {
+      "A": "Distance depends on the initial and final points, while displacement depends on the path followed by a moving body.",
+      "B": "Distance can be described both in magnitude and direction, while displacement is described only by magnitude.",
+      "C": "Distance has either positive or negative values, while displacement has only positive value.",
+      "D": "Distance is always greater than or equal to the magnitude of displacement, while the magnitude of the displacement is always less than or equal to distance."
+    },
+    "answer": "D",
+    "explanation": "Correct Answer is (D) Distance is always greater than or equal to the magnitude of displacement, while the magnitude of the displacement is always less than or equal to distance.",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "Which of the following statements is correct about uniformly accelerated motion?",
+    "options": {
+      "A": "The acceleration is constant.",
+      "B": "The velocity is constant.",
+      "C": "The displacement increases at a uniform rate.",
+      "D": "The speed is constant but the direction is changing."
+    },
+    "answer": "A",
+    "explanation": "Correct Answer is (A) The Acceleration Is Constant.",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "Two displacement vectors have magnitudes 4 m and 3 m. Which one of the following is NOT the possible value of the magnitude of their resultant vector?",
+    "options": {
+      "A": "7 m",
+      "B": "1 m",
+      "C": "12 m",
+      "D": "5 m"
+    },
+    "answer": "C",
+    "explanation": "Correct Answer is (C) 12 m. (Resultant must be between 1 m and 7 m).",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "A train starts from rest at a traffic light point. From there on, if the time taken by the train to reach a velocity of 30 m/s is 4 seconds, then what is the distance of the train from the traffic point after 8 seconds?",
+    "options": {
+      "A": "160 m",
+      "B": "80 m",
+      "C": "320 m",
+      "D": "240 m"
+    },
+    "answer": "D",
+    "explanation": "Correct Answer is (D) 240 m. Calculated using s = 1/2 * a * t².",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "Which one of the following statements is a necessary condition for an object to be in linear equilibrium?",
+    "options": {
+      "A": "The linear acceleration of the object is non-zero constant.",
+      "B": "The vector sum of all external forces acting on the object is zero.",
+      "C": "The linear acceleration of the object is zero.",
+      "D": "The vector sum of all external forces acting on the object is non-zero constant."
+    },
+    "answer": "C",
+    "explanation": "Correct Answer is (C) The Linear Acceleration Of The Object Is Zero.",
+    "topic": "Mechanics"
+  },
+  {
+    "question": "When an object tends to slide over the surface of another object, tiny bumps at the surface of the two objects knocking and locking together. This causes",
+    "options": {
+      "A": "frictional force.",
+      "B": "normal force.",
+      "C": "electrostatic force.",
+      "D": "gravitational force."
+    },
+    "answer": "A",
+    "explanation": "Correct Answer is (A) Frictional Force.",
+    "topic": "Mechanics"
+  }
+]

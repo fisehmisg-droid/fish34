@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abebe EUEE Parent Dashboard</title>
+  <style>
+    body { font-family: Georgia, "Times New Roman", serif; background: #f7f4ee; color: #222; margin: 0; padding: 24px; }
+    .wrap { max-width: 860px; margin: 0 auto; background: #fffdf8; border: 1px solid #eadfc8; border-radius: 16px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+    h1, h2 { color: #23423b; }
+    .stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 24px 0; }
+    .card { background: #f1efe7; border-radius: 12px; padding: 16px; }
+    .report { white-space: pre-wrap; line-height: 1.6; background: #fff9ea; border: 1px solid #f0df9c; border-radius: 12px; padding: 20px; }
+    .tier { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #23423b; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Student Progress: {{ name }}</h1>
+    <div class="stats">
+      <div class="card"><strong>Streak</strong><br>{{ streak }} day(s)</div>
+      <div class="card"><strong>Total Questions</strong><br>{{ questions_total }}</div>
+      <div class="card"><strong>Tier</strong><br><span class="tier">{{ tier.upper() }}</span></div>
+    </div>
+    <h2>Weekly Parent Report</h2>
+    <div class="report">{{ report }}</div>
+  </div>
+</body>
+</html>

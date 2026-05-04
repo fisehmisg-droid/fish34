@@ -1,0 +1,560 @@
+First Published August 2023 by the Federal Democratic Republic of Ethiopia, 
+Min­istry of Education, under the General Education Quality Improvement 
+Program for Equity (GEQIP-E) supported by the World Bank, UK's Department 
+for Inter­national Development/DFID-now merged with the Foreign, 
+Common wealth and Development Office/FCDO, Finland Ministry for 
+Foreign Affairs, the Royal Norwegian Embassy, United Nations Children尹s 
+Fund/UNICEF), the Global Partnership for Education (GPE), and Danish 
+Ministry of Foreign Affairs, through a Multi Donor Trust Fund. 
+©2023 by the Federal Democratic Republic of Ethiopia, Ministry of Education. 
+All rights reserved. The moral rights of the author have been asserted. No part 
+of this textbook reproduced, copied in a retrieval system or transmitted in any 
+form or by any means including electronic, mechanical, magnetic, photocopying, 
+recording or otherwise, without the prior written permission of the Ministry of 
+Education or licensing in accordance with the Federal Democratic Republic 
+of Ethiopia as expressed in the Federal Negarit Gazeta, Proclamation No. 
+410/2004 -Copyright and Neighboring Rights Protection. 
+The Ministry of Education wishes to thank the many individuals, groups and 
+other bodies involved鈤湣directly or indirectly - in publishing this Textbook. 
+Special thanks are due to Hawassa University for their huge contribution in 
+the development of this textbook in collaboration with Addis Ababa University, 
+Bahir Dar University and Jimma University. 
+Copyrighted materials used by permission of their owners. If you are the owner 
+of copyrighted material not cited or improperly cited, please contact the Ministry 
+of Education, Head Office, Arat Kilo, (P.O.Box 1367), Addis Ababa Ethiopia. 
+ 978-99990-0-035-2 
+Contents
+1
+Application of physics in other ﬁelds
+1
+1.1
+Physics and other sciences . . . . . . . . . . . . . . . . . . . . . . .
+2
+1.2
+Physics and engineering . . . . . . . . . . . . . . . . . . . . . . . .
+9
+1.3
+Medical physics
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12
+1.4
+Physics and defense technology . . . . . . . . . . . . . . . . . . . .
+17
+1.5
+Physics in communication . . . . . . . . . . . . . . . . . . . . . . .
+20
+2
+Two-dimensional motion
+24
+2.1
+Projectile motion
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+25
+2.2
+Rotational Motion . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+39
+2.3
+Rotational Dynamics . . . . . . . . . . . . . . . . . . . . . . . . . .
+50
+2.4
+Planetary motion and Kepler’s laws . . . . . . . . . . . . . . . . . .
+54
+2.5
+Newton’s law of universal Gravitation
+. . . . . . . . . . . . . . . .
+59
+3
+Fluid Mechanics
+69
+3.1
+Fluid Statics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+69
+3.2
+Pressure in ﬂuids at rest . . . . . . . . . . . . . . . . . . . . . . . . .
+82
+3.3
+Archimedes’ principle . . . . . . . . . . . . . . . . . . . . . . . . . .
+96
+3.4
+Fluid ﬂow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+103
+3.5
+Safety and high pressure . . . . . . . . . . . . . . . . . . . . . . . .
+107
+4
+Electromagnetism
+117
+4.1
+Magnets and Magnetic ﬁeld . . . . . . . . . . . . . . . . . . . . . .
+118
+4.2
+Magnetic ﬁeld lines . . . . . . . . . . . . . . . . . . . . . . . . . . .
+120
+4.3
+Current and Magnetism
+. . . . . . . . . . . . . . . . . . . . . . . .
+122
+4.4
+Electromagnetic Induction . . . . . . . . . . . . . . . . . . . . . . .
+126
+4.5
+Faraday’s Law of electromagnetic Induction . . . . . . . . . . . . .
+129
+4.6
+Transformers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+131
+4.7
+Application and safety
+. . . . . . . . . . . . . . . . . . . . . . . . .
+134
+5
+Basics of electronics
+142
+5.1
+Semiconductors . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+143
+5.2
+Diodes and their Functions
+. . . . . . . . . . . . . . . . . . . . . .
+147
+5.3
+Rectiﬁcation
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+150
+5.4
+Transistors and their application . . . . . . . . . . . . . . . . . . .
+154
+i
+ii
+CONTENTS
+5.5
+Integrated Circuits . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+161
+5.6
+Logic gates and logic circuits
+. . . . . . . . . . . . . . . . . . . . .
+163
+5.7
+Application of electronics . . . . . . . . . . . . . . . . . . . . . . .
+170
+Index
+177
+Unit 1
+Application of physics in other
+ﬁelds
+Introduction
+Science is a collection of different scientiﬁc ﬁelds, or disciplines. It is the union of
+these ﬁelds that helps us to understand the world in which we live. Although there
+are many scientiﬁc disciplines with a special character and history of their own,
+each discipline is dependent on and reinforces the other disciplines. Scientiﬁc
+disciplines do not have ﬁxed borders. Each discipline beneﬁts from advances in
+other areas of science. Understanding the contribution that a scientiﬁc discipline
+can make to others is important for the collaborative development all scientiﬁc
+disciplines, and their contribution to society and the environment.
+Brainstorming
+question1.1
+(i) List as many
+other sciences or
+specializations as
+possible in which
+the word physics
+appears in their
+names.
+(ii) How is
+knowledge of
+physics used
+or applied in
+these sciences or
+specializations?
+At the end of this unit, you will be able to:
+• Comprehend the contribution of physics to the betterment of society.
+• Understand the relation of physics to other sciences.
+• Recognize and appreciate the place of physics in advancement of
+Technology.
+• Appreciate the contribution of Technology to the advancement of Physics.
+• Advocate physics as an important ﬁeld of study to address societal issues
+and challenges.
+1
+2
+Unit 1 Application of physics in other ﬁelds
+1.1
+Physics and other sciences
+Physics is the most essential ﬁeld of science and it has a strong inﬂuence on most
+scientiﬁc developments. We can ﬁnd different concepts of physics in many of the
+modern sciences.
+At the end of this section, you will be able to:
+• explain the relationship of physics with chemistry, biology, geology and
+astronomy.
+Physics and chemistry
+Brainstorming
+question 1.2
+(i) Identify some
+relationships
+between physics
+and chemistry.
+(ii) What physics
+concept is applied
+in separation of
+dissolved salt
+from water by
+evaporation
+method?
+Physics and chemistry may overlap when the system under study involves matter
+composed of electrons and nuclei. Fundamental laws that govern the behavior of
+matter apply to both chemistry and physics. Both physics and chemistry are
+concerned with matter and its interaction with energy. The theory and various
+rules about atoms which are important in chemistry are ultimately explained in
+principle by atomic and subatomic particle physics. Chemists and physicists use
+similar method to study the interaction of large number of particles which have
+complicated interaction beyond the capacity of any computer, and the capacity
+of the human mind.
+The physics of atoms and subatomic particles is critically important for
+understanding how individual atoms are joined by covalent bonds to form
+molecules. The physics of atoms and subatomic particles can also provide
+quantitative insight into ionic and covalent bonding processes by explicitly
+showing which molecules are energetically favorable to which others and the
+magnitudes of the energies involved.
+Discussion
+question 1.1
+tDear students,
+chemistry studies
+minute entities
+like elements,
+atoms, molecules
+and ions which
+cannot be seen with
+your naked eyes.
+How do chemists
+collect information,
+like composition,
+structure, properties
+and the changes
+they undergo during
+a reaction with
+other substances,
+from these minute
+invisible particles?
+The physics of energy related to heat tells chemists whether a particular reaction
+is energetically possible in the direction in which it is written, and it gives the
+composition of the reaction system at equilibrium. The physics of heat energy
+provides a bridge between the macroscopic properties of a substance and the
+individual properties of its constituent molecules and atoms.
+Spectroscopy is the study of the interaction between matter and electromagnetic
+radiation as a function of the wavelength or frequency of the radiation.
+1.1 Physics and other sciences
+3
+Spectroscopy is a fundamental examining tool in many ﬁelds including physics
+and chemistry.
+Most of what we know about the structure of atoms and
+molecules comes from spectroscopic study. The spectroscopic techniques are
+developed by collaborative work of physicists and chemists.
+In general, the study of matter and electricity in physics is fundamental towards
+the understanding of concepts in chemistry, such as atomic structure, molecular
+structure, X-ray diffractions, radioactivity, periodic properties of elements, nature
+of valency, chemical bonds in molecules, crystal structure of solids and others.
+This shows that chemistry is rooted in atomic and molecular physics.
+Physics and biology
+Brainstorming
+question 1.3
+List some physics
+concepts in our
+body.
+To understand how life works, it is essential to understand physics. Physics can
+explain the human body like the mechanics of human motion, the energetics of
+metabolism, the ﬂuid dynamics of blood ﬂow through vessels, the mechanisms
+for speaking and hearing, and the optical imaging system we call the eye. In this
+section some of the physics concepts within a living things are brieﬂy explained.
+Physics of Newtonian mechanics and biology
+Figure 1.1 (a) Center of gravity
+of a freely standing person (b) A
+person carrying unbalanced load
+stands bending
+The Newtonian mechanics tells us how different animals and their body parts
+move. The combination of knowledge of physics and biology help to explain how
+athletes run fast and why the fastest animal in the world, cheetah, runs fast.
+Newtonian mechanics tells us that a body is in stable equilibrium under the
+action of gravity if its center of mass is directly over its base of support. Under
+this condition, the reaction force at the base of support cancels the force of
+gravity and the torque produced by it. If the center of mass is outside the base,
+the torque produced by the weight tends to fall the body. A person falls when his
+center of gravity is displaced beyond the position of the feet. The wider the base
+on which the body rests and the closer the center of gravity of it to the base, the
+more stable it is; that is, the more difﬁcult it is to fall it. How we can use our limbs
+to do different jobs can also be explained by Newtonian mechanics .
+4
+Unit 1 Application of physics in other ﬁelds
+Discussion question 1.2
+(i) Why it is difﬁcult to stand on one foot than the two feet? Why we are
+more stable when we sleep than we are standing?
+(ii) Figure 1.1 (a) shows freely standing person and Figure 1.1 (b) shows
+the way a person carrying a load stands. Why the person carrying the load
+stands bending in Figure 1.1(b) than the person in Figure 1.1(a)?
+Physics of ﬂuid ﬂow and biology
+Discussion
+question 1.3
+(i) Have you
+observed when the
+earthworm moves?
+How do earthworms
+locomote without
+limbs?
+(ii) How a blood
+moves against
+gravity from the
+feet to the heart or
+from the heart to
+the brain when a
+person stands erect?
+The physics of ﬂuid ﬂow, like viscosity, equation of continuity and turbulent ﬂow,
+is very important in understanding the circulation of blood and blood pressure in
+the multicellular organisms. Soft-bodied animals (such as the sea anemone and
+the earthworm) that lack a ﬁrm utilize Pascal’s principle to produce body motion.
+Figure 1.2 Sound wave generating organ in human being.
+Activity 1.1
+Dear students,
+please check
+whether inhalation
+or exhalation of air
+enables formation
+of a controlled
+sound.
+Physics of sound wave and biology
+Sound is a mechanical wave produced by vibrating bodies. The vocal cords
+produce sound when they come together and then vibrate as air passes through
+them during exhalation of air from the lungs. This vibration produces the sound
+wave for your voice. When the human vocal cords (Figure 1.2) set into vibrational
+motion, the surrounding air molecules are disturbed and are forced to follow
+the motion of the vibrating body. The vibrating molecules in turn transfer their
+motion to adjacent molecules causing the vibrational disturbance to propagate
+away from the source. When the air vibrations reach the ear, they cause the
+1.1 Physics and other sciences
+5
+eardrum to vibrate; this produces nerve impulses that are interpreted by the
+brain.
+Physics of electricity and biology
+Many life processes involve electrical phenomena. The nervous system of animals
+and the control of muscle movement, for example, are both governed by electrical
+interactions. The very important electrical phenomena in living organisms are
+found in the nervous system of animals. Specialized cells called neurons form
+a complex network within the body which receives, processes, and transmits
+information from one part of the body to another. The center of this network
+is located in the brain, which has the ability to store and analyze information.
+Based on this information, the nervous system controls various parts of the body.
+The messages are electrical pulses transmitted by the neurons. When a neuron
+receives an appropriate stimulus, it produces electrical pulses that are propagated
+along its cablelike structure.
+Optical physics and biology
+Light is the electromagnetic radiation in the wavelength region between about 400
+nm and 700 nm. Although light is only a tiny part of the electromagnetic spectrum,
+it is very important in both physics and biology. Light has fundamental roles in
+living system because of its paramount importance. Most of the electromagnetic
+radiation from the sun that reaches the Earth’s surface is in this region of the
+spectrum, and life has evolved to utilize it. In photosynthesis, plants use light to
+convert carbon dioxide and water into organic materials, which are the building
+blocks of living organisms. Animals have evolved light-sensitive organs, like
+the eyes, which are their main source of information about the surroundings.
+Some bacteria and insects can even produce light through chemical reactions.
+Optical physics, which is the study of light, includes topics such as microscopes,
+telescopes, vision, color, pigments, illumination, spectroscopy, and lasers, all of
+which have applications in the life sciences.
+Discussion
+question 1.4
+Discuss how our
+eyes use light to see
+objects?
+Physics and astronomy
+Astrophysics is the study of the physics of heavenly objects, called astronomical
+objects, in the sky like the solar system and its constituents, the properties, birth,
+life and death of stars, interstellar gas and dust, galaxies and clusters of galaxies,
+6
+Unit 1 Application of physics in other ﬁelds
+and ﬁnally the study of the Universe as a whole.
+Brain storming
+question 1.4
+Most of the
+astronomical
+objects are far
+from the earth
+where astronomers
+live. How can
+astronomers
+get information
+about these far
+objects? What
+physics concepts do
+astronomers use to
+study astronomical
+objects?
+Newton’s laws of motion and astronomy
+Newton’s law of gravitation is used to describe the motion of the moon around
+a planet and the motion of the planets around the sun. Newton was able to
+explain why Kepler’s Laws described planetary motion using his laws of motion
+and gravity. The knowledge of centripetal force and centrifugal force from our
+physics knowledge greatly help as to understand what keeps objects in orbit
+around others. This applies to planets orbiting the Sun, moons orbiting planets,
+and artiﬁcial satellites in Earth′s orbit.
+Physics of electromagnetic wave and astronomy
+Brainstorming
+question 1.5
+What information
+do you expect
+from studying the
+electromagnetic
+wave which comes
+from astronomical
+objects?
+Astronomers collect information about the radiation from space objects to study
+the birth and death of stars, how hot objects are, how far away they are, even how
+the universe was formed. Astronomers use telescopes that detect different parts
+of the electromagnetic spectrum. Each type of telescope can only detect one part
+of the electromagnetic spectrum. There are radio telescopes, infrared telescopes,
+optical (visible light) telescopes and so on. We can’t see most of the radiation
+detected, so computers turn data into images we can see. The colour we observe
+on these image are called false colours because computers have taken the data
+from wavelengths we can’t see and presented them as colours that can be seen as
+shown in Figure 1.4.
+Figure 1.3 Entoto space
+observatory telescope
+Figure 1.4 Detection of different components of electromagnetic radiation
+by telescope
+Astronomers use light to measure distance of astronomical objects. For more
+1.1 Physics and other sciences
+7
+distant objects, we can measure distances by using brightness of objects, since
+objects will appear fainter if they are at larger distances than identical nearby
+object. Measuring the apparent brightness of an object gives its distance if we
+know its true brightness.
+apparent brightness ∝true brightness
+distance 2
+This is known as the inverse square law of apparent brightness.
+The true
+brightness is also known as the luminosity. Astronomers also used light year as
+an alternate astronomical distance measuring unit. A light year is the distance
+that light travels in one year.
+Exercise 1.1
+What is the distance
+that light can
+travel in one year
+in kilometer?
+Physics of atoms and astronomy
+Brain storming
+question 1.6
+What do emission
+and absorption of
+light by an object
+tell us?
+Atomic astrophysics is concerned with performing atomic physics calculations
+that will be useful to astronomers and using atomic data to interpret
+astronomical observations.
+The astronomers’ only information about a
+particular object comes through the light that it emits, and this light arises
+through atomic transitions.
+The physics that explains emission and absorption of radiation is closely related
+to the structure and energies of individual atoms that form the astronomical
+objects. When electrons of atoms jump from higher to a lower atomic orbit,
+photon is emitted. Photon is absorbed if electron jumps from lower electron
+orbit to higher electron orbit (Figure 1.5). The emission and absorption of
+radiation depends on the characteristics of individual atoms, and helps to
+measure something about the compositions, temperatures, and motions of stars
+by
+studying
+their
+spectra.
+You
+can
+visit
+the
+link:
+https://phet.colorado.edu/en/simulations/hydrogen-atom to observe the Bohr
+atomic model for hydrogen atom.
+In the interstellar matter, atoms are heated by nearby stars. This results in
+knocking of electrons to higher energy orbits. These electrons fall down to lower
+energy orbits emitting light of precisely the wavelength that corresponds to the
+energy change between the two orbits. The nature of the emitted light depends
+on the temperature.
+Thus, emitted light can be used to determine both
+compositions and temperatures of astronomical objects.
+8
+Unit 1 Application of physics in other ﬁelds
+Figure 1.5 The Bohr atomic structure and electron transitions
+Figure 1.6 Mineralogists focus on
+all kinds of minerals.
+Physics and geology
+The study of different parts of Earth is called Earth science. Earth Science deals
+with all aspects of the Earth including molten lava, icy mountain peaks, steep
+valleys and towering waterfalls, the atmosphere high above the earth as well as
+the Earth’s core far beneath the surface. Geology is a branch of Earth science that
+studies the solid and liquid matter that makes up Earth and the different
+processes on these matters.
+The understanding of geological processes demand the understanding of the
+Activity 1.2
+Dear students,
+please organize
+yourself in ﬁve
+groups to visit
+your other science
+teachers like
+chemistry, biology,
+geography, history
+and ICT to ask them
+how the knowledge
+of physics is used in
+their disciples. Your
+teacher will help
+you how to proceed
+in your activities.
+different concepts of physics like force, optics, atomic structure, electromagnetic
+radiation, heat and heat ﬂow, electricity and magnetism, stress and strain, waves
+including sound wave and ﬂuid ﬂow. In geology, these physics concepts are used
+to study the following properties of rocks and minerals: electrical properties,
+density, magnetization, radioactivity, elasticity and more.
+To study these
+properties of rocks and minerals,the geologist take samples from different layers
+of the earth through excavation. They can also study different properties of rocks
+and minerals by sending different types of waves from the surface of the earth
+without excavation.
+Geology has so many branches that most geologists become specialists in one
+area. For example, a mineralogist studies the composition and structure of
+minerals such as halite (rock salt), quartz, calcite, and magnetite (Figure1.6).
+Geological knowledge is also used to detect or infer the presence and position of
+1.2 Physics and engineering
+9
+economically useful geological deposits, such as ore minerals, fossil fuels and
+other hydrocarbons, geothermal reservoirs, and groundwater reservoirs.
+Brainstorming
+question 1.7
+(i) List importance
+of physics in
+engineering.
+(ii) Should we learn
+physics before we
+learn engineering?
+1.2
+Physics and engineering
+At the end of this section, you will be able to:
+• Relate the Newtonian mechanics with civil engineering
+• List different concepts of physics used in mechanical engineering
+• Relate electromagnetism to electrical and electronics engineering
+• Explain how technology contributes to the development of physics
+Physics generates fundamental knowledge that can be used by different branches
+of engineering.
+Physical concepts, such as Mechanics, Thermodynamics,
+Electromagnetism, Atomic Physics, Molecular Physics, Optics, Nuclear Physics
+etc., are important knowledge inputs in different engineering branches.
+Engineering branches such as civil, mechanical, electrical, etc., are basically
+governed by physical laws. It is difﬁcult to solve many of the complex engineering
+problems without understanding the physics behind it. If one understands the
+laws of nature using physics, then one can use that knowledge to predict what
+will happen to the things one builds in engineering.
+Figure 1.7 Civil Engineering in
+ancient civilization(a) Axumite
+Obelisks (b) Lalibela Betegiorgis
+rock hewen church (c) Harar Jugol
+(The Arthur Rimbaud Cultural
+center) (d) Egyptian Pyramids
+Figure 1.8 Civil Engineering in (a) Suspension Bridge (Abay Bridge)
+(b)Building construction (Africa Union Head Quarter, Addis Ababa) (c)
+Transportation Engineering (Gotera interchange road)
+Civil engineering
+Civil engineering concerns designing and building skyscrapers, roads,bridges,
+dams, and railways using our physics knowledge of forces, ﬂuid pressure, gravity,

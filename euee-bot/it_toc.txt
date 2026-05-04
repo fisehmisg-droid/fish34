@@ -1,0 +1,672 @@
+--- Page 1 ---
+STUDENT TEXTBOOK
+GRADE 12
+Federal Democratic Republic of Ethiopia Ministry of Education
+Federal Democratic Republic of Ethiopia Ministry of Education
+FDRE
+MOE
+INFORMATION TECHNOLOGY
+GRADE 12
+STUDENT TEXTBOOK
+
+--- Page 2 ---
+Take Good Care of
+This Textbook 
+This textbook is the property of your school. 
+Take good care not to damage or lose it. 
+    Here are 10 ideas to help take care of the book:
+1.	 Cover the book with protective material, such as plastic, old 
+newspapers or magazines.
+2.	 Always keep the book in a clean dry place.
+3.	 Be sure your hands are clean when you use the book.
+4.	 Do not write on the cover or inside pages.
+5.	 Use a piece of paper or cardboard as a bookmark.
+6.	 Never tear or cut out any pictures or pages.
+7.	 Repair any torn pages with paste or tape.
+8.	 Pack the book carefully when you place it in your school bag.
+9.	 Handle the book with care when passing it to another person.
+10.	When using a new book for the first time, lay it on its back. Open 
+only a few pages at a time. Press lightly along the bound edge as 
+you turn the pages. This will keep the cover in good condition
+
+--- Page 3 ---
+INFORMATION TECHNOLOGY
+STUDENT TEXTBOOK
+GRADE 12
+Writers:
+Teshome Alemu Wedajo (MSc)
+Wendwesen Endale Workneh (MSc)
+Editors:
+Gezahagn Gebeyehu Gamu (MA) (Curriculum Editor)	
+Berhane Woldegabriel Zeweldi (MSc) (Content Editor)	
+Temesgen Debelo Ayana (MA)  (Language Editor)
+Illustrator:
+Selamneh Belete Tekle (MSc)
+Designer: 
+Dagnachew Melesew Alemayehu (MSc)
+FEDERAL DEMOCRATIC REPUBLIC OF ETHIOPIA
+MINISTRY OF EDUCATION
+HAWASSA UNIVERSITY
+
+--- Page 4 ---
+First Published August 2023 by the Federal Democratic Republic of 
+Ethiopia, Ministry of Education, under the General Education Quality 
+Improvement Program for Equity (GEQIP-E) supported by the World Bank, 
+UK’s Department for International Development/DFID-now merged with the 
+Foreign, Common wealth and Development Office/FCDO, Finland Ministry for 
+Foreign Affairs, the Royal Norwegian Embassy, United Nations Children’s Fund/
+UNICEF), the Global Partnership for Education (GPE), and Danish Ministry of 
+Foreign Affairs, through a Multi Donor Trust Fund.   
+©2023 by the Federal Democratic Republic of Ethiopia, Ministry of Education. 
+All rights reserved. The moral rights of the author have been asserted. No part 
+of this textbook reproduced, copied in a retrieval system or transmitted in any 
+form or by any means including electronic, mechanical, magnetic, photocopying, 
+recording or otherwise, without the prior written permission of the Ministry of 
+Education or licensing in accordance with the Federal Democratic Republic of 
+Ethiopia as expressed in the Federal Negarit Gazeta, Proclamation No. 410/2004 
+- Copyright and Neighboring Rights Protection.
+The Ministry of Education wishes to thank the many individuals, groups and other 
+bodies involved – directly or indirectly – in publishing this Textbook. Special 
+thanks are due to Hawassa University for their huge contribution in the 
+development of this textbook in collaboration with Addis Ababa University, 
+Bahir Dar University and Jimma University.
+Copyrighted materials used by permission of their owners. If you are the owner 
+of copyrighted material not cited or improperly cited, please contact the Ministry 
+of Education, Head Office, Arat Kilo, (P.O.Box 1367), Addis Ababa Ethiopia. 
+
+--- Page 5 ---
+Table of Contents
+Unit One
+Information Systems and  Their Applications ............................1
+1.1. Ethical, Legal, Social, Environmental and Health Issues in the Use of Information 
+Systems .........................................................................................................2
+1.1.1 Ethical and Legal Issues in Information System..................................2
+1.1.2 Social Issues in Information System.....................................................5
+1.1.3 Environmental issues  caused by Information Systems .......................10
+1.1.4 Health Issues caused by information systems.......................................12
+1.2. Intellectual Property ...................................................................................14
+1.3. Digital Identity Management ......................................................................17
+1.4. Collaboration Through Digital Technologies..............................................18
+1.4.1 Components of Digital Collaboration...................................................19
+1.5. Engaging in Citizenship through Digital Technologies...............................22
+Unit Two
+Emerging Technologies .................................................................29
+2.1. Introduction to Bigdata ...............................................................................30
+2.1.1 Characteristics of Bigdata ....................................................................31
+2.1.2 Benefits of Bigdata ..............................................................................32
+2.1.3 Application of Bigdata .........................................................................33
+2.1.4 Challenges of Bigdata ..........................................................................36
+2.2. Cloud Computing .......................................................................................37
+2.2.1 Introduction to Cloud Computing.........................................................37
+2.2.2 Benefits of Cloud Computing ..............................................................38
+2.2.3 Limitations of Cloud Computing .........................................................41
+2.2.4 Types of Cloud Computing ..................................................................42
+2.2.5 Cloud Computing Services...................................................................44
+2.3. Fog Computing ...........................................................................................46
+2.4. Internet of Things (IoT)...............................................................................48
+2.4.1 Major advantages of IoT.......................................................................49
+2.4.2 How Does IoT Work?...........................................................................51
+2.4.3 Application of Internet of Things..........................................................52
+
+--- Page 6 ---
+Unit Three
+Database Management System  ....................................................60
+3.1. Overview of Relational Database Management System.............................61
+3.2. Database Manipulation Using SQL.............................................................64
+3.2.1 Using SQL in Microsoft Access ..........................................................65
+3.2.2 Data Definition Language (DDL).........................................................69
+3.2.3 Data Manipulation Language................................................................78
+3.2.4 Data Query Language – SELECT Command.......................................84
+Unit Four
+Web Authoring  ..............................................................................100
+4.1. Introduction to XML ..................................................................................101
+4.1.1 Elements of XML Documents..............................................................102
+4.1.2 Creating XML Documents....................................................................107
+4.2. HTML vs. XML...........................................................................................116
+4.2.1 Advantages and Disadvantages of XML..............................................119
+4.3. Publishing Website......................................................................................119
+Unit Five
+Maintenance and  Troubleshooting ..............................................135
+5.1. Install and uninstall software.......................................................................136
+5.1.1 Installing Software................................................................................136
+5.1.2 Uninstalling Software...........................................................................139
+5.2. Software Troubleshooting...........................................................................142
+5.3. Tools to speedup computer system..............................................................146
+5.3.1 Disk Defragmenter................................................................................146
+5.3.2 Disk Cleanup........................................................................................147
+5.3.3 Windows Update ..................................................................................148
+5.3.4 System Restore ....................................................................................150
+5.4. Network Troubleshooting ...........................................................................151
+5.4.1 Basic Network Problems......................................................................152
+5.4.2 Basic Network Troubleshooting Steps..................................................153
+5.4.3 Network Troubleshooting Tools...........................................................156
+5.4.3.1 Command-Line Tools....................................................................156
+5.5. Network Maintenance Tools........................................................................158
+
+--- Page 7 ---
+Unit Six
+Fundamentals of Programming  ..................................................164
+6.1. Program Flow Controls and Syntax in Python............................................165
+6.1.1 Conditionals Program Flow Controls ..................................................165
+6.1.2 Loops or Iteration Program Flow Controls ..........................................178
+6.2. Comments in Python...................................................................................186
+6.3. Python Interpreter........................................................................................189
+6.4. Testing and Debugging Programs................................................................191
+
+--- Page 8 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+1
+1
+UNIT
+INFORMATION SYSTEMS 
+AND  THEIR APPLICATIONS 
+Learning Outcomes
+At the end of this unit, students will be able to:
+
+
+Explain ethical and legal issues in information systems  
+
+
+Explain environmental, health, and social issues in information system 
+
+
+Recognize the basics of intellectual property rights
+
+
+Describe digital identity management 
+
+
+Appreciate the role of digital technologies in citizenship 
+Unit Overview
+Information systems have had an impact far beyond the world of business. New 
+technologies create new situations that we have never dealt with before. The 
+introduction of new technology can have a profound effect on human behavior. 
+New technologies also give us capabilities that we did not have before, which 
+in turn, create environments and situations that have not been specifically 
+addressed in ethical terms. Users should also be aware of the consequences 
+and implications of information systems’ use and access on the one hand and 
+maintaining the rights of creators and innovators on the other. This unit deals 
+with the fundamentals of ethical, legal, social, environmental and health issues, 
+intellectual property rights, digital identity management, and the role of digital 
+technologies in citizens’ engagement.
+
+--- Page 9 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+2
+UNIT-1
+Information Systems and  their Applications 
+1.1. Ethical, Legal, Social, Environmental and Health Issues in 
+the Use of Information Systems 
+The use of new technologies including information systems, has a significant impact 
+on human behavior and our daily activities including how we live, work, and learn. 
+Increased consequences have been emerging which needs all user’s awareness about 
+the use of information systems. The knowledge and skills about raising issues and 
+proper use of information systems help students to become responsible members 
+of society who can navigate a knowledge based and technology-led economy. This 
+sub unit will focus on the major issues in use of information systems.
+1.1.1	
+Ethical and Legal Issues in Information System
+Brainstorming 1.1
+
+
+How could someone gain access to online banking account?  
+
+
+What would be the consequences of such access?  
+Ethics is all about the principles of making right or wrong decisions. According 
+to Britannica dictionary, ethics defined as, the discipline concerned with what is 
+morally good and bad and morally right and wrong. Ethical principles needs to 
+be respected and if not might result in legal consequences for those cases who are 
+against the applied laws. The role of ethics in information systems has become 
+more crucial as a result of technology. Questions related to ethics and legality are 
+essential in many industries. Many professionals including medical and education 
+professionals, government officials, and business people have legal and ethical 
+oversight to control how their professions function. Information systems, by 
+contrast, lack standard that align with ethical concerns in the current frequently 
+changing and dynamic technological ecosystem. The ethical and legal issues 
+include privacy, security, information gathering and digital ownership related 
+concerns. You will learn about some of the main ethical and legal issues you need 
+to know about as you participate in a constantly changing the digital world.
+The following are some ethical and legal issues confronting the current digital 
+world.
+
+--- Page 10 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+3
+UNIT-1
+Information Systems and  their Applications 
+Privacy: In today’s digitized environment, information privacy relates to personal 
+data stored on the computer system, has become a prime concern for everybody. 
+Most people have their data spread throughout the digital systems, and private 
+information should be accessed using personal 
+passwords. However, personal accounts such as 
+email, social media, and private bank accounts, 
+can be accessed by unauthorized sources which 
+create both ethical and legal concerns. It is 
+morally wrong and unethical to view an 
+individual’s private information in anyways 
+which may also end up being a legal issue. All 
+practices and attempts in organizations to check 
+their employee’s computer habits also need to be 
+implemented without incurring any damage to individual privacy.
+Digital Ownership:  It is ability to access and/or use and protect data, information, 
+and knowledge about ourselves or things we own. The expansion of digital mediums 
+has allowed information to flow more freely 
+than before which makes content easily copied 
+and pasted online. This makes digital 
+ownership hard to control in the digital world. 
+It is unethical to use somebody else’s digital 
+works without getting permission from the 
+owner first since it ignores the right of the 
+creator. Creators has right to allow or deny the 
+use of the contents. This permission can 
+promote 
+sharing 
+of 
+knowledge 
+and 
+information, credits the source and protect the consumer from false information. 
+Users resources use should consider such concerns to promote proper use and 
+dissemination of information, and to protect themselves from legal consequences 
+that arises from violating intellectual property ownership rights. 
+Links 
+More information about intellectual property and related concepts in detail in 
+Section 1.2. of this book. 
+Figure  1.1 Privacy Issues
+Figure 1.2: Digital Ownership
+
+--- Page 11 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+4
+UNIT-1
+Information Systems and  their Applications 
+Information Gathering: Many information system applications collect users’ 
+data and credentials as part of their operations. Such information gathering trends 
+can lead to many ethical and legal issues 
+depending on the purpose and level of 
+information gathering approaches. The 
+measure has opened a debate about what 
+and why information can be gathered. 
+This issue raises a question of consent 
+which 
+protect 
+individuals 
+against 
+attempts to steal information. 
+Users need to understand and examine the intention of any information-gathering 
+request by any service providers or third-party applications while they use the 
+services. Such requests  need special attention if those organizations, systems, or 
+applications request personal information and credentials. This protects against 
+any illegal and fraudulent information stealing attempts.
+Information Security and Liability: Growing amounts of personal and financial 
+information are being transferred and stored online as organizations and businesses 
+depend more and more on electronic data and computer networks to carry out their 
+daily operations. If and when a breach in information security happens, this might 
+expose organizations and businesses to potential security liability. Such attempts 
+might lead to identity theft, which happens when the personal details of innocent 
+people to be harvested by a third party so that they can be used for malicious 
+purposes. The increasing use of online tools and platforms such as blogs and instant 
+messaging is another source of potential liability. Accepted procedures and rules 
+are needed to provide conditions to increase the reliability of information systems. 
+Users also need to report any security breach incidents that happened on their 
+systems and tools to the concerned department/unit or expert in their organizations 
+or the concerned government body promptly.
+For example – in Ethiopia, government and private organizations should report 
+any cyber security breaches or attacks to the designated government unit that is 
+responsible for protecting our country’s information and information infrastructure 
+from harm.  
+Figure 1.3: Information Gathering 
+
+--- Page 12 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+5
+UNIT-1
+Information Systems and  their Applications 
+The above-mentioned pressing ethical and legal issues are assumed to be evolving 
+as technologies change over time, and it is recommended to assess and analyze 
+issues over time, concerning ethical and legal aspects. 
+Activity 1.1
+1.	 Do you agree that government agencies should monitor information usage 
+and gather citizens’ information for national security purposes in the 
+current digital world? Give reasons for your opinion.
+2.	 Find information about the current government agency that is currently 
+responsible  for protecting our country’s information and information 
+infrastructure from harm? Discuss the procedures that followed for 
+reporting any security incidents to the concerned body.
+1.1.2	
+Social Issues in Information System
+Brainstorming 1.2
+
+
+What impacts do the internet and information systems have on our 
+social lives?  
+The expansion of accessible information system technologies has led to several 
+significant changes in how society functions. With personal computers and the 
+Internet offering unrestricted access to all of the knowledge ever created and 
+discovered by humans, the majority of these changes have improvements to society. 
+Those social advantages including access to technology which fills the digital 
+divide gaps within the global citizens, use of advanced technologies like Artificial 
+Intelligence and Augmented Reality in public  which changes how peoples act and 
+react , and widespread use of digital platforms , social medias and computer games 
+for business and entertainment activities .
+However, other less uplifting social problems have been directly caused by 
+technical advancements of the technologies. Hence, it is crucial to examine and 
+assess the impacts they have to take actions to better understand and mitigate their 
+negative impacts while maximizing the benefits. The following are some negative 
+social issues to consider while using technological services and Internet-based 
+applications.
+
+--- Page 13 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+6
+UNIT-1
+Information Systems and  their Applications 
+Socializations Gaps
+Socializing within a family unit has 
+always been important, as it strengthens 
+the bonds among family members or 
+friends and ensures cohesion within the 
+group. However, with more and more 
+households owning several computers 
+and numerous portable devices granting 
+access to information and entertainment, 
+some argue that this is leading to a lack of family socialization and natural 
+interactions in the present moment (See Figure 1.5). 
+It is also become common to see friends who are out in a cafe and still staring at a 
+touchscreen rather than talking to one another. Increase your digital well-being by 
+allowing technology to improve your life and not become a distraction from your 
+life and others. 
+Cyber Bullying- It is a practice of sending, posting, or disseminating unfavorable, 
+hurtful, or malicious content about someone else online. It can also involve 
+disclosing sensitive or private information about another individual in a way that 
+causes embarrassment or humiliation. 
+Cyberbullying can happen online 
+through social media, forums, or 
+gaming where users can interact with, 
+or exchange content with others. It can 
+also happen through text and other 
+messaging applications (Figure 1.6). 
+Example - The availability of the 
+internet and computer access can cause problems in terms of online gender-based 
+violence’s, harassments and sexual abuse which is one of serious issues to address 
+to protect our community to live a healthy life style. 
+ 
+Figure 1.5 Communication breakdown 
+among families
+Figure 1.6 Cyber Bulling
+
+--- Page 14 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+7
+UNIT-1
+Information Systems and  their Applications 
+Social Media and Gaming Addiction - According to addiction center definition 
+social media and gaming addiction is a behavioral addiction that is characterized as 
+being overly concerned about social media 
+and 
+computer 
+games, 
+driven 
+by 
+an 
+uncontrollable urge to log on to or use social 
+media, and devoting so much time and effort 
+to social media that it impairs other important 
+life areas (See Figure 1.7). This day’s social 
+media and video gaming are common ways in 
+which people spend their leisure time. 
+Researches on social networking addiction and Internet gaming disorders finds that 
+intensive online activity can negatively impact young people’s mental health.
+Students need to be curious and mindful about their use of social media and video 
+games to live a safe and healthy life. Such practices have direct links and impacts 
+on their family relationships, learning performance, future life goals, and mental 
+health.
+Plagiarism – Computers and information systems 
+are known for their educational benefits, which 
+are praised, but having access to all knowledge 
+has drawbacks of its own. According to university 
+of oxford, Plagiarism is presenting work or ideas 
+from another source as your own, with or without 
+consent of the original author, by incorporating it 
+into your work without full acknowledgement.
+The act of plagiarism has grown to be a significant issue because students can easily 
+copy and paste entire passages of material from Internet resources without giving 
+credit to the author (See Figure 1.8). This has particularly become a challenge 
+for educational institutions, now applying different tools and systems to check 
+the originality of students’ work at all levels. Plagiarism in the workplace and in 
+academia can destroy an author’s credibility and have significant consequences, 
+such as dismissal from school or job loss.   Students need to produce original 
+works, use books and Internet resources as references and sources of insight, and 
+give appropriate credit to authors when they refer to their works in any way. 
+Figure 1.7 Social media Addiction
+Figure 1.8: Plagiarism
+
+--- Page 15 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+8
+UNIT-1
+Information Systems and  their Applications 
+Cybercrime -  Computers have contributed positively to the development of both 
+individual actions and large-scale global 
+movements. The other side of the coin is 
+organized cybercrime which is use of a 
+computer as an instrument to further illegal 
+ends, such as committing fraud, stealing 
+identities, 
+or 
+violating 
+privacy 
+and 
+intellectual property rights as stated in 
+Britannica 
+dictionary. 
+Cybercrime, 
+especially through the Internet, has grown 
+in importance as the computer has become 
+central to education, commerce, entertainment, and government.
+According to Official reports from Ethiopian Information Network Security 
+Agency (INSA) officials Ethiopia is also experiencing different cyber-attacks 
+which shows increasing trend from time to time that needs a serious attention and 
+a collaborative effort from all citizens and professionals. This clearly shows that 
+students need to prepare themselves for the 21st-century patriotism mission to 
+protect personal, organizational and national digital resources by being mindful 
+system users to protect against crime and terrorism attempts to ensure the country’s 
+digital sovereignty.
+Notes
+
+
+Interested and skilled students can also start the journey of being 
+skilled cyber warrior who is a well-trained, skilled professional in the 
+information technology or information security industry that manages 
+computer networks and system operations
+Job Opportunities and Challenges - The current trends in automation and 
+emerging technologies like artificial intelligent machines, help to automate routine 
+tasks which lead to improved quality of service.  On the other hand, such expansion 
+of automated systems leads to loss of jobs because some types of jobs like cashiers, 
+data entry clerks, and factory workers can be managed by automated systems (See 
+Figure 1.10).
+Fig 1.9 Cyber Warrior 
+
+--- Page 16 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+9
+UNIT-1
+Information Systems and  their Applications 
+Automation often creates as many jobs as it destroys over time. The type of skills 
+that people need to acquire is constantly changing and people with low educational 
+backgrounds are most at risk since the 
+future job market needs more skilled 
+professionals.  
+We must be mindful of our actions 
+and be responsible for every step 
+that we take to get benefits out of 
+those advancements. We must also be 
+concerned about Internet usage and 
+associated access practices to mitigate 
+social and psychological challenges 
+Activity 1.2
+1.	 Discuss the influence of inappropriate computer gaming and social media 
+use on students’ ability to accomplish higher academic goals.
+2.	 Discuss the contribution of increased access to digital technologies and 
+social media to cyber bullying practices. 
+3.	 What sort of new skills are required to get more job opportunities in the 
+current 21st-century work culture and ethics? What can you do to get the 
+required skillsets?
+4.	 How can students use online resources and materials without plagiarizing?
+5.	 Form a pair of students to discuss how your families and friends use 
+technology. Discuss how your relationships changed because of it and 
+share what you have discussed to class.
+6.	 Discuss with a partner about your habits of technology use and social 
+media usage. What changes are needed to improve your current habits for 
+future?
+Figure 1.10: Automation would lead to loss 
+of selected jobs 
+
+--- Page 17 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+10
+UNIT-1
+Information Systems and  their Applications 
+7.	 Individual case study: pick a relevant topic that interests you so far from 
+ethical and social issues in information systems, then research and prepare 
+a half page report using any word processing applications.  Make sure to 
+acknowledge the sources of information’s when presenting information.
+8.	 Conduct online research about known cyber-attack attempts in our country 
+and what is being implemented overcome the risks.  Prepare a report by 
+searching the last 2-3 years reports about cyber-attack attempts, common 
+types of attacks and mitigation activities taken to ensure national cyber 
+security.
+9.	 Take a time and think of a type of job that you would like to have in the 
+future. Explore required professional skills, list of potential universities to 
+study the program and other information’s about the specific job that you 
+aspire to have.
+10.	Form a group of 3 students. Find out list of jobs that have been made 
+obsolete by advancement of technology like artificial intelligence, and jobs 
+that are being created as a result of advancement of technology. Present 
+your findings to the class with your justifications 
+1.1.3	
+Environmental issues  caused by Information Systems 
+Brainstorming 1.3
+
+
+What is the impact of information systems on environmental pollution?  
+While  we make advances in the use of developing technologies including 
+information systems, we should also consider their negative effects on the 
+environment around us.  
+Technologies consume lots of resources and power which creates additional 
+impacts on our environmental ecosystem.  Sometimes people can get so excited 
+about using a new technology, they overlook the negative impact on the environment. 
+Using technologies smartly and responsibly is essential in order not to create 
+problems while utilizing the advantages. Because electronic devices contain 
+hazardous materials that are unsafe for the environment. Most electronic devices 
+
+--- Page 18 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+11
+UNIT-1
+Information Systems and  their Applications 
+contain non-biodegradable materials, heavy metals, and toxic materials like 
+cadmium, lead, and mercury which can leak into the ground, where they can 
+contaminate the water we drink, the plants we eat, and the animals that live around 
+the area.  This clearly shows that is our 
+responsibility to protect the environment while 
+we use and dispose of any information system 
+components. To this end, advanced electronic 
+waste (e - waste) management techniques shall 
+be applied to minimize the damage (See Figure 
+1.11).  e-waste management refers to a systematic 
+procedure for gathering e-waste, recovering and 
+recycling material in a safe manner, and disposing 
+of e-waste in a way that minimizes negative 
+environmental effects.
+Negative impact of information systems on the environment have also led to the 
+development of new environmentally friendly technology solutions aiming to help 
+solve some of the biggest environmental concerns that we face as a society through 
+a shift towards a more sustainable, low-carbon economy. This includes green or 
+clean technologies which refers to environmentally friendly technology, which 
+monitor, and or reduce the 
+negative impact of technology 
+on the environment (See Figure 
+1.12).  Examples of green 
+technologies includes but not 
+limited to Solar Panel, Electric 
+Vehicles. smart meters, natural 
+gas, wind Turbines etc. 
+Technological solutions also 
+allow electronic systems and paperless communication like email and online 
+portals and applications to reduce cutting down of trees for paper for a better 
+environmental protection and management (See Figure 1.13). To this end, 
+information systems allow us to have a worldwide virtual laboratory so, that experts 
+Figure  1.11: e- Waste management
+(Source https://plopdo.com/) 
+Figure  1.12: Clean Technology
+
+--- Page 19 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+12
+UNIT-1
+Information Systems and  their Applications 
+from all fields can share their research, experiences, and ideas to come up with 
+better, and smarter solutions. Not only does this allow people who are far away 
+from one other to work together, but it also reduces the negative carbon emissions 
+impacts that people would normally cause from traveling to meet with one another. 
+Activity 1.3
+1.	 Form a group of 3 students and assess the available green technologies 
+in your community and present the advantages of those green 
+technologies for environmental protections.
+2.	 Discusses how students can contribute for the protection of the 
+environment by becoming environment ambassadors while utilizing the 
+advancement of technological solutions 
+1.1.4	
+Health Issues caused by information systems
+Brainstorming 1.4
+
+
+What are the potential impacts of using information systems on our 
+health?
+Health information systems are essential for the rapid generation of high-quality 
+data that will be used to inform all relevant stakeholders for program planning, 
+review, and monitoring as well as generally ensuring and enhancing the quality of 
+all components of the health system.
+Figure 1.13: Paper based vs paperless system
+
+--- Page 20 ---
+ Information Technology 
+ Grade 12 ~ Student Textbook
+13
+UNIT-1
+Information Systems and  their Applications 
+The widespread use of information systems and access to mobile device in 
+healthcare can make it easier to offer care, improve care delivery, empower 
+patients through personalized messaging, and collect real-time data to optimize 
+resources and decision-making. However, we must also pay attention to health-
+related challenges that caused by unmanaged use of information system services 
+and products on users. Some of the challenges include, sleeping disorders and lack 
+of productivity, loss of attention and stress.  At the same time, the current widely 
+used mobile devices to access health information systems and other online services 
+also creating computer related health problems that needs a serious attention by all 
+users. 
+Examples of such problems incudes but not limited to musculoskeletal problems on 
+our body such as our back, neck, chest, arms, shoulders and feet, Vision Problems 
+and eye strains, Headaches, Obesity due to long hour of sitting etc..
+This implies users should be aware of the proper ways when using information 
+systems and associated access devices to get the expected health information 
+system benefits by minimizing the harm.
+Figure 1.14: Health Information System
+Activity 1.4
+•	
+Discuss the roles of availability of mobile devices for accessing 
+health-related information systems services.
+

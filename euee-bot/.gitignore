@@ -1,0 +1,50 @@
+# Environment & Secrets
+.env
+.env.*
+firebase_key.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PDF textbooks (large files)
+textbooks/
+
+# Generated content (large, rebuilt at runtime)
+audio_lessons/
+euee_notes/
+notes/
+scratch/
+*.mp3
+*.mp4
+
+# Logs
+*.log
+*.lock
+
+# Firebase key (never commit)
+firebase_key.json
+
