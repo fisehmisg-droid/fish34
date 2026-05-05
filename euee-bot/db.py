@@ -8,7 +8,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import logging
 import os
-from config import FIREBASE_KEY, STREAK_FREEZE_EVERY
+from config import FIREBASE_KEY, STREAK_FREEZE_EVERY, TIER_LIMITS, TIER_FEATURES
 
 logger = logging.getLogger(__name__)
 
@@ -84,11 +84,45 @@ def create_user(telegram_id: int, name: str | None, language: str) -> dict:
 
 
 def update_user(telegram_id: int, updates: dict):
+    # Auto-normalize tier if it's being updated
+    if "tier" in updates:
+        updates["tier"] = normalize_tier(updates["tier"])
     db.collection("users").document(str(telegram_id)).update(updates)
 
 
+def normalize_tier(raw: str | None) -> str:
+    """Normalize tier values like 'pro_monthly', 'max_yearly' → 'pro', 'max'.
+    This is the single source of truth for tier normalization."""
+    if not raw:
+        return "free"
+    raw = str(raw).lower().strip()
+    if "max" in raw:
+        return "max"
+    if "pro" in raw:
+        return "pro"
+    if raw == "free":
+        return "free"
+    return "free"  # Unknown tier defaults to free
+
+
 def upgrade_user_tier(telegram_id: int, tier: str):
-    db.collection("users").document(str(telegram_id)).update({"tier": tier})
+    db.collection("users").document(str(telegram_id)).update({"tier": normalize_tier(tier)})
+
+def has_access(tier: str, feature: str) -> bool:
+    """Centralized check for feature access based on tier."""
+    tier = normalize_tier(tier)
+    if tier == "max":
+        return True # Max has everything
+    
+    allowed = TIER_FEATURES.get(tier, [])
+    if feature in allowed:
+        return True
+        
+    # Special cases for hierarchical access
+    if tier == "pro" and feature in TIER_FEATURES["free"]:
+        return True
+        
+    return False
 
 
 def get_or_create_user(telegram_id: int, name: str, language: str = "en") -> dict:
@@ -556,8 +590,6 @@ def approve_payment(tx_id: str) -> bool:
     if not data or str(data.get("status", "")).upper() != "PENDING":
         return False
 
-    finalize_payment_attempt(tx_id, status="APPROVED")
-
     # Normalize plan_requested (e.g. 'pro_monthly', 'max_yearly') → 'pro' / 'max'
     raw_plan = str(data.get("plan_requested", "pro")).lower().strip()
     if "max" in raw_plan:
@@ -571,18 +603,35 @@ def approve_payment(tx_id: str) -> bool:
     days = 365 if "yearly" in raw_plan else 30
     expires_at = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=days)
 
-    # Ensure telegram_id is an int before stringifying to match create_user logic
+    # Resolve telegram_id — catches KeyError, ValueError, AND TypeError
     try:
         t_id = int(data["telegram_id"])
-    except (ValueError, TypeError):
-        t_id = data["telegram_id"]
+    except (KeyError, ValueError, TypeError) as e:
+        logger.error(f"approve_payment: could not resolve telegram_id for tx {tx_id}: {e}")
+        return False
 
-    # One single update for efficiency and atomicity
-    db.collection("users").document(str(t_id)).update({
+    # Verify the user document actually exists before updating
+    user_ref = db.collection("users").document(str(t_id))
+    if not user_ref.get().exists:
+        logger.error(f"approve_payment: user document '{t_id}' does not exist — cannot upgrade.")
+        return False
+
+    # Update tier atomically
+    user_ref.update({
         "tier": tier,
         "tier_updated_at": _now(),
         "subscription_expires_at": expires_at,
     })
+
+    # Mark payment as approved only after the user doc is confirmed updated
+    finalize_payment_attempt(tx_id, status="APPROVED")
+
+    # Verify the write landed correctly
+    updated = user_ref.get().to_dict() or {}
+    if updated.get("tier") != tier:
+        logger.error(f"approve_payment: tier write verification FAILED for user {t_id}!")
+        return False
+
     logger.info(f"Payment {tx_id} approved → user {t_id} upgraded to {tier}, expires {expires_at.date()}")
     return True
 
@@ -743,6 +792,19 @@ def get_random_real_question(subject: str) -> dict | None:
     except Exception as e:
         logger.error(f"Error fetching real question: {e}")
         return None
+
+def add_real_question(subject: str, question_data: dict) -> bool:
+    """Adds a new real exam question to the Firestore collection."""
+    try:
+        # Create a deterministic ID or use auto-id
+        doc_ref = db.collection("real_exam_questions").document()
+        question_data["subject"] = subject
+        question_data["created_at"] = _now()
+        doc_ref.set(question_data)
+        return True
+    except Exception as e:
+        logger.error(f"Error adding real question: {e}")
+        return False
 
 def get_wrong_questions(telegram_id: int, limit: int = 20) -> list[dict]:
     """Fetch the most recent wrong questions for a user."""

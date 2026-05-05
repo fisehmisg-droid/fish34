@@ -84,6 +84,46 @@ TIER_PRICES = {
     "max_yearly": 2200,
 }
 
+# ── Feature Access Mapping ───────────────────────────────────────────────────
+# Use these keys to check access consistently across handlers.
+TIER_FEATURES = {
+    "free": [
+        "practice_limited", 
+        "leaderboard", 
+        "confessions", 
+        "exam_tips"
+    ],
+    "pro":  [
+        "practice_unlimited", 
+        "notes", 
+        "audio", 
+        "textbooks", 
+        "mnemonic", 
+        "review_sheet", 
+        "model_exam_5"
+    ],
+    "max":  [
+        "practice_unlimited", 
+        "notes", 
+        "audio", 
+        "textbooks", 
+        "mnemonic", 
+        "review_sheet", 
+        "model_exam_50", 
+        "flashcards", 
+        "boss_fight", 
+        "parent_link", 
+        "weak_radar", 
+        "score_predictor"
+    ]
+}
+
+MODEL_EXAM_LIMITS = {
+    "free": 0,
+    "pro":  5,
+    "max":  50,
+}
+
 # ── Subjects ──────────────────────────────────────────────────────────────────
 SUBJECTS = {
     "math":        "Mathematics",

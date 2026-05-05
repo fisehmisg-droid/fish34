@@ -10,6 +10,12 @@ for premium audio when available.
 from __future__ import annotations
 
 import logging
+import os
+
+if os.getenv("DEV_MODE", "").lower() in ("1", "true", "yes"):
+    import db_stub as db
+else:
+    import db
 
 try:
     import anthropic

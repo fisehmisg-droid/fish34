@@ -33,7 +33,7 @@ from handlers import (
     button_callback, handle_confession, cmd_progress, cmd_leaderboard,
     cmd_radar, cmd_predict, error_handler, handle_boss_answer, handle_telebirr_tx, handle_telebirr_photo,
     handle_suggestion, AWAITING_TELEBIRR_TX, AWAITING_TELEBIRR_PHOTO, cmd_id, cmd_demo_upgrade,
-    cmd_admin, handle_upgrade_button, cmd_admin_build, cmd_invite, cmd_review_sheet
+    cmd_admin, cmd_manual_upgrade, handle_upgrade_button, cmd_admin_build, cmd_invite, cmd_review_sheet, cmd_plan
 )
 from helpers import format_countdown
 
@@ -186,7 +186,7 @@ def main():
             MessageHandler(
                 filters.TEXT & ~filters.COMMAND & filters.Regex(
                     r"(?i)(Practice|Random Challenge|Mock Exam|Audio|Flashcard|Memory Trick|Progress|Leaderboard|"
-                    r"Battle|Confession|Boss|Predictor|Upgrade|Parent|Exam Tips|Weak Radar|Model Exam|Study Notes|E-Book|Textbooks|Invite Friend|Review Sheet|/menu|"
+                    r"Battle|Confession|Boss|Predictor|Upgrade|Plan|Parent|Exam Tips|Weak Radar|Model Exam|Study Notes|E-Book|Textbooks|Invite Friend|Review Sheet|/menu|"
                     r"ልምምድ|ለማዳ|የዘፈቀደ ጥያቄ|የሙከራ ፈተና|ሙሉ ፈተና|የኦዲዮ ትምህርት|ኦዲዮ|"
                     r"ፍላሽ|የማስታወሻ ዘዴ|እድገቴ|ሰንጠረዥ|የውድድር ሁነታ|ውድድር|የምስጢር ሳጥን|ምስጢር|የቦስ ውጊያ|ቦስ|"
                     r"ውጤት ትንቢት|ትንቢት|አሳድግ|የወላጅ ሊንክ|ወላጅ|የፈተና ምክሮች|ፈተና ምክር|የድክመት ራዳር|ድክመት ራዳር|ሞዴል ፈተና|ማስታወሻ|ማስታወቂያ|ኢ-መጽሐፍት|መጽሐፍት|ጓደኛ ይጋብዙ|የክለሳ ወረቀት|ተመለስ|"
@@ -247,9 +247,12 @@ def main():
     app.add_handler(CommandHandler("id", cmd_id))
     app.add_handler(CommandHandler("demo_upgrade", cmd_demo_upgrade))
     app.add_handler(CommandHandler("admin", cmd_admin))
+    app.add_handler(CommandHandler("manualupgrade", cmd_manual_upgrade))
     app.add_handler(CommandHandler("admin_build", cmd_admin_build))
     app.add_handler(CommandHandler("invite", cmd_invite))
     app.add_handler(CommandHandler("review", cmd_review_sheet))
+    app.add_handler(CommandHandler("plan", cmd_plan))
+    app.add_handler(CommandHandler("status", cmd_plan))
 
     # Menu text handler (catches all main menu button presses)
 

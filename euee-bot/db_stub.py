@@ -6,6 +6,7 @@ server can be started locally without Firebase credentials.
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 import uuid
+from config import TIER_LIMITS, TIER_FEATURES
 
 STORE = defaultdict(dict)
 
@@ -148,7 +149,32 @@ def get_or_create_user(telegram_id: int, name: str, language: str = "en"):
 
 
 def upgrade_user_tier(telegram_id: int, tier: str):
-    update_user(telegram_id, {"tier": tier})
+    update_user(telegram_id, {"tier": normalize_tier(tier)})
+
+def normalize_tier(raw: str | None) -> str:
+    """Normalize tier values like 'pro_monthly', 'max_yearly' → 'pro', 'max'."""
+    if not raw:
+        return "free"
+    raw = str(raw).lower().strip()
+    if "max" in raw:
+        return "max"
+    if "pro" in raw:
+        return "pro"
+    if raw == "free":
+        return "free"
+    return "free"
+
+def has_access(tier: str, feature: str) -> bool:
+    """Centralized check for feature access based on tier (Stub)."""
+    tier = normalize_tier(tier)
+    if tier == "max":
+        return True
+    allowed = TIER_FEATURES.get(tier, [])
+    if feature in allowed:
+        return True
+    if tier == "pro" and feature in TIER_FEATURES["free"]:
+        return True
+    return False
 
 
 def get_user(telegram_id: int):
@@ -188,6 +214,8 @@ def create_user(telegram_id: int, name: str, language: str):
 
 def update_user(telegram_id: int, updates: dict):
     uid = str(telegram_id)
+    if "tier" in updates:
+        updates["tier"] = normalize_tier(updates["tier"])
     if uid not in STORE['users']:
         STORE['users'][uid] = {}
     STORE['users'][uid].update(updates)
@@ -279,6 +307,18 @@ def record_answer(telegram_id: int, subject: str, correct: bool, topic: str = "G
 
 def get_chunks_for_subject(subject: str, limit: int = 5) -> list[str]:
     return [c.get("text", "") for c in _get_collection_items("textbook_chunks") if c.get("subject") == subject][:limit]
+
+def add_real_question(subject: str, question_data: dict) -> bool:
+    question_data["subject"] = subject
+    STORE['real_exam_questions'][str(uuid.uuid4())] = question_data
+    return True
+
+def get_random_real_question(subject: str) -> dict | None:
+    questions = [q for q in _get_collection_items("real_exam_questions") if q.get("subject") == subject]
+    import random
+    if questions:
+        return random.choice(questions)
+    return None
 
 
 def save_exam_result(telegram_id: int, subject: str, score: int, total: int, weak_topics: list):

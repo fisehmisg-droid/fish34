@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes, ConversationHandler
+from firebase_admin import firestore
 
 from async_util import run_blocking
 
@@ -219,15 +220,24 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "E-Book" in text or "Textbooks" in text or "መጽሐፍት" in text or "ኢ-መጽሐፍት" in text:
-        if user.get("tier") == "free":
+        if not db.has_access(user.get("tier"), "textbooks"):
             await update.message.reply_text("Textbooks and E-books are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
         await cmd_textbooks(update, ctx)
         return ConversationHandler.END
 
+    if "Memory Trick" in text or "የማስታወሻ ዘዴ" in text:
+        if not db.has_access(user.get("tier"), "mnemonic"):
+            await update.message.reply_text("Memory tricks are for Pro and Max members.")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
+        ctx.user_data["notes_mode"] = "memory_trick"
+        await update.message.reply_text("Pick a subject for Memory Tricks:", reply_markup=kb.subject_keyboard(lang))
+        return CHOOSE_SUBJECT
+
     if "Study Notes" in text or "ማስታወሻ" in text or "ማስታወቂያ" in text:
-        if user.get("tier") == "free":
+        if not db.has_access(user.get("tier"), "notes"):
             await update.message.reply_text("Study notes are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -237,13 +247,17 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Model Exam" in text or "ሞዴል ፈተና" in text:
+        if not db.has_access(user.get("tier"), "model_exam_5"):
+            await update.message.reply_text("Model Exams are for Pro and Max members.")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         ctx.user_data["notes_mode"] = "model_exam"
         ctx.user_data["awaiting_subject"] = True
         await update.message.reply_text("Pick a subject for your Model Exam (100 Questions):", reply_markup=kb.subject_keyboard(lang))
         return CHOOSE_SUBJECT
 
     if "Audio" in text or "ኦዲዮ" in text:
-        if user.get("tier") == "free":
+        if not db.has_access(user.get("tier"), "audio"):
             await update.message.reply_text("Audio lessons are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -253,7 +267,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Flashcard" in text or "ፍላሽ" in text:
-        if user.get("tier") != "max":
+        if not db.has_access(user.get("tier"), "flashcards"):
             await update.message.reply_text("Flashcards are for Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -263,17 +277,11 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Memory" in text or "ማስታወሻ ዘዴ" in text:
-        if user.get("tier") == "free":
+        if db.normalize_tier(user.get("tier")) == "free":
             await update.message.reply_text("Memory tricks are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
         ctx.user_data["notes_mode"] = "mnemonic"
-        ctx.user_data["mode"] = "flashcards"
-        await update.message.reply_text("Pick a subject for Flashcards:", reply_markup=kb.subject_keyboard(lang))
-        return CHOOSE_SUBJECT
-
-    if "Memory Trick" in text or "የማስታወሻ ዘዴ" in text:
-        ctx.user_data["notes_mode"] = "memory_trick"
         await update.message.reply_text("Pick a subject for Memory Tricks:", reply_markup=kb.subject_keyboard(lang))
         return CHOOSE_SUBJECT
 
@@ -293,13 +301,25 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return await cmd_confession(update, ctx)
 
     if "Boss" in text or "ቦስ" in text:
+        if not db.has_access(user.get("tier"), "boss_fight"):
+            await update.message.reply_text("Friday Boss Fight is for Max members only! Upgrade to challenge the ultimate EUEE questions. 👾")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         return await cmd_boss_fight(update, ctx)
 
     if "Predictor" in text or "ትንቢት" in text:
+        if not db.has_access(user.get("tier"), "score_predictor"):
+            await update.message.reply_text("Score Predictor is a Max exclusive feature. Upgrade to see your predicted EUEE score! 🔮")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         await cmd_predict(update, ctx)
         return ConversationHandler.END
 
     if "Review Sheet" in text or "የክለሳ ወረቀት" in text:
+        if not db.has_access(user.get("tier"), "review_sheet"):
+            await update.message.reply_text("Personalized Review Sheets are for Pro and Max members.")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         await cmd_review_sheet(update, ctx)
         return ConversationHandler.END
 
@@ -309,15 +329,18 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Weak Radar" in text or "ድክመት" in text:
+        if not db.has_access(user.get("tier"), "weak_radar"):
+            await update.message.reply_text("Weakness Radar analysis is for Max members. Upgrade to identify your study gaps! 📡")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         await cmd_radar(update, ctx)
         return ConversationHandler.END
 
-    if "Model Exam" in text or "ሞዴል ፈተና" in text:
-        ctx.user_data["notes_mode"] = "model_exam"
-        await update.message.reply_text("Pick a subject for Model Exam:", reply_markup=kb.subject_keyboard(lang))
-        return CHOOSE_SUBJECT
-
     if "Parent" in text or "ወላጅ" in text:
+        if not db.has_access(user.get("tier"), "parent_link"):
+            await update.message.reply_text("Parent Monitoring Links are for Max members. Upgrade to share your progress with your parents! 👨‍👩‍👦")
+            await cmd_upgrade(update, ctx)
+            return ConversationHandler.END
         parent_token = user.get("parent_token", "N/A")
         from config import BASE_WEB_URL
         link = f"{BASE_WEB_URL}/parent/{parent_token}"
@@ -325,8 +348,8 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(msg, parse_mode="Markdown")
         return ConversationHandler.END
 
-    if "Upgrade" in text or "አሳድግ" in text:
-        await cmd_upgrade(update, ctx)
+    if "Upgrade" in text or "አሳድግ" in text or "/plan" in text or "Plan" in text:
+        await cmd_plan(update, ctx)
         return ConversationHandler.END
 
     if "Invite Friend" in text or "ጓደኛ ይጋብዙ" in text:
@@ -493,8 +516,8 @@ async def choose_subject(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
             return ConversationHandler.END
 
         if mode == "model_exam":
-            tier = user.get("tier", "free")
-            if tier == "free":
+            tier = db.normalize_tier(user.get("tier"))
+            if not db.has_access(tier, "model_exam_5"):
                 await update.message.reply_text("Model Exams are for Pro and Max members.")
                 await cmd_upgrade(update, ctx)
                 return ConversationHandler.END
@@ -587,7 +610,7 @@ async def handle_question(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return await _handle_battle_text_answer(update, ctx, user, update.message.text or "")
 
     lang = user.get("language", "en")
-    tier = user.get("tier", "free")
+    tier = db.normalize_tier(user.get("tier"))
     limit = TIER_LIMITS.get(tier, 5)
 
     question = sanitize_input(update.message.text or "")
@@ -978,7 +1001,7 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         subject = parts[1]
         model_index = int(parts[2])
         user = db.get_user(query.from_user.id)
-        tier = user.get("tier", "free") if user else "free"
+        tier = db.normalize_tier(user.get("tier")) if user else "free"
         
         limit = 5 if tier == "pro" else 50 if tier == "max" else 0
         if model_index > limit:
@@ -991,6 +1014,7 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         ctx.user_data["exam_current"] = 0
         ctx.user_data["exam_start"] = time.time()
         ctx.user_data["exam_subject"] = subject
+        ctx.user_data["model_index"] = model_index
         # Consolidated start message + question 1 for better UX
         await query.edit_message_text(f"⏳ Preparing Model Exam {model_index} for {_subject_name(subject)}...")
         
@@ -1157,7 +1181,7 @@ async def cmd_progress(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
     
     lang = user.get("language", "en")
-    tier = user.get("tier", "free")
+    tier = db.normalize_tier(user.get("tier"))
     msg = format_progress(user, lang)
     
     if tier != "free":
@@ -1180,7 +1204,7 @@ async def cmd_review_sheet(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
         
     lang = user.get("language", "en")
-    tier = user.get("tier", "free")
+    tier = db.normalize_tier(user.get("tier"))
     
     if tier == "free":
         await update.message.reply_text(
@@ -1421,7 +1445,7 @@ async def handle_upgrade_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
     # Block if user is already on a paid plan (must wait for expiry)
     user = db.get_user(query.from_user.id)
-    current_tier = user.get("tier", "free") if user else "free"
+    current_tier = db.normalize_tier(user.get("tier")) if user else "free"
     if current_tier != "free":
         await query.answer(
             f"You already have an active {current_tier.upper()} plan. Wait for it to expire before upgrading.",
@@ -1475,9 +1499,111 @@ async def handle_upgrade_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     )
     return AWAITING_TELEBIRR_PHOTO
 
+async def cmd_plan(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    user = db.get_user(update.effective_user.id)
+    if not user:
+        await update.message.reply_text("Please use /start first.")
+        return
+
+    tier = db.normalize_tier(user.get("tier"))
+    lang = user.get("language", "en")
+    
+    expires_at = user.get("subscription_expires_at")
+    expiry_str = "Never"
+    if expires_at:
+        try:
+            if hasattr(expires_at, "to_datetime"):
+                dt = expires_at.to_datetime()
+            elif hasattr(expires_at, "timestamp"):
+                dt = expires_at
+            else:
+                dt = None
+            
+            if dt:
+                expiry_str = dt.strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            expiry_str = "Error reading date"
+
+    if lang == "en":
+        msg = (
+            f"👤 **Your Account Status**\n\n"
+            f"🌟 **Current Tier:** {tier.upper()}\n"
+            f"⏳ **Expires On:** {expiry_str}\n\n"
+            f"✅ **Features Included:**\n"
+        )
+        if tier == "free":
+            msg += (
+                "- 5 Daily Practice Questions\n"
+                "- Public Leaderboard\n"
+                "- Community Confessions\n\n"
+                "🚀 Upgrade to **Pro** or **Max** for unlimited questions and study materials!"
+            )
+        elif tier == "pro":
+            msg += (
+                "- Unlimited Questions\n"
+                "- Full Study Notes (PDF)\n"
+                "- Lesson Audio Narration\n"
+                "- Official Textbooks & E-Books\n"
+                "- Memory Tricks & Mnemonics\n"
+                "- Personalized Review Sheets\n"
+                "- Model Exams (5 full versions)\n\n"
+                "👑 Upgrade to **Max** for flashcards, radar tools, and parent reports!"
+            )
+        else: # max
+            msg += (
+                "- Everything in Pro\n"
+                "- Interactive Flashcards\n"
+                "- Weekly Friday Boss Fight\n"
+                "- Weakness Radar Analysis\n"
+                "- Score Predictor Tool\n"
+                "- Parent Monitoring Link\n"
+                "- Model Exams (50 full versions)\n"
+                "- Priority Feature Requests\n\n"
+                "🔥 You have the ULTIMATE plan. Go study and make us proud!"
+            )
+    else: # am
+        msg = (
+            f"👤 **የአካውንትዎ ሁኔታ**\n\n"
+            f"🌟 **የአሁኑ ደረጃ:** {tier.upper()}\n"
+            f"⏳ **የሚያበቃበት ቀን:** {expiry_str}\n\n"
+            f"✅ **የተካተቱ ጥቅሞች:**\n"
+        )
+        if tier == "free":
+            msg += (
+                "- በቀን 5 የልምምድ ጥያቄዎች\n"
+                "- የደረጃ ሰንጠረዥ\n"
+                "- የምስጢር ሳጥን\n\n"
+                "🚀 ወደ **Pro** ወይም **Max** በማሳደግ ገደብ የለሽ ጥያቄዎችን እና ትምህርቶችን ያግኙ!"
+            )
+        elif tier == "pro":
+            msg += (
+                "- ገደብ የለሽ ጥያቄዎች\n"
+                "- ሙሉ ማስታወሻዎች (PDF)\n"
+                "- የኦዲዮ ትምህርቶች\n"
+                "- የትምህርት መጽሐፍት (E-Books)\n"
+                "- የማስታወሻ ዘዴዎች\n"
+                "- የግል የክለሳ ወረቀት\n"
+                "- ሞዴል ፈተናዎች (5 ሙሉ)\n\n"
+                "👑 ወደ **Max** በማሳደግ ፍላሽ ካርዶችን እና የራዳር ትንተናን ያግኙ!"
+            )
+        else: # max
+            msg += (
+                "- ሁሉንም በ Pro ያለ\n"
+                "- ፍላሽ ካርዶች\n"
+                "- የአርብ የቦስ ውጊያ\n"
+                "- የድክመት ራዳር ትንተና\n"
+                "- የውጤት ትንቢት\n"
+                "- የወላጅ ሊንክ\n"
+                "- ሞዴል ፈተናዎች (50 ሙሉ)\n\n"
+                "🔥 ሙሉው ጥቅል አለዎት። ጠንክረው ይማሩ!"
+            )
+
+    await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=kb.main_menu_keyboard(lang))
+
+
 async def cmd_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     user = db.get_user(update.effective_user.id)
-    tier = user.get("tier", "free") if user else "free"
+    tier = db.normalize_tier(user.get("tier")) if user else "free"
     lang = user.get("language", "en") if user else "en"
 
     # Show active plan info with expiry — block new upgrades until current expires
@@ -1749,6 +1875,90 @@ async def cmd_admin(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         reply_markup=kb.telegram_admin_keyboard(),
         parse_mode="Markdown"
     )
+
+
+async def cmd_manual_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    """Admin command: /manualupgrade <telegram_id> <tier> [days]
+    Example: /manualupgrade 123456789 max 365
+    Directly sets a user's tier without going through the payment flow.
+    Use this to fix users whose approval message was sent but tier write failed.
+    """
+    if update.effective_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+        await update.message.reply_text("⛔ Unauthorized.")
+        return
+
+    args = ctx.args or []
+    if len(args) < 2:
+        await update.message.reply_text(
+            "Usage: `/manualupgrade <telegram_id> <tier> [days]`\n"
+            "Example: `/manualupgrade 123456789 max 365`\n"
+            "tier can be: `pro`, `max`, `free`\n"
+            "days defaults to 30 (use 365 for yearly)",
+            parse_mode="Markdown"
+        )
+        return
+
+    try:
+        target_id = int(args[0])
+    except ValueError:
+        await update.message.reply_text("❌ Invalid Telegram ID. Must be a number.")
+        return
+
+    tier = args[1].lower().strip()
+    if tier not in {"free", "pro", "max"}:
+        await update.message.reply_text("❌ Invalid tier. Use: `free`, `pro`, or `max`.", parse_mode="Markdown")
+        return
+
+    try:
+        days = int(args[2]) if len(args) >= 3 else 30
+    except ValueError:
+        days = 30
+
+    import datetime
+    expires_at = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=days)
+
+    # Verify user exists first
+    user = db.get_user(target_id)
+    if not user:
+        await update.message.reply_text(f"❌ No user found with ID `{target_id}`. They must /start the bot first.", parse_mode="Markdown")
+        return
+
+    old_tier = user.get("tier", "free")
+    db.update_user(target_id, {
+        "tier": tier,
+        "tier_updated_at": firestore.SERVER_TIMESTAMP if tier != "free" else None,
+        "subscription_expires_at": expires_at if tier != "free" else None,
+    })
+
+    # Verify the write succeeded
+    refreshed = db.get_user(target_id)
+    new_tier = (refreshed or {}).get("tier", "unknown")
+
+    if new_tier == tier:
+        await update.message.reply_text(
+            f"✅ **Success!**\n\n"
+            f"👤 User `{target_id}` ({user.get('name', 'N/A')})\n"
+            f"📈 Tier: `{old_tier}` → `{tier}`\n"
+            f"📅 Expires: {expires_at.strftime('%B %d, %Y') if tier != 'free' else 'N/A'}",
+            parse_mode="Markdown"
+        )
+        # Notify the student
+        try:
+            if tier != "free":
+                await ctx.bot.send_message(
+                    chat_id=target_id,
+                    text=(
+                        f"🎊 **Your account has been updated!**\n\n"
+                        f"You now have **{tier.upper()}** access.\n"
+                        f"📅 Expires: {expires_at.strftime('%B %d, %Y')}\n\n"
+                        f"Enjoy your studies! 🚀"
+                    ),
+                    parse_mode="Markdown"
+                )
+        except Exception as e:
+            logger.warning(f"Could not notify user {target_id} after manual upgrade: {e}")
+    else:
+        await update.message.reply_text(f"❌ Write verification failed! Expected `{tier}`, got `{new_tier}`. Check bot logs.", parse_mode="Markdown")
 
 
 async def error_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):

@@ -2,7 +2,7 @@
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 
-from config import PUBLIC_BOT_USERNAME
+from config import PUBLIC_BOT_USERNAME, MODEL_EXAM_LIMITS
 
 
 def lang_keyboard() -> ReplyKeyboardMarkup:
@@ -143,11 +143,7 @@ def notes_chapter_keyboard(subject: str, lang: str = "en") -> InlineKeyboardMark
 def model_selection_keyboard(subject: str, lang: str = "en", tier: str = "free") -> InlineKeyboardMarkup:
     buttons = []
     # Tier-based limits
-    limit = 0
-    if tier == "pro":
-        limit = 5
-    elif tier == "max":
-        limit = 50
+    limit = MODEL_EXAM_LIMITS.get(tier, 0)
     
     if limit == 0:
         return InlineKeyboardMarkup([[InlineKeyboardButton("Upgrade to Access Models", callback_data="upgrade_pro_monthly")]])
