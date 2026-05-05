@@ -179,14 +179,15 @@ def _upload_pdf_path(pdf_path: str | Path) -> genai.types.File:
     return uploaded
 
 
-def _wait_for_file_active(file_obj: genai.types.File) -> genai.types.File:
+async def _wait_for_file_active(file_obj: genai.types.File) -> genai.types.File:
     """
     Poll until the uploaded file transitions from PROCESSING → ACTIVE.
     Raises TimeoutError if it takes longer than FILE_POLL_TIMEOUT seconds.
     """
     deadline = time.time() + FILE_POLL_TIMEOUT
     while True:
-        current = genai.get_file(file_obj.name)
+        # FIX: Run sync genai.get_file in a thread so the event loop never blocks.
+        current = await asyncio.to_thread(genai.get_file, file_obj.name)
         state   = current.state.name if hasattr(current.state, "name") else str(current.state)
 
         if state == "ACTIVE":
@@ -208,7 +209,7 @@ def _wait_for_file_active(file_obj: genai.types.File) -> genai.types.File:
             "[GeminiFileAPI] File '%s' state=%s — polling again in %ds.",
             file_obj.name, state, FILE_POLL_INTERVAL
         )
-        time.sleep(FILE_POLL_INTERVAL)
+        await asyncio.sleep(FILE_POLL_INTERVAL)
 
 
 def _delete_file_safe(file_obj: genai.types.File):
@@ -306,8 +307,9 @@ async def _generate_from_file(
     Upload the whole PDF once and generate notes in a single Gemini call.
     Best path — use when the textbook is under ~200 000 tokens.
     """
-    uploaded = _upload_pdf_path(pdf_path)
-    active   = _wait_for_file_active(uploaded)
+    # FIX: Wrap sync File API calls in threads so the event loop never blocks.
+    uploaded = await asyncio.to_thread(_upload_pdf_path, pdf_path)
+    active   = await _wait_for_file_active(uploaded)
 
     prompt = _FULL_FILE_PROMPT.format(subject=subject, lang=lang)
 
@@ -319,7 +321,7 @@ async def _generate_from_file(
         )
         return response.text.strip()
     finally:
-        _delete_file_safe(active)
+        await asyncio.to_thread(_delete_file_safe, active)
 
 
 async def _generate_from_chunks(

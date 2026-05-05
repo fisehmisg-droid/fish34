@@ -5,13 +5,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-os.environ.setdefault('DEV_MODE', '1')
+import db_supabase
+sys.modules['db'] = db_supabase
 
-if os.getenv('DEV_MODE', '').lower() in ('1', 'true', 'yes'):
-    import db_stub
-    sys.modules['db'] = db_stub
-
-mods = ['handlers', 'server', 'db', 'notes', 'ai']
+mods = ['handlers', 'server', 'db_supabase', 'notes', 'ai']
 for m in mods:
     try:
         importlib.import_module(m)

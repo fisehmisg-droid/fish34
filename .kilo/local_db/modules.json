@@ -1,0 +1,63 @@
+{
+  "core": {
+    "name": "core",
+    "description": "Core bot functionality and entry point",
+    "files": ["main.py"],
+    "dependencies": ["config", "db", "ai", "handlers"]
+  },
+  "ai": {
+    "name": "ai",
+    "description": "AI provider hub with fallback mechanisms",
+    "files": ["ai.py"],
+    "dependencies": ["config"],
+    "providers": ["gemini", "groq", "anthropic", "elevenlabs"]
+  },
+  "database": {
+    "name": "database",
+    "description": "Firebase Firestore operations",
+    "files": ["db.py"],
+    "dependencies": ["config", "firebase_admin"]
+  },
+  "handlers": {
+    "name": "handlers",
+    "description": "Telegram bot command and message handlers",
+    "files": ["handlers.py"],
+    "dependencies": ["config", "db", "ai", "keyboards", "notes", "payments", "helpers", "async_util"]
+  },
+  "keyboards": {
+    "name": "keyboards",
+    "description": "Telegram inline keyboard layouts",
+    "files": ["keyboards.py"],
+    "dependencies": ["config"]
+  },
+  "notes": {
+    "name": "notes",
+    "description": "Study notes, flashcards, and audio generation",
+    "files": ["notes.py"],
+    "dependencies": ["config", "db", "ai", "helpers"]
+  },
+  "payments": {
+    "name": "payments",
+    "description": "Payment processing integration",
+    "files": ["payments.py"],
+    "dependencies": ["config", "httpx"]
+  },
+  "server": {
+    "name": "server",
+    "description": "FastAPI web server for callbacks and dashboard",
+    "files": ["server.py"],
+    "dependencies": ["fastapi", "firebase_admin", "db", "payments"]
+  },
+  "helpers": {
+    "name": "helpers",
+    "description": "Utility functions",
+    "files": ["helpers.py"],
+    "dependencies": ["config"]
+  },
+  "utils": {
+    "name": "utils",
+    "description": "Utility scripts",
+    "files": ["async_util.py", "bootstrap_assets.py", "bulk_generate_audio.py", "gemini_file_api.py", "generate_notes.py", "generate_pdfs.py", "generate_user_guide.py", "list_voices.py", "list_gemini.py", "extract_toc.py", "extract_tocs.py", "make_biology_pdf.py", "make_chem_pdf.py", "make_pdf.py", "precompute_cache.py", "generate_all_pdfs.py", "ingest.py", "ingest_all.py"],
+    "dependencies": ["config", "db", "ai", "notes"]
+  }
+}

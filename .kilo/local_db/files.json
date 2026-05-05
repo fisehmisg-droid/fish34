@@ -1,0 +1,130 @@
+{
+  "files": {
+    "euee-bot/ai.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\ai.py",
+      "type": "python_module",
+      "size": 12288,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "AI provider hub for Abebe - handles Gemini, Groq, Anthropic, ElevenLabs providers with fallback mechanisms"
+    },
+    "euee-bot/async_util.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\async_util.py",
+      "type": "python_module",
+      "size": 1024,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Utility for running blocking operations in async context"
+    },
+    "euee-bot/bootstrap_assets.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\bootstrap_assets.py",
+      "type": "python_script",
+      "size": 2048,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Script to bootstrap initial assets"
+    },
+    "euee-bot/bulk_generate_audio.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\bulk_generate_audio.py",
+      "type": "python_script",
+      "size": 3072,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Script to bulk generate audio lessons"
+    },
+    "euee-bot/config.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\config.py",
+      "type": "python_module",
+      "size": 5120,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Central configuration for EUEE Abebe Bot - API keys, models, subjects, conversation states"
+    },
+    "euee-bot/db.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\db.py",
+      "type": "python_module",
+      "size": 14336,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "All Firebase Firestore database operations - user management, streak tracking, exam results, etc."
+    },
+    "euee-bot/gemini_file_api.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\gemini_file_api.py",
+      "type": "python_module",
+      "size": 4096,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Gemini File API integration for processing PDFs and generating notes"
+    },
+    "euee-bot/helpers.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\helpers.py",
+      "type": "python_module",
+      "size": 5632,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Utility functions (sanitization, radar chart, formatting)"
+    },
+    "euee-bot/handlers.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\handlers.py",
+      "type": "python_module",
+      "size": 32768,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Telegram bot handlers for Abebe - all command and message handlers"
+    },
+    "euee-bot/keyboards.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\keyboards.py",
+      "type": "python_module",
+      "size": 4096,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Telegram inline keyboard layouts"
+    },
+    "euee-bot/main.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\main.py",
+      "type": "python_entry_point",
+      "size": 7168,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Main entry point - wires all handlers, schedulers, and starts polling"
+    },
+    "euee-bot/notes.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\notes.py",
+      "type": "python_module",
+      "size": 24576,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Study notes, flashcards, and audio helpers"
+    },
+    "euee-bot/payments.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\payments.py",
+      "type": "python_module",
+      "size": 2944,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Chapa & Telebirr payment helpers"
+    },
+    "euee-bot/server.py": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\server.py",
+      "type": "python_module",
+      "size": 5504,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "FastAPI endpoints for payments and the parent dashboard"
+    },
+    "euee-bot/.env": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\.env",
+      "type": "environment_file",
+      "size": 1184,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Environment variables - API keys, tokens, configuration"
+    },
+    "euee-bot/firebase_key.json": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\firebase_key.json",
+      "type": "credentials_file",
+      "size": 1244,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Firebase service account credentials"
+    },
+    "euee-bot/requirements.txt": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\requirements.txt",
+      "type": "dependencies_file",
+      "size": 9216,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Python package dependencies"
+    },
+    "euee-bot/DEPLOYMENT_GUIDE.md": {
+      "path": "C:\\Users\\HP\\Desktop\\telegram bot\\euee-bot\\DEPLOYMENT_GUIDE.md",
+      "type": "documentation",
+      "size": 3072,
+      "last_modified": "2026-05-03T04:39:51-07:00",
+      "content_summary": "Deployment guide for the bot"
+    }
+  }
+}

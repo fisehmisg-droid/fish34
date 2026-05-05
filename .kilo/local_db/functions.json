@@ -1,0 +1,303 @@
+{
+  "functions": {
+    "main.py": {
+      "main": [
+        {
+          "name": "main",
+          "signature": "def main():",
+          "line_start": 152,
+          "line_end": 156,
+          "description": "Fix Windows console emoji/Unicode output and start the bot application"
+        },
+        {
+          "name": "post_init",
+          "signature": "async def post_init(application):",
+          "line_start": 125,
+          "line_end": 150,
+          "description": "Post-initialization setup: pre-warm Gemini File API worker, start web server, and initialize scheduler with jobs"
+        },
+        {
+          "name": "daily_reminder",
+          "signature": "async def daily_reminder(app):",
+          "line_start": 37,
+          "line_end": 87,
+          "description": "Send daily study reminder + streak + countdown + Voice of the Topper tip to all users"
+        },
+        {
+          "name": "panic_reminder",
+          "signature": "async def panic_reminder(app):",
+          "line_start": 89,
+          "line_end": 93,
+          "description": "Send extra reminders only during the final panic-mode window"
+        },
+        {
+          "name": "weekly_parent_report",
+          "signature": "async def weekly_parent_report(app):",
+          "line_start": 95,
+          "line_end": 112,
+          "description": "Send Parent Shock Report every Sunday"
+        },
+        {
+          "name": "reset_weekly_counters",
+          "signature": "async def reset_weekly_counters(app):",
+          "line_start": 114,
+          "line_end": 122,
+          "description": "Reset weekly question counters every Monday"
+        }
+      ]
+    },
+    "config.py": {
+      "main": [
+        {
+          "name": "validate_env",
+          "signature": "def validate_env():",
+          "line_start": 42,
+          "line_end": 58,
+          "description": "Validate required environment variables are set"
+        }
+      ]
+    },
+    "db.py": {
+      "main": [
+        {
+          "name": "get_user",
+          "signature": "def get_user(telegram_id: int) -> dict | None:",
+          "line_start": 28,
+          "line_end": 31,
+          "description": "Retrieve user data from Firestore by telegram_id"
+        },
+        {
+          "name": "create_user",
+          "signature": "def create_user(telegram_id: int, name: str, language: str) -> dict:",
+          "line_start": 33,
+          "line_end": 62,
+          "description": "Create a new user document in Firestore"
+        },
+        {
+          "name": "update_user",
+          "signature": "def update_user(telegram_id: int, updates: dict):",
+          "line_start": 64,
+          "line_end": 66,
+          "description": "Update user document in Firestore"
+        },
+        {
+          "name": "upgrade_user_tier",
+          "signature": "def upgrade_user_tier(telegram_id: int, tier: str):",
+          "line_start": 68,
+          "line_end": 70,
+          "description": "Upgrade user's tier in Firestore"
+        },
+        {
+          "name": "get_or_create_user",
+          "signature": "def get_or_create_user(telegram_id: int, name: str, language: str = \"en\") -> dict:",
+          "line_start": 72,
+          "line_end": 77,
+          "description": "Get existing user or create new one if not found"
+        },
+        {
+          "name": "check_and_increment_questions",
+          "signature": "def check_and_increment_questions(telegram_id: int, tier: str, limit: int) -> bool:",
+          "line_start": 80,
+          "line_end": 104,
+          "description": "Check if user can ask more questions based on tier limits and increment counters"
+        },
+        {
+          "name": "update_streak",
+          "signature": "def update_streak(telegram_id: int) -> dict:",
+          "line_start": 107,
+          "line_end": 143,
+          "description": "Update user's streak, award streak freezes, return updated streak info"
+        },
+        {
+          "name": "record_answer",
+          "signature": "def record_answer(telegram_id: int, subject: str, correct: bool):",
+          "line_start": 146,
+          "line_end": 158,
+          "description": "Record user's answer to a question and update subject performance"
+        },
+        {
+          "name": "get_leaderboard",
+          "signature": "def get_leaderboard(limit: int = 10) -> list[dict]:",
+          "line_start": 161,
+          "line_end": 169,
+          "description": "Get top users by correct answers for leaderboard"
+        },
+        {
+          "name": "get_chunks_for_subject",
+          "signature": "def get_chunks_for_subject(subject: str, limit: int = 5) -> list[str]:",
+          "line_start": 172,
+          "line_end": 180,
+          "description": "Get textbook chunks for a subject from Firestore"
+        },
+        {
+          "name": "save_exam_result",
+          "signature": "def save_exam_result(telegram_id: int, subject: str, score: int, total: int, weak_topics: list):",
+          "line_start": 183,
+          "line_end": 196,
+          "description": "Save exam result to Firestore"
+        },
+        {
+          "name": "get_exam_results",
+          "signature": "def get_exam_results(telegram_id: int, limit: int = 5) -> list[dict]:",
+          "line_start": 198,
+          "line_end": 207,
+          "description": "Get user's exam results from Firestore"
+        },
+        {
+          "name": "save_confession",
+          "signature": "def save_confession(telegram_id: int, topic: str):",
+          "line_start": 210,
+          "line_end": 216,
+          "description": "Save user confession to Firestore"
+        },
+        {
+          "name": "create_battle",
+          "signature": "def create_battle(challenger_id: int, subject: str, question_data: dict) -> str:",
+          "line_start": 219,
+          "line_end": 241,
+          "description": "Create a new battle challenge"
+        },
+        {
+          "name": "get_battle",
+          "signature": "def get_battle(battle_id: str) -> dict | None:",
+          "line_start": 243,
+          "line_end": 246,
+          "description": "Get battle data by battle_id"
+        },
+        {
+          "name": "join_battle",
+          "signature": "def join_battle(battle_id: str, opponent_id: int) -> dict | None:",
+          "line_start": 248,
+          "line_end": 259,
+          "description": "Join an existing battle as opponent"
+        },
+        {
+          "name": "submit_battle_answer",
+          "signature": "def submit_battle_answer(battle_id: str, user_id: int, answer: str, time_secs: float, is_correct: bool) -> dict:",
+          "line_start": 261,
+          "line_end": 287,
+          "description": "Submit an answer for a battle participant"
+        },
+        {
+          "name": "finalize_battle",
+          "signature": "def finalize_battle(battle_id: str, winner_id: int | None, challenger_correct: bool, opponent_correct: bool):",
+          "line_start": 289,
+          "line_end": 302,
+          "description": "Finalize a battle and determine winner"
+        },
+        {
+          "name": "get_boss_fight_week",
+          "signature": "def get_boss_fight_week() -> dict | None:",
+          "line_start": 305,
+          "line_end": 311,
+          "description": "Get current week's boss fight question"
+        },
+        {
+          "name": "save_boss_fight",
+          "signature": "def save_boss_fight(question: str, subject: str):",
+          "line_start": 313,
+          "line_end": 325,
+          "description": "Save boss fight question for the week"
+        },
+        {
+          "name": "complete_boss_fight",
+          "signature": "def complete_boss_fight(telegram_id: int):",
+          "line_start": 327,
+          "line_end": 337,
+          "description": "Mark user as having completed the boss fight and award badge"
+        },
+        {
+          "name": "get_user_by_parent_token",
+          "signature": "def get_user_by_parent_token(token: str) -> dict | None:",
+          "line_start": 340,
+          "line_end": 345,
+          "description": "Get user data by parent token"
+        },
+        {
+          "name": "get_top_scorer_this_week",
+          "signature": "def get_top_scorer_this_week() -> dict | None:",
+          "line_start": 348,
+          "line_end": 358,
+          "description": "Get user with most questions answered this week"
+        },
+        {
+          "name": "get_weak_subjects",
+          "signature": "def get_weak_subjects(telegram_id: int) -> dict:",
+          "line_start": 361,
+          "line_end": 373,
+          "description": "Calculate weak subjects based on user's performance"
+        },
+        {
+          "name": "save_daily_tip",
+          "signature": "def save_daily_tip(tip: str):",
+          "line_start": 376,
+          "line_end": 379,
+          "description": "Save daily topper tip to Firestore"
+        },
+        {
+          "name": "get_daily_tip",
+          "signature": "def get_daily_tip() -> str | None:",
+          "line_start": 381,
+          "line_end": 385,
+          "description": "Get today's topper tip from Firestore"
+        },
+        {
+          "name": "get_panic_kit_questions",
+          "signature": "def get_panic_kit_questions() -> list[str]:",
+          "line_start": 388,
+          "line_end": 391,
+          "description": "Get panic kit questions from Firestore"
+        },
+        {
+          "name": "is_panic_mode",
+          "signature": "def is_panic_mode() -> bool:",
+          "line_start": 393,
+          "line_end": 398,
+          "description": "Check if we're in panic mode (7 days before EUEE exam)"
+        },
+        {
+          "name": "get_cached_content",
+          "signature": "def get_cached_content(cache_key: str) -> dict | None:",
+          "line_start": 401,
+          "line_end": 405,
+          "description": "Retrieve cached content from Firestore"
+        },
+        {
+          "name": "set_cached_content",
+          "signature": "def set_cached_content(cache_key: str, data: dict):",
+          "line_start": 406,
+          "line_end": 409,
+          "description": "Save data to Firestore cache"
+        },
+        {
+          "name": "clear_subject_notes_cache",
+          "signature": "def clear_subject_notes_cache(subject: str) -> None:",
+          "line_start": 411,
+          "line_end": 420,
+          "description": "Clear cached notes and audio scripts for a subject"
+        },
+        {
+          "name": "user_telebirr_rate_limit_exceeded",
+          "signature": "def user_telebirr_rate_limit_exceeded(telegram_id: int) -> bool:",
+          "line_start": 421,
+          "line_end": 438,
+          "description": "Check if user is spamming payment attempts"
+        },
+        {
+          "name": "check_transaction_exists",
+          "signature": "def check_transaction_exists(tx_id: str) -> bool:",
+          "line_start": 439,
+          "line_end": 443,
+          "description": "Check if transaction ID already exists (prevent duplicates)"
+        },
+        {
+          "name": "save_payment_attempt",
+          "signature": "def save_payment_attempt(telegram_id: int, username: str, tx_id: str, plan_requested: str, screenshot_url: str) -> bool:",
+          "line_start": 444,
+          "line_end": 458,
+          "description": "Save a payment attempt to Firestore"
+        }
+      ]
+    }
+  }
+}

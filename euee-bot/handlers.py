@@ -2,24 +2,75 @@
 
 from __future__ import annotations
 
+import asyncio
+from functools import wraps
 import logging
 import os
+import sys
 import time
 
 logger = logging.getLogger(__name__)
 
+
+# FIX: Global safe-handler wrapper — catches ANY unhandled exception in a handler,
+# logs full traceback, and sends the user a friendly message. Never crashes the process.
+def safe_handler(func):
+    @wraps(func)
+    async def _wrapper(update: Update, ctx: ContextTypes.DEFAULT_TYPE, *args, **kwargs):
+        try:
+            return await func(update, ctx, *args, **kwargs)
+        except Exception as exc:
+            import traceback
+
+            # Log full traceback locally
+            tb = traceback.format_exc()
+            logger.error("Unhandled exception in %s: %s", func.__name__, exc, exc_info=True)
+
+            # Notify the user with a friendly message
+            try:
+                if update and update.effective_message:
+                    await update.effective_message.reply_text("Something went wrong, please try again.")
+                elif update and update.callback_query:
+                    await update.callback_query.answer("Something went wrong, please try again.", show_alert=False)
+            except Exception:
+                pass
+
+            # Send traceback to configured admins for faster debugging (truncate to safe size)
+            try:
+                from config import ADMIN_IDS
+                admin_ids = ADMIN_IDS if isinstance(ADMIN_IDS, list) else [ADMIN_IDS]
+                if admin_ids:
+                    notif = (
+                        f"⚠️ Unhandled exception in handler `{func.__name__}`\n"
+                        f"User: `{getattr(update.effective_user, 'id', 'N/A')}`\n"
+                        f"Error: {str(exc)}\n\n```")
+                    # Truncate traceback to 3500 chars to avoid Telegram limits
+                    notif += tb[:3500] + "\n```"
+                    for aid in admin_ids:
+                        try:
+                            if aid and aid > 0:
+                                await ctx.bot.send_message(chat_id=aid, text=notif, parse_mode="Markdown")
+                        except Exception:
+                            pass
+            except Exception:
+                # If admin notification fails, continue silently
+                pass
+
+            # Clear processing flag so user is not stuck
+            if ctx and hasattr(ctx, "user_data") and ctx.user_data is not None:
+                ctx.user_data["is_processing"] = False
+    return _wrapper
+
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes, ConversationHandler
-from firebase_admin import firestore
+# Removed Firebase dependency - using Supabase PostgreSQL
 
 from async_util import run_blocking
 
 import ai
-if os.getenv("DEV_MODE", "").lower() in ("1", "true", "yes"):
-    import db_stub as db
-else:
-    import db
+import db_supabase as db
+sys.modules["db"] = db
 import keyboards as kb
 import notes
 from review_pdf import generate_personalized_review_pdf
@@ -37,11 +88,12 @@ from config import (
     TIER_LIMITS,
     ADMIN_ID,
     ADMIN_ID_2,
+    ADMIN_IDS,
+    TELEBIRR_NUMBER,
     AWAITING_FEATURE_SUGGESTION,
 )
 
 from payments import validate_telebirr_tx_id, is_valid_image
-
 # State definitions for ConversationHandler (add to existing state constants visually)
 AWAITING_TELEBIRR_TX = 100
 AWAITING_TELEBIRR_PHOTO = 101
@@ -53,12 +105,19 @@ def _sync_qna_pipeline(
     telegram_id: int, tier: str, limit: int, question: str, subject: str, lang: str
 ) -> str | None:
     """Runs Firestore + RAG + Gemini/Groq off the asyncio loop."""
+    # Check question limit
     if not db.check_and_increment_questions(telegram_id, tier, limit):
         return None
+    
+    # Get chunks for context
     chunks = db.get_chunks_for_subject(subject, limit=3)
     if not chunks:
         chunks = [notes._get_source_material(subject, char_limit=4_000)]
+    
+    # Generate AI response
     response = ai.ask_abebe(question, subject, lang, context_chunks=chunks)
+    
+    # Update user data
     db.update_user(telegram_id, {"last_explanation": response[:1000]})
     db.update_streak(telegram_id)
     return response
@@ -206,6 +265,12 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     lang = user.get("language", "en")
+    # FIX: Check subscription status - if expired, treat as free tier but don't block free features
+    effective_tier = db.normalize_tier(user.get("tier"))
+    if effective_tier in ("pro", "max") and not db.is_subscription_active(update.effective_user.id):
+        # Subscription expired - user keeps their tier label but loses premium access
+        # They can still use free features (practice limited, leaderboard, confessions, exam tips)
+        effective_tier = "free"
 
     if "Practice" in text or "ለማዳ" in text:
         ctx.user_data["awaiting_subject"] = True
@@ -214,13 +279,21 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Mock Exam" in text or "ሙሉ ፈተና" in text:
+        # Pass 3.6/4.1 Hardening: ensure even mock exams have access logic
+        if not db.has_access(effective_tier, "practice_unlimited"):
+            # Check daily limit for free users
+            if db.check_questions_limit_reached(update.effective_user.id, "free"):
+                 await update.message.reply_text("You have reached your daily free limit for Mock Exams. Upgrade for unlimited access!")
+                 await cmd_upgrade(update, ctx)
+                 return ConversationHandler.END
+                 
         ctx.user_data["notes_mode"] = "mock_exam"
         ctx.user_data["awaiting_subject"] = True
         await update.message.reply_text("Pick a subject for your mock exam:", reply_markup=kb.subject_keyboard(lang))
         return CHOOSE_SUBJECT
 
     if "E-Book" in text or "Textbooks" in text or "መጽሐፍት" in text or "ኢ-መጽሐፍት" in text:
-        if not db.has_access(user.get("tier"), "textbooks"):
+        if not db.has_access(effective_tier, "textbooks"):
             await update.message.reply_text("Textbooks and E-books are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -228,7 +301,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     if "Memory Trick" in text or "የማስታወሻ ዘዴ" in text:
-        if not db.has_access(user.get("tier"), "mnemonic"):
+        if not db.has_access(effective_tier, "mnemonic"):
             await update.message.reply_text("Memory tricks are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -237,7 +310,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Study Notes" in text or "ማስታወሻ" in text or "ማስታወቂያ" in text:
-        if not db.has_access(user.get("tier"), "notes"):
+        if not db.has_access(effective_tier, "notes"):
             await update.message.reply_text("Study notes are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -247,7 +320,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Model Exam" in text or "ሞዴል ፈተና" in text:
-        if not db.has_access(user.get("tier"), "model_exam_5"):
+        if not db.has_access(effective_tier, "model_exam_5"):
             await update.message.reply_text("Model Exams are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -257,7 +330,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Audio" in text or "ኦዲዮ" in text:
-        if not db.has_access(user.get("tier"), "audio"):
+        if not db.has_access(effective_tier, "audio"):
             await update.message.reply_text("Audio lessons are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -267,7 +340,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Flashcard" in text or "ፍላሽ" in text:
-        if not db.has_access(user.get("tier"), "flashcards"):
+        if not db.has_access(effective_tier, "flashcards"):
             await update.message.reply_text("Flashcards are for Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -276,14 +349,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Pick a subject for flashcards:", reply_markup=kb.subject_keyboard(lang))
         return CHOOSE_SUBJECT
 
-    if "Memory" in text or "ማስታወሻ ዘዴ" in text:
-        if db.normalize_tier(user.get("tier")) == "free":
-            await update.message.reply_text("Memory tricks are for Pro and Max members.")
-            await cmd_upgrade(update, ctx)
-            return ConversationHandler.END
-        ctx.user_data["notes_mode"] = "mnemonic"
-        await update.message.reply_text("Pick a subject for Memory Tricks:", reply_markup=kb.subject_keyboard(lang))
-        return CHOOSE_SUBJECT
+    # Duplicate Memory block removed to prevent routing collisions (Finding #4.1 Fix)
 
     if "Progress" in text or "እድገቴ" in text:
         await cmd_progress(update, ctx)
@@ -301,14 +367,14 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return await cmd_confession(update, ctx)
 
     if "Boss" in text or "ቦስ" in text:
-        if not db.has_access(user.get("tier"), "boss_fight"):
+        if not db.has_access(effective_tier, "boss_fight"):
             await update.message.reply_text("Friday Boss Fight is for Max members only! Upgrade to challenge the ultimate EUEE questions. 👾")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
         return await cmd_boss_fight(update, ctx)
 
     if "Predictor" in text or "ትንቢት" in text:
-        if not db.has_access(user.get("tier"), "score_predictor"):
+        if not db.has_access(effective_tier, "score_predictor"):
             await update.message.reply_text("Score Predictor is a Max exclusive feature. Upgrade to see your predicted EUEE score! 🔮")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -316,7 +382,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     if "Review Sheet" in text or "የክለሳ ወረቀት" in text:
-        if not db.has_access(user.get("tier"), "review_sheet"):
+        if not db.has_access(effective_tier, "review_sheet"):
             await update.message.reply_text("Personalized Review Sheets are for Pro and Max members.")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -329,7 +395,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return CHOOSE_SUBJECT
 
     if "Weak Radar" in text or "ድክመት" in text:
-        if not db.has_access(user.get("tier"), "weak_radar"):
+        if not db.has_access(effective_tier, "weak_radar"):
             await update.message.reply_text("Weakness Radar analysis is for Max members. Upgrade to identify your study gaps! 📡")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -337,7 +403,7 @@ async def menu_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     if "Parent" in text or "ወላጅ" in text:
-        if not db.has_access(user.get("tier"), "parent_link"):
+        if not db.has_access(effective_tier, "parent_link"):
             await update.message.reply_text("Parent Monitoring Links are for Max members. Upgrade to share your progress with your parents! 👨‍👩‍👦")
             await cmd_upgrade(update, ctx)
             return ConversationHandler.END
@@ -1030,7 +1096,7 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
 
     if data.startswith("admin_approve_"):
-        if query.from_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+        if query.from_user.id not in ADMIN_IDS:
             await query.answer("⛔ You are not authorized.", show_alert=True)
             return
         tx_id = data.replace("admin_approve_", "")
@@ -1086,29 +1152,53 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
 
     if data.startswith("admin_reject_"):
-        if query.from_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+        if query.from_user.id not in ADMIN_IDS:
             await query.answer("⛔ You are not authorized.", show_alert=True)
             return
         tx_id = data.replace("admin_reject_", "")
         db.reject_payment(tx_id)
-        await query.edit_message_caption(
-            f"{query.message.caption}\n\n❌ REJECTED by {query.from_user.first_name}"
-        )
+        # FIX: Fallback to edit_message_text if caption is unavailable (prevents crash on text-only messages).
+        try:
+            if query.message and query.message.caption:
+                await query.edit_message_caption(
+                    f"{query.message.caption}\n\n❌ REJECTED by {query.from_user.first_name}"
+                )
+            else:
+                await query.edit_message_text(
+                    f"❌ REJECTED by {query.from_user.first_name}\nTX: {tx_id}"
+                )
+        except Exception:
+            pass
         return
 
     if data == "admin_view_stats":
-        if query.from_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+        if query.from_user.id not in ADMIN_IDS:
             await query.answer("⛔ You are not authorized.", show_alert=True)
             return
         await query.answer("Fetching stats...")
-        users_ref = db.db.collection("users").stream()
+        # FIX: Batch-process users to avoid OOM with 50k+ users.
         total = free = pro = max_tier = 0
-        for doc in users_ref:
-            total += 1
-            t = doc.to_dict().get("tier", "free")
-            if t == "free": free += 1
-            elif t == "pro": pro += 1
-            elif t == "max": max_tier += 1
+        try:
+            query = db.db.collection("users").limit(500)
+            last_doc = None
+            while True:
+                if last_doc:
+                    query = query.start_after(last_doc)
+                docs = list(query.stream())
+                if not docs:
+                    break
+                for doc in docs:
+                    total += 1
+                    t = doc.to_dict().get("tier", "free")
+                    if t == "free": free += 1
+                    elif t == "pro": pro += 1
+                    elif t == "max": max_tier += 1
+                last_doc = docs[-1]
+                await asyncio.sleep(0)  # yield control
+        except Exception as exc:
+            logger.error("admin_view_stats failed: %s", exc)
+            await query.edit_message_text("❌ Failed to fetch stats. Check logs.", reply_markup=kb.telegram_admin_keyboard())
+            return
         
         pending = len(db.get_pending_payments())
         revenue = (pro * 100) + (max_tier * 200)
@@ -1126,7 +1216,7 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
 
     if data == "admin_view_pending":
-        if query.from_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+        if query.from_user.id not in ADMIN_IDS:
             await query.answer("⛔ You are not authorized.", show_alert=True)
             return
         await query.answer("Fetching pending upgrades...")
@@ -1157,7 +1247,8 @@ async def button_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         return
 
     if data == "admin_view_suggestions":
-        if query.from_user.id != ADMIN_ID:
+        # FIX: Allow both configured admins to inspect feature suggestions for parity with other admin actions.
+        if query.from_user.id not in ADMIN_IDS:
             await query.answer("⛔ You are not authorized.", show_alert=True)
             return
         await query.answer("Fetching suggestions...")
@@ -1443,15 +1534,8 @@ async def handle_upgrade_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text("Invalid plan.")
         return ConversationHandler.END
 
-    # Block if user is already on a paid plan (must wait for expiry)
+    # Allowed upgrading before current plan expires
     user = db.get_user(query.from_user.id)
-    current_tier = db.normalize_tier(user.get("tier")) if user else "free"
-    if current_tier != "free":
-        await query.answer(
-            f"You already have an active {current_tier.upper()} plan. Wait for it to expire before upgrading.",
-            show_alert=True
-        )
-        return ConversationHandler.END
 
     ctx.user_data["pending_tier"] = plan_id
     from config import TIER_PRICES
@@ -1493,7 +1577,7 @@ async def handle_upgrade_button(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await query.edit_message_text(msg, parse_mode="Markdown")
     await query.message.reply_text(
         f"💳 **Payment Details**\n"
-        f"Telebirr Number: `0995122176`\n\n"
+        f"Telebirr Number: `{TELEBIRR_NUMBER}`\n\n"
         "📸 Now send your payment receipt screenshot here as a **photo**:",
         parse_mode="Markdown"
     )
@@ -1511,11 +1595,16 @@ async def cmd_plan(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     expires_at = user.get("subscription_expires_at")
     expiry_str = "Never"
     if expires_at:
+        import datetime
         try:
-            if hasattr(expires_at, "to_datetime"):
+            if isinstance(expires_at, str):
+                dt = datetime.datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
+            elif hasattr(expires_at, "to_datetime"):
                 dt = expires_at.to_datetime()
-            elif hasattr(expires_at, "timestamp"):
+            elif isinstance(expires_at, datetime.datetime):
                 dt = expires_at
+            elif hasattr(expires_at, "timestamp"):
+                dt = datetime.datetime.fromtimestamp(expires_at.timestamp())
             else:
                 dt = None
             
@@ -1606,38 +1695,44 @@ async def cmd_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     tier = db.normalize_tier(user.get("tier")) if user else "free"
     lang = user.get("language", "en") if user else "en"
 
-    # Show active plan info with expiry — block new upgrades until current expires
+    # Show active plan info with expiry
+    plan_info = ""
     if tier != "free":
         import datetime
         expires_at = user.get("subscription_expires_at")
         expiry_str = "Unknown"
         if expires_at:
             try:
-                if hasattr(expires_at, "strftime"):
-                    expiry_str = expires_at.strftime("%B %d, %Y")
+                if isinstance(expires_at, str):
+                    dt = datetime.datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
+                elif hasattr(expires_at, "to_datetime"):
+                    dt = expires_at.to_datetime()
+                elif isinstance(expires_at, datetime.datetime):
+                    dt = expires_at
+                elif hasattr(expires_at, "timestamp"):
+                    dt = datetime.datetime.fromtimestamp(expires_at.timestamp())
                 else:
-                    expiry_str = str(expires_at)[:10]
+                    dt = None
+                
+                if dt:
+                    expiry_str = dt.strftime("%B %d, %Y")
             except Exception:
-                expiry_str = str(expires_at)[:10]
+                pass
 
         if lang == "en":
-            msg = (
-                f"🌟 **Active Plan:** You are on the **{tier.upper()}** plan.\n\n"
-                f"📅 **Expires:** {expiry_str}\n\n"
-                f"Your current plan must expire before you can upgrade to a different one. "
-                f"Once it expires you will be automatically moved to the Free tier and you can upgrade again. ⏳"
+            plan_info = (
+                f"🌟 **Active Plan:** You are on the **{tier.upper()}** plan.\n"
+                f"📅 **Expires:** {expiry_str}\n"
+                f"You can upgrade now to extend your plan or change your tier. Your new plan will start today. ⏳\n\n"
             )
         else:
-            msg = (
-                f"🌟 **አሁን ያለ ዕቅድ:** **{tier.upper()}** ዕቅድ ላይ ነዎት።\n\n"
-                f"📅 **ሚያበቃበት ቀን:** {expiry_str}\n\n"
-                f"አሁን ያለ ዕቅድዎ ከማብቃቱ በፊት ወደ ሌላ ዕቅድ ማሸጋገር አይቻልም። "
-                f"ሲያልቅ ወደ ነፃ (Free) ይመለሳሉ እና ዳግም ማሻሻያ ማድረግ ይችላሉ። ⏳"
+            plan_info = (
+                f"🌟 **አሁን ያለ ዕቅድ:** **{tier.upper()}** ዕቅድ ላይ ነዎት።\n"
+                f"📅 **ሚያበቃበት ቀን:** {expiry_str}\n"
+                f"አሁን በማሳደግ ዕቅድዎን ማራዘም ወይም መቀየር ይችላሉ። አዲሱ ዕቅድዎ ዛሬ ይጀምራል። ⏳\n\n"
             )
-        await update.message.reply_text(msg, parse_mode="Markdown")
-        return
 
-    await update.message.reply_text(
+    msg = plan_info + (
         "👑 **Upgrade Your Plan**\n\n"
         "**Pro** (100 Br/month or 1200 Br/year):\n"
         "✅ Unlimited questions, study notes, audio lessons\n\n"
@@ -1645,10 +1740,13 @@ async def cmd_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         "✅ Everything in Pro + flashcards, Boss Fight, parent reports, radar tools\n\n"
         "📌 **How to pay:**\n"
         "1. Pick a plan below\n"
-        "2. Send payment to Telebirr: `0995122176`\n"
-        "3. Send the screenshot to this bot\n"
-        "4. Also send it to **@Fish212424** for faster approval\n\n"
-        "Your account will be upgraded once approved! 🚀",
+        f"2. Send payment to Telebirr: `{TELEBIRR_NUMBER}`\n"
+        "3. Send the screenshot to this bot\n\n"
+        "Your account will be upgraded once approved! 🚀"
+    )
+
+    await update.message.reply_text(
+        msg,
         reply_markup=kb.upgrade_keyboard(),
         parse_mode="Markdown",
     )
@@ -1726,7 +1824,7 @@ async def handle_telebirr_photo(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
     # Notify both admins with photo + approve/reject buttons
     plan_label = tier.replace("_", " ").upper()
-    for target_admin in [ADMIN_ID, ADMIN_ID_2]:
+    for target_admin in ADMIN_IDS:
         if not target_admin or target_admin == 0:
             continue
         try:
@@ -1755,17 +1853,66 @@ async def handle_suggestion(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     logger.info(f"Suggestion from {update.effective_user.id}: {update.message.text}")
     text = update.message.text or ""
     if "/menu" in text.lower():
-        return await start(update, ctx)
-        
+        user = db.get_user(update.effective_user.id)
+        lang = user.get("language", "en") if user else "en"
+        await update.message.reply_text(
+            _main_menu_text(lang, update.effective_user.first_name),
+            reply_markup=kb.main_menu_keyboard(lang),
+        )
+        return ConversationHandler.END
+    
+    # Save the suggestion
+    suggestion = sanitize_input(text)
     user = db.get_user(update.effective_user.id)
-    username = update.effective_user.first_name or "Unknown"
     
-    db.save_feature_suggestion(update.effective_user.id, username, text)
+    try:
+        # Store suggestion in database
+        db.save_feature_suggestion(
+            telegram_id=update.effective_user.id,
+            username=user.get("name", "Anonymous"),
+            suggestion=suggestion,
+            language=user.get("language", "en")
+        )
+        
+        lang = user.get("language", "en")
+        if lang == "en":
+            msg = (
+                "💡 **Thank you for your suggestion!**\n\n"
+                "Your idea has been recorded and will be reviewed by our team. "
+                "We're always working to make Abebe better for you!\n\n"
+                "Keep studying hard! 🚀"
+            )
+        else:
+            msg = (
+                "💡 **ሀሳብዎን ስለሰጉ እናመሰግናለሕ!**\n\n"
+                "ሀሳብዎ ተቀምጧል እና በቡድናችን ይመለከታል። "
+                "አቤቤን ለእርስዎ የበለጠ ጥሩ ለማድረግ ሁልጊዜ እየሰራን ነን!\n\n"
+                "በጣም ትጋቡ! 🚀"
+            )
+        
+        await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=kb.main_menu_keyboard(lang))
+        
+        # Notify admins
+        if ADMIN_IDS:
+            admin_msg = (
+                f"💡 **New Feature Suggestion**\n\n"
+                f"👤 From: {user.get('name', 'Anonymous')} ({update.effective_user.id})\n"
+                f"💭 Suggestion: {suggestion}\n"
+                f"🌐 Language: {lang}"
+            )
+            for admin_id in ADMIN_IDS:
+                try:
+                    await ctx.bot.send_message(chat_id=admin_id, text=admin_msg, parse_mode="Markdown")
+                except Exception:
+                    pass
     
-    await update.message.reply_text(
-        "Thank you! Your suggestion has been sent to my team for review. 💡",
-        reply_markup=kb.main_menu_keyboard(user.get("language", "en") if user else "en")
-    )
+    except Exception as e:
+        logger.error(f"Failed to save suggestion: {e}")
+        await update.message.reply_text(
+            "Sorry, I couldn't save your suggestion. Please try again!" if user.get("language", "en") == "en"
+            else "ይቅር! ሀሳብዎን ማስቀመጥ አልተቻልም። እባክዎ ይሞክሩ!"
+        )
+    
     return ConversationHandler.END
 
 
@@ -1774,9 +1921,42 @@ async def cmd_parent_link(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     if not user:
         await update.message.reply_text("Please use /start first.")
         return
-    token = user.get("parent_token", "")
-    link = f"{BASE_WEB_URL}/parent/{token}"
-    await update.message.reply_text(f"Parent dashboard link:\n{link}")
+    
+    lang = user.get("language", "en")
+    
+    # Generate or retrieve parent token
+    parent_token = user.get("parent_token")
+    if not parent_token:
+        import uuid
+        parent_token = str(uuid.uuid4())[:8]
+        db.update_user(update.effective_user.id, {"parent_token": parent_token})
+    
+    from config import BASE_WEB_URL
+    if not BASE_WEB_URL:
+        await update.message.reply_text(
+            "👨‍👩‍👦 **Parent Monitoring**\n\nParent dashboard is currently being set up. Please try again later!" if lang == "en" 
+            else "👨‍👩‍👦 **የወላጅ ክትባና**\n\nየወላጅ ዳሽቦርድ በማዋቀር ላይ ነው። እባክዎ ቆይተው ይሞክሩ!"
+        )
+        return
+    
+    link = f"{BASE_WEB_URL}/parent/{parent_token}"
+    
+    if lang == "en":
+        msg = (
+            f"👨‍👩‍👦 **Parent Monitoring Link**\n\n"
+            f"Share this link with your parents to show them your progress:\n"
+            f"{link}\n\n"
+            f"📊 They can see your study progress, streak, and performance!"
+        )
+    else:
+        msg = (
+            f"👨‍👩‍👦 **የወላጅ ክትባና ሊንክ**\n\n"
+            f"ይህንን ሊንክ ለወላጆችዎ ያጋሩ እድገትዎን ለማሳየት:\n"
+            f"{link}\n\n"
+            f"📊 የጥናት እድገትዎን፣ ስትሪክ እና አፈፃፋትዎን ማየት ይችላሉ!"
+        )
+    
+    await update.message.reply_text(msg, parse_mode="Markdown")
 
 
 async def cmd_radar(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
@@ -1784,15 +1964,28 @@ async def cmd_radar(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     if not user:
         await update.message.reply_text("Please use /start first.")
         return
+    
+    lang = user.get("language", "en")
+    await ctx.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    
+    # Get weakness data
     weak = db.get_weak_subjects(update.effective_user.id)
-
+    
+    if not weak:
+        msg = "📡 **Weakness Radar**\n\nNo data yet — answer more questions to see your weakness analysis!" if lang == "en" else "📡 **የድክመት ራዳር**\n\nዳታ የለም — የድክመት ትንበያትን ለማየት ተጨማማር ጥያቄዎችን መልስ!"
+        await update.message.reply_text(msg, parse_mode="Markdown")
+        return
+    
+    # Show radar chart
     await update.message.reply_text(build_radar_chart(weak))
-    if weak:
-        await ctx.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
-        analysis = await run_blocking(
-            ai.generate_weak_radar_analysis, weak, user.get("language", "en")
-        )
-        await update.message.reply_text(analysis)
+    
+    # Generate AI analysis
+    analysis = await run_blocking(
+        ai.generate_weak_radar_analysis, 
+        weak, 
+        lang
+    )
+    await update.message.reply_text(analysis)
 
 
 async def cmd_invite(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
@@ -1838,6 +2031,11 @@ async def cmd_id(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_demo_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    # FIX: Guard demo path so non-admin users cannot create synthetic upgrade requests in production.
+    if not ALLOW_DEMO_UPGRADE and update.effective_user.id not in ADMIN_IDS:
+        await update.message.reply_text("⛔ Demo upgrades are disabled.")
+        return
+
     user = update.effective_user
     tx_id = f"DEMO_{user.id}_{int(time.time())}"
     db.save_payment_attempt(
@@ -1868,7 +2066,7 @@ async def cmd_demo_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_admin(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+    if update.effective_user.id not in ADMIN_IDS:
         return
     await update.message.reply_text(
         "🛠 **Admin Command Center**\n\nWhat would you like to view?",
@@ -1883,7 +2081,7 @@ async def cmd_manual_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     Directly sets a user's tier without going through the payment flow.
     Use this to fix users whose approval message was sent but tier write failed.
     """
-    if update.effective_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+    if update.effective_user.id not in ADMIN_IDS:
         await update.message.reply_text("⛔ Unauthorized.")
         return
 
@@ -1926,7 +2124,7 @@ async def cmd_manual_upgrade(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     old_tier = user.get("tier", "free")
     db.update_user(target_id, {
         "tier": tier,
-        "tier_updated_at": firestore.SERVER_TIMESTAMP if tier != "free" else None,
+        "tier_updated_at": datetime.datetime.now(datetime.timezone.utc) if tier != "free" else None,
         "subscription_expires_at": expires_at if tier != "free" else None,
     })
 
@@ -1991,7 +2189,7 @@ async def error_handler(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
             pass
 async def cmd_admin_build(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     """Admin-only: Pre-generate all notes and check all audio wiring."""
-    if update.effective_user.id not in [ADMIN_ID, ADMIN_ID_2]:
+    if update.effective_user.id not in ADMIN_IDS:
         return
     
     status_msg = await update.message.reply_text("🏗 **Building Subject Packs...**\nStarting full scan of all 11 subjects.")

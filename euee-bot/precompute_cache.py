@@ -3,7 +3,7 @@ precompute_cache.py — Pre-generate AI content and Broadcast to all users
 """
 import asyncio
 import sys
-import db
+import db_supabase as db
 import notes
 from config import SUBJECTS, BOT_TOKEN
 from telegram import Bot

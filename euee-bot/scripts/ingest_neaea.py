@@ -9,7 +9,7 @@ load_dotenv()
 
 # Ensure parent directory is in path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import db
+import db_supabase as db
 import ai
 
 FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")

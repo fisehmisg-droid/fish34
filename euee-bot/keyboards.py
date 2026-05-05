@@ -167,7 +167,6 @@ def telegram_admin_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton("📊 View Stats", callback_data="admin_view_stats")],
             [InlineKeyboardButton("⏳ Pending Upgrades", callback_data="admin_view_pending")],
             [InlineKeyboardButton("💡 Feature Suggestions", callback_data="admin_view_suggestions")],
-            [InlineKeyboardButton("🌐 Open Web Dashboard", url=f"{BASE_WEB_URL}/admin")],
         ]
     )
 

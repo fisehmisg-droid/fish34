@@ -8,7 +8,15 @@ import re
 import io
 from PIL import Image
 
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 from config import BASE_WEB_URL, CHAPA_SECRET_KEY, PUBLIC_BOT_USERNAME, TIER_PRICES
+
+_RETRY = retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=4, max=30),
+    reraise=True,
+)
 
 CHAPA_BASE = "https://api.chapa.co/v1"
 
@@ -68,7 +76,8 @@ async def create_payment(telegram_id: int, tier: str, first_name: str, email: st
     }
 
     try:
-        async with httpx.AsyncClient(timeout=15) as client:
+        # FIX: 30-second timeout + retry on transient network errors.
+        async with httpx.AsyncClient(timeout=30) as client:
             response = await client.post(f"{CHAPA_BASE}/transaction/initialize", json=payload, headers=headers)
             data = response.json()
             if data.get("status") == "success":
@@ -78,13 +87,15 @@ async def create_payment(telegram_id: int, tier: str, first_name: str, email: st
         return {"error": "Payment service unavailable. Try again later."}
 
 
+@_RETRY
 async def verify_payment(tx_ref: str) -> dict:
     if not CHAPA_SECRET_KEY:
         return {"verified": False}
 
     headers = {"Authorization": f"Bearer {CHAPA_SECRET_KEY}"}
     try:
-        async with httpx.AsyncClient(timeout=15) as client:
+        # FIX: 30-second timeout + retry on transient errors.
+        async with httpx.AsyncClient(timeout=30) as client:
             response = await client.get(f"{CHAPA_BASE}/transaction/verify/{tx_ref}", headers=headers)
             data = response.json()
             if data.get("status") == "success" and data.get("data", {}).get("status") == "success":

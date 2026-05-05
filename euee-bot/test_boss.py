@@ -1,6 +1,6 @@
 import asyncio
 import ai
-import db
+import db_supabase as db
 
 async def test_generation():
     print("Testing generate_boss_fight_question...")

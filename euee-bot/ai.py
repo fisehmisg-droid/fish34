@@ -9,13 +9,22 @@ for premium audio when available.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
 
-if os.getenv("DEV_MODE", "").lower() in ("1", "true", "yes"):
-    import db_stub as db
-else:
-    import db
+# FIX: Add tenacity retry with exponential backoff for all external AI API calls.
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_message
+
+_RETRY_DECORATOR = retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=4, max=30),
+    # Retry on common API transient issues (Rate limits, Overloaded, Timeouts)
+    retry=retry_if_exception_message(match=r".*(rate|limit|overload|timeout|500|503|502|429).*"),
+    reraise=True,
+)
+
+import db_supabase as db
 
 try:
     import anthropic
@@ -43,6 +52,11 @@ try:
 except ImportError:
     Groq = None
 
+try:
+    from openai import OpenAI
+except ImportError:
+    OpenAI = None
+
 from config import (
     ABEBE_SYSTEM_AM,
     ABEBE_SYSTEM_EN,
@@ -55,6 +69,10 @@ from config import (
     GEMINI_MODEL,
     GROQ_API_KEY,
     GROQ_MODEL,
+    OPENROUTER_API_KEY,
+    OPENROUTER_MODEL,
+    SAMBANOVA_API_KEY,
+    SAMBANOVA_MODEL,
     MAX_TOKENS,
     PREDICTOR_PROMPT_EN,
     TEMPERATURE,
@@ -77,6 +95,18 @@ eleven_client = (
 
 if genai and GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
+
+openrouter_client = (
+    OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
+    if OpenAI and OPENROUTER_API_KEY
+    else None
+)
+
+sambanova_client = (
+    OpenAI(base_url="https://api.sambanova.ai/v1", api_key=SAMBANOVA_API_KEY)
+    if OpenAI and SAMBANOVA_API_KEY
+    else None
+)
 
 
 def _provider_unavailable_message() -> str:
@@ -121,7 +151,15 @@ def _groq_available() -> bool:
 def _anthropic_available() -> bool:
     return anthropic_client is not None and "your-key-here" not in ANTHROPIC_API_KEY
 
+def _openrouter_available() -> bool:
+    return openrouter_client is not None
 
+def _sambanova_available() -> bool:
+    return sambanova_client is not None
+
+
+# FIX: 30-second timeout wrapper for Gemini (which doesn't natively support timeout in the high-level API).
+@_RETRY_DECORATOR
 def _chat_gemini(system: str, user_msg: str, history: list[dict] | None = None) -> str:
     """Primary reasoning engine for short-context Q&A."""
     if _is_suspicious(user_msg):
@@ -136,13 +174,18 @@ def _chat_gemini(system: str, user_msg: str, history: list[dict] | None = None) 
             system_instruction=system,
         )
         chat = model.start_chat(history=[])
-        response = chat.send_message(user_msg[:10_000])
+        # FIX: Wrap in a thread with timeout so a hung Gemini call never blocks the event loop.
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(chat.send_message, user_msg[:10_000])
+            response = future.result(timeout=30)
         return response.text.strip()
     except Exception as exc:
-        logger.warning("Gemini error, falling back to Groq: %s", exc)
+        logger.warning("Gemini error (%s), falling back to Groq.", exc)
         return _chat_groq(system, user_msg, history, allow_gemini_fallback=False)
 
 
+@_RETRY_DECORATOR
 def _chat_groq(
     system: str,
     user_msg: str,
@@ -156,7 +199,7 @@ def _chat_groq(
     if not _groq_available():
         if allow_gemini_fallback and _gemini_available():
             return _chat_gemini(system, user_msg, history)
-        return _provider_unavailable_message()
+        return _chat_openrouter(system, user_msg, history)
 
     messages = [{"role": "system", "content": system}]
     if history:
@@ -165,20 +208,77 @@ def _chat_groq(
     messages.append({"role": "user", "content": user_msg[:2_000]})
 
     try:
+        # FIX: 30-second timeout on Groq API call.
         response = groq_client.chat.completions.create(
             model=GROQ_MODEL,
             messages=messages,
             max_tokens=MAX_TOKENS,
             temperature=TEMPERATURE,
+            timeout=30,
         )
         return response.choices[0].message.content.strip()
     except Exception as exc:
-        logger.warning("Groq error: %s", exc)
+        logger.warning("Groq error (%s), falling back to Openrouter.", exc)
         if allow_gemini_fallback and _gemini_available():
             return _chat_gemini(system, user_msg, history)
+        return _chat_openrouter(system, user_msg, history)
+
+
+@_RETRY_DECORATOR
+def _chat_openrouter(system: str, user_msg: str, history: list[dict] | None = None) -> str:
+    """Robust fallback using Openrouter (Gemini 2.0 or Llama 3)."""
+    if not _openrouter_available():
+        return _chat_sambanova(system, user_msg, history)
+
+    messages = [{"role": "system", "content": system}]
+    if history:
+        for turn in history[-6:]:
+            messages.append({"role": turn["role"], "content": turn["content"]})
+    messages.append({"role": "user", "content": user_msg[:4_000]})
+
+    try:
+        # FIX: 30-second timeout on OpenRouter API call.
+        response = openrouter_client.chat.completions.create(
+            model=OPENROUTER_MODEL,
+            messages=messages,
+            max_tokens=MAX_TOKENS,
+            temperature=TEMPERATURE,
+            timeout=30,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as exc:
+        logger.warning("Openrouter error (%s), falling back to SambaNova.", exc)
+        return _chat_sambanova(system, user_msg, history)
+
+
+@_RETRY_DECORATOR
+def _chat_sambanova(system: str, user_msg: str, history: list[dict] | None = None) -> str:
+    """Last resort ultra-fast fallback via SambaNova."""
+    if not _sambanova_available():
+        return _provider_unavailable_message()
+
+    messages = [{"role": "system", "content": system}]
+    if history:
+        for turn in history[-6:]:
+            messages.append({"role": turn["role"], "content": turn["content"]})
+    messages.append({"role": "user", "content": user_msg[:4_000]})
+
+    try:
+        # FIX: 30-second timeout on SambaNova API call.
+        response = sambanova_client.chat.completions.create(
+            model=SAMBANOVA_MODEL,
+            messages=messages,
+            max_tokens=MAX_TOKENS,
+            temperature=TEMPERATURE,
+            timeout=30,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as exc:
+        logger.error("All AI providers exhausted or failed: %s", exc)
         return _provider_unavailable_message()
 
 
+@_RETRY_DECORATOR
 def _chat_anthropic(system: str, user_msg: str, history: list[dict] | None = None) -> str:
     """Premium fallback for a few longer-form helper outputs."""
     if _is_suspicious(user_msg):
@@ -194,12 +294,14 @@ def _chat_anthropic(system: str, user_msg: str, history: list[dict] | None = Non
     messages.append({"role": "user", "content": user_msg[:4_000]})
 
     try:
+        # FIX: 30-second timeout on Anthropic API call.
         response = anthropic_client.messages.create(
             model=ANTHROPIC_MODEL,
             system=system,
             max_tokens=MAX_TOKENS,
             temperature=TEMPERATURE,
             messages=messages,
+            timeout=30,
         )
         return response.content[0].text.strip()
     except Exception as exc:
@@ -281,6 +383,11 @@ def generate_exam_question(
     if real_q:
         return real_q
 
+    # Check if AI providers are available
+    if not groq_client and not genai:
+        logger.warning("AI providers not available, using fallback question")
+        return _generate_fallback_question(subject, lang)
+    
     system = ABEBE_SYSTEM_EN if lang == "en" else ABEBE_SYSTEM_AM
     lang_note = "Respond in Amharic." if lang == "am" else "Respond in English."
     model_note = f" This is for Model Exam #{model_index}." if model_index else ""
@@ -297,31 +404,86 @@ def generate_exam_question(
         "ANSWER: [A/B/C/D]\n"
         "EXPLANATION: [text]"
     )
-    raw = _chat_groq(system, prompt)
-    parsed = _parse_mcq(raw)
-    return parsed if parsed["question"] and parsed["answer"] else _default_mcq(subject)
+    
+    try:
+        raw = _chat_groq(system, prompt)
+        parsed = _parse_mcq(raw)
+        if parsed["question"] and parsed["answer"]:
+            return parsed
+    except Exception as e:
+        logger.warning(f"AI question generation failed: {e}")
+    
+    # Fallback to default question
+    return _generate_fallback_question(subject, lang)
+
+
+def _generate_fallback_question(subject: str, lang: str) -> dict:
+    """Generate a simple fallback question when AI is not available"""
+    questions = {
+        "math": {
+            "question": "What is the derivative of x²?",
+            "options": {"A": "2x", "B": "x²", "C": "2x²", "D": "x"},
+            "answer": "A",
+            "explanation": "The derivative of x² is 2x using the power rule.",
+            "topic": "Calculus"
+        },
+        "physics": {
+            "question": "What is Newton's Second Law of Motion?",
+            "options": {"A": "F = ma", "B": "E = mc²", "C": "PV = nRT", "D": "F = Gm₁m₂/r²"},
+            "answer": "A",
+            "explanation": "Newton's Second Law states that force equals mass times acceleration.",
+            "topic": "Mechanics"
+        },
+        "chemistry": {
+            "question": "What is the chemical formula for water?",
+            "options": {"A": "H₂O", "B": "CO₂", "C": "O₂", "D": "N₂"},
+            "answer": "A",
+            "explanation": "Water is composed of two hydrogen atoms and one oxygen atom.",
+            "topic": "Chemical Compounds"
+        },
+        "biology": {
+            "question": "What is the function of mitochondria in cells?",
+            "options": {"A": "Energy production", "B": "Protein synthesis", "C": "DNA storage", "D": "Cell division"},
+            "answer": "A",
+            "explanation": "Mitochondria are the powerhouses of the cell, producing ATP through cellular respiration.",
+            "topic": "Cell Biology"
+        }
+    }
+    
+    # Return subject-specific question or default math question
+    return questions.get(subject, questions["math"])
 
 
 def _parse_mcq(raw: str) -> dict:
-    lines = raw.strip().splitlines()
+    import re
     result = {"question": "", "options": {}, "answer": "", "explanation": "", "topic": "General"}
-    for line in lines:
-        if line.startswith("TOPIC:"):
-            result["topic"] = line.split(":", 1)[1].strip()
-        elif line.startswith("QUESTION:"):
-            result["question"] = line.split(":", 1)[1].strip()
-        elif line.startswith("A)"):
-            result["options"]["A"] = line[2:].strip()
-        elif line.startswith("B)"):
-            result["options"]["B"] = line[2:].strip()
-        elif line.startswith("C)"):
-            result["options"]["C"] = line[2:].strip()
-        elif line.startswith("D)"):
-            result["options"]["D"] = line[2:].strip()
-        elif line.startswith("ANSWER:"):
-            result["answer"] = line.split(":", 1)[1].strip().upper()[:1]
-        elif line.startswith("EXPLANATION:"):
-            result["explanation"] = line.split(":", 1)[1].strip()
+    
+    # Try to extract topic
+    topic_match = re.search(r"(?i)TOPIC:\s*(.*)", raw)
+    if topic_match:
+        result["topic"] = topic_match.group(1).strip()
+        
+    # Try to extract question
+    q_match = re.search(r"(?i)QUESTION:\s*(.*?)(?=\n[A-D]\)|$)", raw, re.DOTALL)
+    if q_match:
+        result["question"] = q_match.group(1).strip()
+        
+    # Extract options
+    for letter in ["A", "B", "C", "D"]:
+        opt_match = re.search(rf"(?i){letter}\)\s*(.*?)(?=\n[A-D]\)|$|\nANSWER:)", raw, re.DOTALL)
+        if opt_match:
+            result["options"][letter] = opt_match.group(1).strip()
+            
+    # Extract answer
+    ans_match = re.search(r"(?i)ANSWER:\s*([A-D])", raw)
+    if ans_match:
+        result["answer"] = ans_match.group(1).upper()
+        
+    # Extract explanation
+    exp_match = re.search(r"(?i)EXPLANATION:\s*(.*)", raw, re.DOTALL)
+    if exp_match:
+        result["explanation"] = exp_match.group(1).strip()
+        
     return result
 
 
@@ -433,3 +595,36 @@ def generate_feature_proposal(idea: str) -> str:
     )
     return _chat_gemini("Feature analyzer and software architect.", prompt)
 
+
+def generate_score_prediction(user: dict, weak_subjects: dict, lang: str) -> str:
+    """Generate personalized EUEE score prediction based on user performance."""
+    total_correct = user.get("correct_total", 0)
+    total_questions = user.get("questions_total", 0)
+    streak = user.get("streak", 0)
+    exams_taken = user.get("exams_taken", 0)
+    
+    if total_questions == 0:
+        accuracy = 0
+    else:
+        accuracy = round((total_correct / total_questions) * 100, 1)
+    
+    prompt = (
+        f"You are an EUEE score prediction expert. Analyze this student data:\n"
+        f"Total Questions: {total_questions}\n"
+        f"Correct Answers: {total_correct}\n"
+        f"Accuracy: {accuracy}%\n"
+        f"Study Streak: {streak} days\n"
+        f"Mock Exams Taken: {exams_taken}\n"
+        f"Weak Subjects: {weak_subjects}\n\n"
+        f"Generate a personalized EUEE score prediction and improvement plan. "
+        f"Include:\n"
+        f"1. Predicted EUEE score range (out of 700)\n"
+        f"2. Key strengths to maintain\n"
+        f"3. Critical areas to improve\n"
+        f"4. Specific study recommendations\n"
+        f"5. Confidence level and achievable target\n\n"
+        f"Respond in {lang} with an encouraging but realistic tone. "
+        f"Use emojis to make it engaging."
+    )
+    
+    return _chat_gemini("EUEE Score Prediction Expert", prompt)

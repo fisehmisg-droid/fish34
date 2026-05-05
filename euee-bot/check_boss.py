@@ -1,5 +1,5 @@
 import os
-import db
+import db_supabase as db
 
 def check_boss():
     try:

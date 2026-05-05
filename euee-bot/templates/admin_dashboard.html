@@ -304,6 +304,11 @@
         font-size: 0.95rem;
         font-weight: 700;
       }
+      .card-header .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
       table {
         width: 100%;
         border-collapse: collapse;
@@ -428,6 +433,34 @@
       .btn-reject:hover {
         background: var(--red);
         color: #fff;
+      }
+      .btn-copy {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #fff;
+      }
+      .btn-copy:hover {
+        filter: brightness(1.08);
+      }
+
+      /* ─── Prompt Panel ─── */
+      .prompt-box {
+        width: 100%;
+        min-height: 300px;
+        resize: vertical;
+        background: #0e0e15;
+        color: var(--text);
+        border: 1px solid var(--border2);
+        border-radius: 0 0 var(--radius) var(--radius);
+        border-top: none;
+        padding: 18px 20px;
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 0.82rem;
+        line-height: 1.55;
+        outline: none;
+      }
+      .prompt-box:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent-glow);
       }
 
       /* ─── Earnings Bar ─── */
@@ -580,6 +613,19 @@
         </div>
       </div>
 
+      <!-- Project Brief Prompt -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🧾 Copyable Project Brief</h2>
+          <div class="header-actions">
+            <button class="btn btn-copy" onclick="copyProjectBrief()">
+              Copy Prompt
+            </button>
+          </div>
+        </div>
+        <textarea id="project-brief" class="prompt-box" readonly></textarea>
+      </div>
+
       <!-- Tier Breakdown -->
       <div
         class="stats"
@@ -678,16 +724,58 @@
       </div>
     </div>
 
+    <!-- Login Modal (Pass 3.5 Fix) -->
+    <div
+      id="login-modal"
+      style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+      "
+    >
+      <div
+        class="card"
+        style="width: 100%; max-width: 400px; padding: 32px; text-align: center"
+      >
+        <div style="font-size: 40px; margin-bottom: 16px">🔐</div>
+        <h2 style="margin-bottom: 8px">Authentication Required</h2>
+        <p style="color: var(--text3); font-size: 0.85rem; margin-bottom: 24px">
+          Access restricted to authorized personnel.
+        </p>
+        <input
+          type="password"
+          id="login-token"
+          placeholder="Enter Admin Token"
+          style="
+            width: 100%;
+            padding: 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: #fff;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            outline: none;
+          "
+          onkeyup="if (event.key === 'Enter') attemptLogin();"
+        />
+        <button
+          class="btn btn-approve"
+          style="width: 100%; padding: 12px"
+          onclick="attemptLogin()"
+        >
+          Login to Command Center
+        </button>
+      </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
-      const TOKEN_PARAM = new URLSearchParams(location.search).get("token");
-      if (TOKEN_PARAM) {
-        sessionStorage.setItem("abebe_admin_token", TOKEN_PARAM);
-        history.replaceState({}, "", location.pathname);
-      }
-
-      let ADMIN_TOKEN = sessionStorage.getItem("abebe_admin_token");
       const API = "/api/admin";
 
       function showToast(msg, type = "success") {
@@ -697,23 +785,110 @@
         setTimeout(() => (t.className = "toast"), 3000);
       }
 
-      async function secureFetch(url, options = {}) {
-        if (!ADMIN_TOKEN) {
-          throw new Error("Admin token required. Open /admin?token=YOUR_TOKEN first.");
+      const PROJECT_BRIEF = `Project: Abebe EUEE Bot / Command Center
+
+This is a Telegram-based Ethiopian university entrance exam study platform. The project helps students learn, practice, and upgrade their access to premium study material while giving administrators a command center to manage users, payments, generated notes, and feedback.
+
+Core user features:
+- Telegram bot onboarding and student profile tracking.
+- Free tier access with limited learning content.
+- Pro tier and Max tier paid upgrades.
+- Subject study notes, PDFs, flashcards, and lesson content.
+- Question practice, learning helpers, and study support flows.
+- Parent/student reporting and progress tracking where available.
+- Suggestion submission so students can request improvements.
+
+Premium plan structure:
+- Pro plan: 100 ETB per month.
+- Max plan: 200 ETB per month.
+- Paid users unlock higher-value study resources, better access, and premium learning tools.
+
+How payment works:
+1. A student chooses a plan inside the bot.
+2. The bot creates a pending upgrade request with a transaction ID.
+3. The student submits payment proof or payment reference.
+4. The admin dashboard shows all pending upgrades in one queue.
+5. Admin can approve, reject, or auto-approve believable matching payments.
+6. After approval, the user's tier updates and premium access becomes active.
+
+Admin command center features:
+- Total student count, revenue summary, pending upgrades, and conversion rate.
+- Tier breakdown for Free, Pro, and Max users.
+- Pending payment review actions.
+- Generated notes table with PDF, Markdown, and flashcards availability.
+- Student suggestions inbox.
+- Full user list with join date and plan status.
+- Quick refresh and secure admin login modal.
+
+Content generation and study resources:
+- Subject-based note generation and PDF export.
+- Flashcards for revision and active recall.
+- Assets and lesson materials for subjects like biology, chemistry, geography, history, agriculture, IT, economics, English, physics, civics, and math.
+
+Technical structure:
+- FastAPI backend serving bot, admin, and public routes.
+- HTML dashboard templates for admin and student views.
+- Database-backed user, payment, and suggestion management.
+- Static and generated study assets stored in the repository.
+
+In short, this is a study-assistant and paid-content platform built around Telegram, with a strong admin workflow for managing upgrades, generated learning material, and student engagement.`;
+
+      function copyProjectBrief() {
+        const text = document.getElementById("project-brief").value;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => showToast("Project brief copied to clipboard"))
+            .catch(() => fallbackCopy(text));
+          return;
         }
+        fallbackCopy(text);
+      }
 
-        options.headers = {
-          ...options.headers,
-          Authorization: `Bearer ${ADMIN_TOKEN}`,
-        };
+      function fallbackCopy(text) {
+        const area = document.getElementById("project-brief");
+        area.focus();
+        area.select();
+        try {
+          document.execCommand("copy");
+          showToast("Project brief copied to clipboard");
+        } catch (e) {
+          showToast("Copy failed", "error");
+        }
+        window.getSelection().removeAllRanges();
+      }
 
+      async function attemptLogin() {
+        const token = document.getElementById("login-token").value;
+        if (!token) return;
+        try {
+          const res = await fetch(API + "/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+          if (res.ok) {
+            document.getElementById("login-modal").style.display = "none";
+            loadDashboard();
+            showToast("Authenticated successfully");
+          } else {
+            showToast("Invalid admin token", "error");
+          }
+        } catch (e) {
+          showToast("Login failed", "error");
+        }
+      }
+
+      function showLogin() {
+        document.getElementById("login-modal").style.display = "flex";
+        document.getElementById("login-token").focus();
+      }
+
+      async function secureFetch(url, options = {}) {
         try {
           const res = await fetch(url, options);
           if (res.status === 401 || res.status === 403) {
-            sessionStorage.removeItem("abebe_admin_token");
-            ADMIN_TOKEN = null;
-            showToast("Session expired or invalid token", "error");
-            setTimeout(() => location.reload(), 1000);
+            showLogin();
             throw new Error("Unauthorized");
           }
           if (!res.ok) {
@@ -723,7 +898,11 @@
           return res;
         } catch (err) {
           console.error("Fetch error:", err);
-          showToast(err.message || "Network error", "error");
+          if (!err.message.includes("Unauthorized")) {
+            showToast(err.message || "Network error", "error");
+
+            document.getElementById("project-brief").value = PROJECT_BRIEF;
+          }
           throw err;
         }
       }
@@ -845,8 +1024,6 @@
           console.error(e);
           if (e.message.includes("429")) {
             showToast("Too many attempts. Please wait an hour.", "error");
-          } else {
-            showToast("Failed to load dashboard", "error");
           }
         }
       }
@@ -854,8 +1031,10 @@
       async function handlePay(txId, action) {
         if (!confirm(`${action.toUpperCase()} this upgrade?`)) return;
         try {
-          const res = await secureFetch(`${API}/payments/${txId}/${action}`, {
+          const res = await secureFetch(`${API}/payments/${action}`, {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tx_id: txId }),
           });
           if (res.ok) {
             showToast(`Upgrade ${action}ed successfully`);
@@ -885,10 +1064,10 @@
         }
       }
 
-      function logout() {
-        sessionStorage.removeItem("abebe_admin_token");
-        localStorage.removeItem("abebe_admin_token");
-        ADMIN_TOKEN = null;
+      async function logout() {
+        try {
+          await fetch(API + "/logout", { method: "POST" });
+        } catch (e) {}
         location.reload();
       }
 
@@ -923,8 +1102,6 @@
                   .join("");
         } catch (e) {
           console.error("Failed to load notes", e);
-          const ntb = document.getElementById("notes-tbody");
-          ntb.innerHTML = `<tr><td class="empty-row" colspan="5">Failed to load notes</td></tr>`;
         }
       }
 

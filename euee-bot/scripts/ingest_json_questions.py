@@ -7,7 +7,7 @@ load_dotenv()
 
 # Ensure parent directory is in path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import db
+import db_supabase as db
 
 def ingest_json(file_path: str, subject: str):
     print(f"Ingesting {file_path} for {subject}...")

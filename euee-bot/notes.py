@@ -23,10 +23,7 @@ except ImportError:
     edge_tts = None
 
 import ai
-if os.getenv("DEV_MODE", "").lower() in ("1", "true", "yes"):
-    import db_stub as db
-else:
-    import db
+import db_supabase as db
 from config import PREFER_ELEVENLABS_FOR_AUDIO, SUBJECTS
 
 _BOT_ROOT = Path(__file__).resolve().parent
